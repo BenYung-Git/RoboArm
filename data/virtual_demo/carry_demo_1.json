@@ -1,0 +1,101 @@
+{
+  "demo_key": "carry_vertical_1_inplace",
+  "label_key": "vd_demo_carry_vertical_1",
+  "schematic": true,
+  "coordinate_frame": "z_up_robot",
+  "supported_models": ["rokae_cr7"],
+  "notes": "Schematic in-place vertical carry. Not real TCP/collision/safety. top_z_m locked after reachability check.",
+  "table": {
+    "shape": "cylinder",
+    "radius_m": 0.18,
+    "thickness_m": 0.035,
+    "top_z_m": 0.18,
+    "edge_margin_m": 0.02,
+    "center_xy_m": [0.35, 0.0],
+    "color": "#8b98a8",
+    "legs": [
+      { "offset_xy_m": [0.10, 0.10], "radius_m": 0.012 },
+      { "offset_xy_m": [0.10, -0.10], "radius_m": 0.012 },
+      { "offset_xy_m": [-0.10, 0.10], "radius_m": 0.012 },
+      { "offset_xy_m": [-0.10, -0.10], "radius_m": 0.012 }
+    ]
+  },
+  "object": {
+    "id": "cyl_a",
+    "shape": "cylinder",
+    "radius_m": 0.035,
+    "height_m": 0.08,
+    "center_xy_m": [0.35, 0.0],
+    "color": "#c45c26",
+    "axis_world": [0, 0, 1]
+  },
+  "gripper": {
+    "attach_segment_id": "flange",
+    "tcp_offset_xyz_m": [0, 0, 0.055],
+    "approach_axis_tcp": [0, 0, 1],
+    "closing_axis_tcp": [1, 0, 0],
+    "approach_axis_world": [0, 0, -1],
+    "closing_axis_world": [-1, 0, 0],
+    "finger_thickness_m": 0.012,
+    "finger_length_m": 0.045,
+    "finger_height_m": 0.028,
+    "finger_pad_center_z_tcp_m": 0.02,
+    "gap_measure": "inner_face_to_inner_face",
+    "gap_fully_open_m": 0.095,
+    "gap_empty_min_m": 0.02,
+    "contact_epsilon_m": 0.001,
+    "approach_clearance_z_m": 0.10,
+    "lift_height_m": 0.12,
+    "grasp_band_z_m": 0.015
+  },
+  "motion": {
+    "cartesian_step_m": 0.01,
+    "joint_deg_per_sec": 40,
+    "ik_pos_tol_m": 0.004,
+    "ik_ang_tol_deg": 18,
+    "ik_max_iter": 220,
+    "ik_max_iter_note": "Raised from proposal 40 to 220 so pose-in-loop DLS can converge; not a position/path tolerance relaxation.",
+    "path_xy_drift_max_m": 0.005,
+    "path_ang_drift_max_deg": 22,
+    "path_closing_perp_max_deg": 22,
+    "home_joint_tol_deg": 0.5,
+    "place_xy_tol_m": 0.012,
+    "place_bottom_tol_m": 0.006,
+    "place_tilt_tol_deg": 12,
+    "preflight_required": true
+  },
+  "derived": {
+    "object_center_z_rule": "table.top_z_m + object.height_m / 2",
+    "object_center_z_m": 0.22,
+    "object_bottom_z_m": 0.18,
+    "leg_height_m": 0.145,
+    "gap_contact_for_object_m": 0.071,
+    "table_top_area_m2": 0.1017876,
+    "table_usable_radius_m": 0.125,
+    "table_usable_area_m2": 0.0490874,
+    "object_base_area_m2": 0.0038485,
+    "error_formulas": {
+      "tcp_xy_drift_m": "hypot(tcp.x - object.center_xy_m[0], tcp.y - object.center_xy_m[1])",
+      "approach_to_neg_z_deg": "acos(dot(normalize(tcp.approach), [0,0,-1])) * 180/pi",
+      "closing_to_neg_x_deg": "acos(dot(normalize(tcp.closing), [-1,0,0])) * 180/pi",
+      "closing_perp_to_object_z_deg": "abs(90 - acos(dot(normalize(tcp.closing), object.axis_world)) * 180/pi)"
+    },
+    "reachability": {
+      "model_key": "rokae_cr7",
+      "checked_top_z_m": 0.18,
+      "checked_xy_m": [0.35, 0.0],
+      "vertical_path_max_xy_drift_m": 0.0028,
+      "vertical_path_max_approach_to_neg_z_deg": 17.54,
+      "vertical_path_max_closing_to_neg_x_deg": 17.54,
+      "vertical_path_max_closing_perp_to_object_z_deg": 17.54,
+      "max_error_phase": "Descend",
+      "method": "pose_in_loop_dls_ik",
+      "tolerances_used": {
+        "cartesian_step_m": 0.01,
+        "ik_pos_tol_m": 0.004,
+        "path_xy_drift_max_m": 0.005,
+        "ik_max_iter": 220
+      }
+    }
+  }
+}

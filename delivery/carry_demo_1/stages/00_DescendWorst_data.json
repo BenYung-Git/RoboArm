@@ -1,0 +1,76 @@
+{
+  "preflight_metrics": {
+    "stage": "preflight",
+    "formulas": {
+      "tcp_xy_drift_m": "hypot(tcp.x - object.center_xy_m[0], tcp.y - object.center_xy_m[1])",
+      "approach_to_neg_z_deg": "acos(dot(normalize(tcp.approach), [0,0,-1])) * 180/pi",
+      "closing_to_neg_x_deg": "acos(dot(normalize(tcp.closing), [-1,0,0])) * 180/pi",
+      "closing_perp_to_object_z_deg": "abs(90 - acos(dot(normalize(tcp.closing), object.axis_world)) * 180/pi)"
+    },
+    "limits": {
+      "path_xy_drift_max_m": 0.005,
+      "path_ang_drift_max_deg": 22,
+      "path_closing_perp_max_deg": 22,
+      "ik_pos_tol_m": 0.004,
+      "ik_ang_tol_deg": 18
+    },
+    "maxXyDrift": 0.002779244066486345,
+    "maxXyPhase": "Descend",
+    "maxApproachToNegZDeg": 17.538467319861716,
+    "maxApproachPhase": "Descend",
+    "maxClosingToNegXDeg": 17.538467431189854,
+    "maxClosingToNegXPhase": "Descend",
+    "maxClosingPerpToObjectZDeg": 17.538467292948084,
+    "maxClosingPerpPhase": "Descend",
+    "maxApproachErrDeg": 17.538467319861716,
+    "maxClosingErrDeg": 17.538467431189854
+  },
+  "descend_sample_count": 15,
+  "worst_descend_by_approach": {
+    "index": 8,
+    "zTargetApprox": 0.28,
+    "joints": [
+      -0.0010386555605191876,
+      2.1453633922262125,
+      110.74993767740828,
+      28.885424827223886,
+      55.75774142300334,
+      -0.003123872388939647
+    ],
+    "tcp": {
+      "position": [
+        0.34737352046398984,
+        -0.000006297173050314988,
+        0.28290448647588506
+      ],
+      "approach": [
+        -0.3013460394428915,
+        0.000005462788746431373,
+        -0.9535148475415792
+      ],
+      "closing": [
+        -0.953514846956051,
+        -0.000037236580217590296,
+        0.3013460390445106
+      ]
+    },
+    "errors": {
+      "xyDriftM": 0.002626487084961292,
+      "approachToNegZDeg": 17.538467319861716,
+      "closingToNegXDeg": 17.538467431189854,
+      "closingPerpToObjectZDeg": 17.538467292948084
+    },
+    "object_pose": {
+      "center_xyz_m": [
+        0.35,
+        0,
+        0.22
+      ],
+      "axis_world": [
+        0,
+        0,
+        1
+      ]
+    }
+  }
+}

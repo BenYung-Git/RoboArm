@@ -1,0 +1,54 @@
+{
+  "note": "Browser CDP acceptance run 2026-10-14 after pose-in-loop IK + original tolerances restored",
+  "fk": { "ok": true, "flangeErrM": 2.7e-16, "tcpErrM": 2.8e-16 },
+  "full_flow_completion": {
+    "demo_run_state": "completed",
+    "demo_phase": "Completed",
+    "grasped": false,
+    "gap_m": 0.095,
+    "is_moving": false,
+    "joints": [0, -40, 50, 0, 40, 0],
+    "home_err_deg": 0,
+    "object_pose": {
+      "center_xyz_m": [0.3500139054541774, 8.86748630836899e-8, 0.21996071712927512],
+      "axis_world": [0, 0, 1]
+    },
+    "place_errors": {
+      "bottomErr_m": 0.00003928287072488268,
+      "xyErr_m": 0.000013905736913629429,
+      "tilt_deg": 0
+    }
+  },
+  "preflight_max": {
+    "xy_m": 0.002779,
+    "xy_phase": "Descend",
+    "approach_to_neg_z_deg": 17.538,
+    "closing_to_neg_x_deg": 17.538,
+    "closing_perp_to_object_z_deg": 17.538,
+    "ang_phase": "Descend"
+  },
+  "runtime_max_including_interpolation": {
+    "xy_m": 0.002779,
+    "approach_to_neg_z_deg": 17.538,
+    "closing_to_neg_x_deg": 17.538,
+    "closing_perp_to_object_z_deg": 17.538,
+    "phase": "Descend"
+  },
+  "mid_lift_estop": {
+    "object_z_at_abort_m": 0.2651,
+    "kept_grasped": true,
+    "gap_m": 0.071,
+    "demo_run_state": "needs_reset",
+    "not_completed": true,
+    "rerun_blocked": "vd_demo_needs_reset / 請先重置示範",
+    "joints_preserved_example": [0.00067, 5.658, 102.517, 67.239, 10.468, 0.00024]
+  },
+  "mid_lift_disconnect": {
+    "object_z_at_abort_m": 0.2652,
+    "kept_grasped": true,
+    "gap_m": 0.071,
+    "demo_run_state": "needs_reset",
+    "connected": false,
+    "stale_complete_motion_ignored": true
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "default_model_key": "rokae_cr7",
+  "dof": 6,
+  "dio_pin_count": 8,
+  "joint_validation": "finite_six_only",
+  "models_path": "data/virtual_demo/models",
+  "model_keys": ["rokae_cr7", "jaka_zu7"],
+  "carry_demo_path": "data/virtual_demo/carry_demo_1.json",
+  "carry_demo_paths": [
+    "data/virtual_demo/carry_demo_1.json",
+    "data/virtual_demo/carry_demo_2.json"
+  ],
+  "notes": "Schematic demo only. Not official CAD. Not verified against real robots."
+}
+

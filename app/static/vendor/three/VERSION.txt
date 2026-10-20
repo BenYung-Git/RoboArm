@@ -1,0 +1,9 @@
+three.js
+version: 0.170.0
+source: https://www.npmjs.com/package/three
+license: MIT (see LICENSE)
+files:
+  - three.module.min.js
+  - addons/controls/OrbitControls.js
+  - LICENSE
+  - package.json

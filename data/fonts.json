@@ -1,0 +1,42 @@
+{
+  "default_font_size": 14,
+  "default_font": "DFKai-SB",
+  "font_sizes": [10, 12, 14, 16, 18, 20, 24],
+  "fonts": [
+    {
+      "id": "DFKai-SB",
+      "css_family": "標楷體",
+      "label_key": "font_name_dfkai_sb"
+    },
+    {
+      "id": "PMingLiU",
+      "css_family": "新細明體",
+      "label_key": "font_name_pmingliu"
+    },
+    {
+      "id": "Microsoft JhengHei",
+      "css_family": "微軟正黑體",
+      "label_key": "font_name_jhenghei"
+    },
+    {
+      "id": "Microsoft YaHei",
+      "css_family": "微软雅黑",
+      "label_key": "font_name_yahei"
+    },
+    {
+      "id": "Noto Sans TC",
+      "css_family": "Noto Sans TC",
+      "label_key": "font_name_noto_sans"
+    },
+    {
+      "id": "Arial",
+      "css_family": "Arial",
+      "label_key": "font_name_arial"
+    },
+    {
+      "id": "Times New Roman",
+      "css_family": "Times New Roman",
+      "label_key": "font_name_times"
+    }
+  ]
+}

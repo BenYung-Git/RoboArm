@@ -1,0 +1,66 @@
+{
+  "max_list_columns": 6,
+  "tables": {
+    "ui_text": {
+      "db_table": "ui_text",
+      "label_key": "maint_table_ui_text",
+      "columns": [
+        {
+          "field": "TxId",
+          "label_key": "field_txid",
+          "field_type": "long",
+          "is_flag": false,
+          "editable": false,
+          "auto_gen": true,
+          "required": true
+        },
+        {
+          "field": "text_key",
+          "label_key": "field_text_key",
+          "field_type": "text",
+          "is_flag": false,
+          "editable": true,
+          "auto_gen": false,
+          "required": true
+        },
+        {
+          "field": "zh_TW",
+          "label_key": "field_zh_TW",
+          "field_type": "text",
+          "is_flag": false,
+          "editable": true,
+          "auto_gen": false,
+          "required": true
+        },
+        {
+          "field": "en",
+          "label_key": "field_en",
+          "field_type": "text",
+          "is_flag": false,
+          "editable": true,
+          "auto_gen": false,
+          "required": true
+        },
+        {
+          "field": "zh_CN",
+          "label_key": "field_zh_CN",
+          "field_type": "text",
+          "is_flag": false,
+          "editable": true,
+          "auto_gen": false,
+          "required": true
+        },
+        {
+          "field": "isDisable",
+          "label_key": "field_is_disable",
+          "field_type": "flag",
+          "is_flag": true,
+          "editable": false,
+          "auto_gen": false,
+          "required": true,
+          "default_value": false
+        }
+      ]
+    }
+  }
+}

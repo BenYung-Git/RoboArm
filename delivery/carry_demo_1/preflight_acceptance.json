@@ -1,0 +1,72 @@
+{
+  "ok": true,
+  "reason": null,
+  "phase": null,
+  "target": null,
+  "detail": null,
+  "motion": {
+    "cartesian_step_m": 0.01,
+    "joint_deg_per_sec": 40,
+    "ik_pos_tol_m": 0.004,
+    "ik_ang_tol_deg": 18,
+    "ik_max_iter": 220,
+    "ik_max_iter_note": "Raised from proposal 40 to 220 so pose-in-loop DLS can converge; not a position/path tolerance relaxation.",
+    "path_xy_drift_max_m": 0.005,
+    "path_ang_drift_max_deg": 22,
+    "path_closing_perp_max_deg": 22,
+    "home_joint_tol_deg": 0.5,
+    "place_xy_tol_m": 0.012,
+    "place_bottom_tol_m": 0.006,
+    "place_tilt_tol_deg": 12,
+    "preflight_required": true
+  },
+  "metrics": {
+    "stage": "preflight",
+    "formulas": {
+      "tcp_xy_drift_m": "hypot(tcp.x - object.center_xy_m[0], tcp.y - object.center_xy_m[1])",
+      "approach_to_neg_z_deg": "acos(dot(normalize(tcp.approach), [0,0,-1])) * 180/pi",
+      "closing_to_neg_x_deg": "acos(dot(normalize(tcp.closing), [-1,0,0])) * 180/pi",
+      "closing_perp_to_object_z_deg": "abs(90 - acos(dot(normalize(tcp.closing), object.axis_world)) * 180/pi)"
+    },
+    "limits": {
+      "path_xy_drift_max_m": 0.005,
+      "path_ang_drift_max_deg": 22,
+      "path_closing_perp_max_deg": 22,
+      "ik_pos_tol_m": 0.004,
+      "ik_ang_tol_deg": 18
+    },
+    "maxXyDrift": 0.002779244066486345,
+    "maxXyPhase": "Descend",
+    "maxApproachToNegZDeg": 17.538467319861716,
+    "maxApproachPhase": "Descend",
+    "maxClosingToNegXDeg": 17.538467431189854,
+    "maxClosingToNegXPhase": "Descend",
+    "maxClosingPerpToObjectZDeg": 17.538467292948084,
+    "maxClosingPerpPhase": "Descend",
+    "maxApproachErrDeg": 17.538467319861716,
+    "maxClosingErrDeg": 17.538467431189854
+  },
+  "geometry": {
+    "xy": [
+      0.35,
+      0
+    ],
+    "topZ": 0.18,
+    "centerZ": 0.22,
+    "approachZ": 0.36,
+    "graspZ": 0.22,
+    "liftZ": 0.33999999999999997,
+    "usableRadius": 0.125
+  },
+  "phases": [
+    "Home:joint",
+    "Approach:path",
+    "Descend:path",
+    "Grasp:action",
+    "VerticalLift:path",
+    "VerticalLower:path",
+    "Release:action",
+    "Retract:path",
+    "ReturnHome:joint"
+  ]
+}

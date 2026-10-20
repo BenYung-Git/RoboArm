@@ -1,0 +1,545 @@
+程式 : Robotic Arm Control System (RoboArm) 機械臂控制系統
+版本 : RoboArm V1.0
+需求 : Python 語言,  Web 介面 FastAPI 
+支援 : Sqlite3, json, yaml, supabase Default = Sqlite3 (RoboArm.db)
+顯示 : Web Browser , Mobile , Pad 
+注意 : 完全獨立程式. 
+
+Phase I 
+1. 建立 主頁介面 (SideBar 模式)
+2. 所有介面文字 都要有 繁體/英文/簡體 (dropdown) 互換 (你決定文子翻譯) 
+   需要有資料表. 以備日後維護
+3. dropdown 字型調整 & 字體調整 (Font Size) default =14, (Fonts) default = DFKai-SB 標階體
+4. 先建立 3 個menu 暫時全部没有功能
+   "主頁" DashBoard
+   "來源資料表" Source Table
+   "系統設定" System Setting
+   "虛擬測試" Virtual Demo
+5. 要求開啟的視窗是新視窗. 不是轉換. 已開啟了 Menu 網頁不可再重覆。 而是只Refresh 
+6. 視窗的 title = "RoboArm"+ Menu 文字 (RoboArm 主頁) 
+
+
+檔案維護介面. UI
+1. 所有介面文字 都要有 繁體/英文/簡體 (dropdown) 互換 (你決定文字翻譯) 
+2. 以 列表 (list) 方式顯示. default 顯示 <=6 欄 包括 TxId, 跟據前6欄 
+3. list 要有間隔行
+3. 所有 table default TxId Desc
+4. 要有搜尋功能. (以顯示欄為準) 不包括 flag 
+5. 如 field 是 flag 就要有 dropdown list 做filter (如失效/生效)
+1-5 已完成
+補充
+
+Demo (示範) 
+用 dropdown 選取示範動作
+搬運動作示範2 (左右/前後搬運)
+所有物件由你決定,但要記存尺寸/高度/面積. 暫時可放json
+1. 在機械臂前後各放一張圓枱, 在前面枱中心放一個圓型桶/柱 
+2. 機械臂要連接工具 (夾)
+3. 跟據所有設定變數/参數/角度 夾住該枱中物件
+4. 夾緊後向左右/前後移動, 把該物件放在另一枱中心.
+5. 完成後反回原點
+請回覆我的要求.
+
+
+機械臂優化
+1. 每個軸要有標簽(J1-J6)
+2. 標簽要顯示即時坐標
+3. J1-J6 的數據要跟移動時的數據同步
+4. 固定資料框＋動態引線
+請回覆我的要求.
+
+
+
+案維護功能. CRUD
+1. 所有新增的資料表要有以下特定的欄名
+   "TxId"  type = long integer  (AutoGen)  由 1 開始. Default = last TxId + 1 (包括 isDisable=true/false)
+   "isDisable" 當 =true 顯示 "失效" =false "生效". default = false 
+2. 全部要有 "新增" "編輯" "失效", "儲存" "取消" 以 icon 顯示. 但要顯示 tips (文字說明)
+3. "失效" 是删除功能. 但不是正式. 只是 isDisable =false icon 要顯示 "失效". 當 =true 時 icon 要改為顯示 "生效" (互換)
+4. 當 修改/新增 才顯示 "儲存" 及 "取消" 
+
+Phase 1 優化
+1. 在 "系統設定" 中加一個 tab page. "介面文字"
+   主要是 Translations 的維護 CRUD 要加一個 isDisable flag (field)
+2. Translations 維護介面 暫由你設計. 但功能及介面要跟我上面的守則
+1-2 已完成
+補充
+"系統設定" 舊的UI全部不要 由tab page 取替 (只有一個 tab page 及 list 的介面)
+
+請回覆我的要求.不做任何動作.
+
+請開始.一定要按我的要求. 0 HardCode, 0 fallback, 不準加自己任何流程. 及不要做無關的修改. 所有procedure 及功能 都可共用及統一. 一定要遵守.如修改中有疑點要即時詢問. 
+
+
+1-6 已完成.
+補充 第5點.
+
+
+
+
+
+
+
+
+基本守則 : 
+1. 0 HardCode, 0 fallback,
+2. 所有procedure 及功能 都可共用及統一
+3. 不準加自己任何流程. 及不要做無關的修改
+4. 没有我要求. 不用 commit & push
+
+
+
+Phase 1 優化:
+1. "選單" 不要請删除
+2. SideBar 最頂要顯示 "程式版本"  
+3. 設定 語言/字型/字級 放在最頂
+請回覆我的要求.不做任何動作.
+
+
+1. 暫時不要求用戶及權限
+2. 現只在 "系統設定" 新增 Translation 維護. 其他 menu 仍是没有功能
+
+
+
+
+
+
+請建立一份進度完成檔. .md
+
+
+
+請設計並編寫一個純本地的 Virtual I/O Control Panel，用於 demo 環境手動控制 virtual inputs，不連接任何真實 PLC、controller、vendor SDK、fieldbus 或 serial 裝置。這個 panel 是 Phase 1 的額外功能，與之前的 WAITING / completed job bug fix 分開，但必須與現有 virtual controller 相容。
+
+## 目標
+
+提供一個簡單 web UI，讓操作者可以：
+
+1. 手動切換 virtual inputs：
+   - part_present（workpiece present）
+   - fixture_clamped
+   - welder_ready
+   - safety_gate_closed（注意：此 input 會觸發 Protective Stop 邏輯）
+
+2. 即時看到這些 inputs 如何影響：
+   - CabinetState（READY / WAITING / RUNNING / ESTOP / PROTECTIVE_STOP / FAULT）
+   - Status Light（red / yellow / green）
+   - cycle_running（true / false）
+   - 最近一次 job 結果（last_job_result）
+
+3. 保持 virtual_only 模式，不改動任何真實 I/O 或 hardware。
+
+## 技術要求
+
+1. 前端：
+   - 在現有 web/static/app.js 和 HTML 中新增一個「Virtual I/O」頁或區塊。
+   - 使用簡單 checkbox 或 toggle switch 表示每個 input 的 ON/OFF。
+   - 顯示當前 cabinet state、status light 顏色、cycle_running 狀態。
+   - 顯示最近一次 completed job 的結果（若存在）。
+
+2. 後端：
+   - 新增或擴展現有 API route，例如：
+     - GET  /api/v1/virtual_inputs
+     - POST /api/v1/virtual_inputs
+   - POST body 範例：
+     {
+       "part_present": true,
+       "fixture_clamped": false,
+       "welder_ready": true,
+       "safety_gate_closed": true
+     }
+   - 呼叫現有 VirtualControllerCabinet.set_input() 或等效邏輯，確保：
+     - safety_gate_closed=False 觸發 PROTECTIVE_STOP
+     - 其他 inputs 變化會觸發 READY ↔ WAITING 的 readiness re-evaluation
+   - 不修改現有 job_runner.py 的核心邏輯，除非必要。
+
+3. 與現有 virtual controller 整合：
+   - 使用現有 virtual_controller_cabinet.py 的 set_input() 或等效方法。
+   - 確保 WAITING 狀態的 readiness re-evaluation 仍然正確。
+   - 確保 completed job result retention 仍然正確。
+
+4. 安全與限制：
+   - 明確在 UI 上標示：此為 virtual demo panel，不接真實 I/O。
+   - 不允許從這個 panel 直接觸發 E‑Stop、Fault 或 Protective Stop；這些仍應由現有 safety 邏輯或現有 UI 控制。
+   - 不允許從這個 panel 直接 start/stop job；job 控制仍用現有 UI。
+
+## 交付內容
+
+請提供：
+
+1. 前端：
+   - 新增或修改的 HTML / JS 檔案（例如在 web/static/ 下）。
+   - 說明如何在現有 app.js 中新增 Virtual I/O 頁或區塊。
+
+2. 後端：
+   - 新增或修改的 API route（例如在 web/app.py）。
+   - 說明如何與現有 VirtualControllerCabinet 整合。
+
+3. 測試：
+   - 新增至少 3 個簡單測試，驗證：
+     - 切換 virtual inputs 會正確影響 cabinet state 與 status light。
+     - safety_gate_closed=False 會觸發 PROTECTIVE_STOP。
+     - READY ↔ WAITING 的 readiness re-evaluation 正確。
+
+4. 文件：
+   - 在 README.md 新增一節，說明：
+     - Virtual I/O Control Panel 的用途。
+     - 如何使用它手動控制 virtual inputs。
+     - 明確標示此為 virtual demo，不接真實 I/O。
+
+## 限制
+
+- 不連接任何真實 PLC、controller、vendor SDK、fieldbus 或 serial 裝置。
+- 不修改 assets/、screenshots/、PROGRESS_REPORT_*.md、gen_progress_pdf.py。
+- 不執行 git add、commit、push、branch、remote、Cloudflare、ngrok 或任何 outbound network 操作。
+- 不修改現有 job_runner.py 的核心邏輯，除非必要。
+
+## 完成後必做
+
+cd /tmp/robotarm_demo
+
+git diff --check
+/home/ubuntu/docRoute/venv/bin/pytest tests/ -v
+git diff --stat
+git status
+
+完成後請回報：
+
+1. 設計與實際採用方案；
+2. 每個改動檔案及變動摘要；
+3. 新增／修改的測試及覆蓋行為；
+4. 完整 pytest 結果與實際總數；
+5. git diff --check 結果；
+6. git diff --stat；
+7. git status；
+8. 手動 UI 驗收步驟，特別是 Virtual I/O Control Panel；
+9. 明確確認：沒有 git add、commit、push、branch、remote、Cloudflare、真機、PLC、controller IP、vendor SDK、fieldbus、serial 或 outbound network 操作。
+
+*****************************
+
+RobotArm 所需的資料.
+1. Sites Master table
+2. RobArm 設定
+3. SDK 擷取
+
+1. 以 "RobotArm_SDD_v0.1_zh.pdf" 為架構編寫 RobotArm 獨立程式 放在 /home/ubuntu/RobotArm
+2. 有新補充. 要有一個 mainmenu . 現在只有 1. "主頁"  2. "虛擬測試" 這兩個項目
+3. "主頁" 暫時没有功能.
+4. "虛擬測試" 就是把 RobotAmr Demo 放在這個 module.
+5. 所有UI 都要建立 t() key 所以可能要建立 db. & Table . (這個你可以自己決定)
+講完.請重新交一個新版本 計劃書(中文版 .pdf) 給我下載. 謝謝
+ 
+CheckList Report
+
+現有資料
+1. 時間 2026-10-06 時間 2:00 地點 : 坪輋
+2. 會議召集人 : Vincent Chong (AI智能軟件發展部經理)
+3. 軟件開發員 : Ben Yung, Raymond Chan 
+4. 軟件供應商 : 智欣先生 
+5. 會議主旨   : 機械臂燒焊系統—軟件供應商交接會議
+其他由你決定及建議
+
+我的會議流程是如下: 
+1. 互相介紹,認識
+2. 由軟件供應商說明兩個 model 現有的軟件操作及流程. 
+3. 該兩個軟件現存的問題/需優化/改善的地方
+4. 由我方跟據 checklist 提出核心問題 (這些問題是 RobotArm 開發的需求資料及數據)
+5. 發問時間
+6. 總結
+(這次主要是第一次會議所以基本不會有任何定案完作表)
+
+
+CheckList 主要作用如下 :
+1. 以 Jaka ZU 7 & Rokae xMata CR 7 這兩份咨詢報告
+2. 這兩份咨詢主要以 RobotArm 開發為核心.
+3. RobotArm 開發所需的資料(如 SDK) 及數據 (如 I/O Control 及 6軸所數的資料及坐標)
+4. 對 RobotArm 開發有幫助的問題也要在 CheckList 中提到
+請回覆你的建議. 
+
+請跟以下流程下載 MasterUi Repo
+git clone https://github.com/BenYung-Git/MasterUi.git C:\MasterUi
+
+
+機械臂 UI (用戶介面) 優化版 V1.0 完成.
+由於智欣的程式是加密. 所以不能用原碼修或嵌入. 只能做一個獨立程式展示.
+大家可以在以下網頁測試. 這些測試不會影响現有資料.
+1. masterui-hkben.zocomputer.io
+2. https://masterui-hkben.zocomputer.io
+測試完請給意見優化或修改. 
+手機也可以做測試
+
+1. 所有 Table 都必須加入 Disable flag。
+
+   Default：
+   Disable = false
+
+   不使用 Delete 功能。
+   改用：
+   - Disable = false：UI 只顯示「失效」
+   - Disable = true：UI 只顯示「啟用」
+
+2. 所有 Table 都要有 TxId。
+
+   - TxId 自動產生。
+   - 由 1 開始。
+   - 預設以 TxId Desc（由大至小）排序。
+
+3. 收到，第 3 點補充已記下；你提供的畫面就是「用戶介面設定」的設計參考。 [ppl-ai-file-upload.s3.amazonaws](https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/images/163021981/4a485d48-d0ce-4756-a3cb-e183f7c02a86/image.jpg)
+
+## 「用戶介面設定」補充要求
+
+每張 Table 都要有一個欄位設定畫面，功能包括：
+
+- 顯示所有欄位。
+- `visible = true／false` 控制 List 是否顯示。
+- List 預設最多顯示 6 個欄位。
+- 每個欄位可以設定升序／降序。
+- 每個欄位可以用 Drag 功能重新排列順序。
+- List 表格使用間隔行底色（zebra striping）。
+- 設定後按「儲存版面」才保存變更。
+- 這些設定只控制 List 顯示，不限制 Add／Edit Form。
+
+4. 按畫面整理的 UI
+
+```text
+UI 版面設定
+├── 表格／Table 名稱
+├── 列表間隔行底色
+│   ├── 啟用／停用
+│   └── 間隔行顏色選擇
+└── 欄位顯示排序
+    ├── 顯示 checkbox
+    ├── 欄位名稱
+    ├── 欄名說明
+    ├── 升序／降序選擇
+    └── Drag 排序
+```
+
+每一列應包含：
+
+```text
+[Drag handle] [Visible checkbox] [Field name] [Description]
+[Sort order dropdown] [Move up] [Move down]
+```
+
+## 重要規則
+
+### Visible 欄位
+
+```text
+visible = true
+```
+
+代表欄位會出現在 Table List。
+
+```text
+visible = false
+```
+
+代表欄位不會出現在 Table List。
+
+但即使 `visible = false`：
+
+- Add Form 仍可顯示欄位；
+- Edit Form 仍可顯示欄位；
+- 資料庫欄位仍然存在；
+- 不可因為不顯示而刪除欄位。
+
+### 最多 6 欄
+
+每張 Table 的 List 預設最多 6 個欄位為 `visible = true`。
+
+如果使用者嘗試選第 7 個：
+
+```text
+顯示欄位最多只可選擇 6 個。
+Maximum 6 visible columns are allowed.
+最多只能选择 6 个显示字段。
+```
+
+不過這裡要特別確認：`TxId` 和 `Disable` 是否必定算入這 6 欄。我建議：
+
+```text
+TxId：固定顯示，不計入 6 欄限制
+Disable／狀態：可由 UI 版面設定決定，計入 6 欄限制
+```
+
+如果你不同意，之後可以改成所有欄位包括 TxId 都計入 6 欄。
+
+### 排序
+
+每張 Table List 有兩種排序概念，應分開：
+
+1. **資料行排序**
+   - 預設：`TxId DESC`
+   - 之後可按其他欄位升序／降序。
+2. **欄位顯示順序**
+   - 由 Drag 或上下箭頭決定。
+   - 只影響欄位從左至右的排列。
+
+欄位設定中的：
+
+```text
+升序／降序
+```
+
+我理解為該欄位的**預設資料排序方向**，不是欄位顯示順序。
+
+## 建議資料表
+
+需要新增一張 UI 設定 table，例如：
+
+```text
+ui_table_settings
+```
+
+建議欄位：
+
+```text
+tx_id
+table_key
+table_name
+zebra_enabled
+zebra_color
+is_disabled
+created_at
+updated_at
+```
+
+另需一張欄位設定 table：
+
+```text
+ui_table_columns
+```
+
+建議欄位：
+
+```text
+tx_id
+table_setting_id
+field_key
+field_label_key
+visible
+display_order
+sort_direction
+created_at
+updated_at
+is_disabled
+```
+
+關係：
+
+```text
+ui_table_settings
+        │
+        └── ui_table_columns
+```
+
+這樣可以支援：
+
+- 每張 Table 有自己的版面設定；
+- 每張 Table 有自己的欄位顯示設定；
+- 每個欄位有自己的 visible；
+- 每個欄位有自己的 display order；
+- 每個欄位有自己的升／降序；
+- 未來增加新 Table 時不用改 UI code。
+
+## Disable 規則與 UI 設定
+
+你之前要求所有 Table 都有 `Disable` flag：
+
+```text
+Disable = false → 顯示「失效」
+Disable = true  → 顯示「啟用」
+```
+
+因此 `ui_table_settings` 和 `ui_table_columns` 本身也應有：
+
+```text
+disable BOOLEAN DEFAULT FALSE
+```
+
+但要區分兩個概念：
+
+| 欄位 | 用途 |
+|---|---|
+| `disable` | 這筆設定資料是否失效 |
+| `visible` | 欄位是否顯示在 List |
+| `zebra_enabled` | List 是否使用間隔行底色 |
+| `sort_direction` | 預設資料排序方向 |
+| `display_order` | 欄位顯示位置 |
+
+## UI 設定中的間隔行底色
+
+你提供的畫面有：
+
+```text
+列表間隔行底色
+[✓] 列表間隔行底色
+間隔行顏色 [淺藍 ▼]
+```
+
+RoboArm 應支援：
+
+- Checkbox：啟用／停用 Zebra rows。
+- Color dropdown：至少提供：
+  - 淺藍
+  - 淺灰
+  - 淺綠
+  - 淺黃
+- 預設：
+  - `zebra_enabled = true`
+  - `zebra_color = light_blue`
+
+List 顯示時：
+
+```css
+tr:nth-child(even) {
+    background-color: var(--zebra-color);
+}
+```
+
+不可將顏色 hard-code；顏色名稱亦應經 Translation key 處理。
+
+## 我對第 3 點的完整理解
+
+```text
+用戶介面設定 = Table List 顯示規則
+
+每張 Table：
+├── 所有欄位都可以查看
+├── 最多 6 個欄位 visible=true
+├── 可 Drag 調整欄位順序
+├── 可設定預設排序方向
+├── 可啟用／停用間隔行底色
+├── 可設定間隔行顏色
+└── 按「儲存版面」後才保存
+
+Table List：
+├── 按 UI 設定顯示欄位
+├── 預設 TxId DESC
+├── 顯示失效／啟用按鈕
+└── 使用 Zebra rows
+
+Edit Form：
+└── 不受 visible 欄位限制，顯示所有可編輯欄位
+```
+Visible = true 的欄位：
+- 依使用者已設定的顯示次序排列。
+- 可用 Drag／上下箭頭調整次序。
+
+當欄位由 visible = false 改成 visible = true：
+- 該欄位自動移到「最後一個已顯示欄位」之後。
+- 不可自動插入到原本已顯示欄位中間。
+- 使用者之後可再用 Drag／上下箭頭調整它的位置
+Visible = false 的欄位：
+- 不按 display_order 排列。
+- 一律按欄位名稱 Ascending 排列。
+
+好請交文件 Cursor 新增tab "
+
+
+
+  
+
+
+

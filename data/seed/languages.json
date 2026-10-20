@@ -1,0 +1,5 @@
+[
+  {"code": "zh_TW", "sort_order": 1, "label_key": "lang_zh_TW"},
+  {"code": "en", "sort_order": 2, "label_key": "lang_en"},
+  {"code": "zh_CN", "sort_order": 3, "label_key": "lang_zh_CN"}
+]

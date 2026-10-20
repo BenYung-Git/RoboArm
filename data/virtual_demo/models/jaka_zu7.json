@@ -1,0 +1,139 @@
+{
+  "model_key": "jaka_zu7",
+  "brand": "JAKA",
+  "model": "Zu7",
+  "robot_id": "schematic_zu7_1",
+  "label_key": "vd_model_jaka_zu7",
+  "schematic": true,
+  "geometry_style": "boxy_cobot",
+  "unverified_demo": true,
+  "coordinate_frame": "z_up_robot",
+  "platform_radius": 0.24,
+  "home_joints_deg": [0, -55, 70, 0, 55, 0],
+  "initial_joints_deg": [0, -55, 70, 0, 55, 0],
+  "joint_limits_deg": [
+    [-160, 160],
+    [-110, 110],
+    [-140, 140],
+    [-160, 160],
+    [-110, 110],
+    [-160, 160]
+  ],
+  "animation_deg_per_sec": 55,
+  "base_color": "#f3f5f8",
+  "link_color": "#d9dee7",
+  "joint_color": "#f0a14a",
+  "accent_color": "#b45309",
+  "segments": [
+    {
+      "id": "base",
+      "role": "base",
+      "shape": "box",
+      "size": [0.2, 0.2, 0.1],
+      "color_role": "base_color"
+    },
+    {
+      "id": "j1",
+      "role": "shoulder_yaw",
+      "shape": "box",
+      "size": [0.14, 0.14, 0.08],
+      "joint_axis": [0, 0, 1],
+      "offset": [0, 0, 0.1],
+      "color_role": "joint_color"
+    },
+    {
+      "id": "shoulder",
+      "role": "shoulder",
+      "shape": "box",
+      "size": [0.16, 0.13, 0.14],
+      "offset": [0, 0, 0.08],
+      "color_role": "link_color"
+    },
+    {
+      "id": "j2",
+      "role": "shoulder_pitch",
+      "shape": "box",
+      "size": [0.15, 0.11, 0.11],
+      "joint_axis": [0, 1, 0],
+      "offset": [0, 0, 0.13],
+      "color_role": "accent_color"
+    },
+    {
+      "id": "upper_arm",
+      "role": "upper_arm",
+      "shape": "box",
+      "size": [0.1, 0.085, 0.3],
+      "offset": [0, 0, 0.08],
+      "color_role": "link_color"
+    },
+    {
+      "id": "j3",
+      "role": "elbow",
+      "shape": "box",
+      "size": [0.12, 0.1, 0.1],
+      "joint_axis": [0, 1, 0],
+      "offset": [0, 0, 0.3],
+      "color_role": "joint_color"
+    },
+    {
+      "id": "forearm",
+      "role": "forearm",
+      "shape": "box",
+      "size": [0.085, 0.07, 0.26],
+      "offset": [0, 0, 0.08],
+      "color_role": "accent_color"
+    },
+    {
+      "id": "j4",
+      "role": "wrist_1",
+      "shape": "box",
+      "size": [0.095, 0.085, 0.08],
+      "joint_axis": [0, 1, 0],
+      "offset": [0, 0, 0.26],
+      "color_role": "joint_color"
+    },
+    {
+      "id": "wrist_yaw_link",
+      "role": "wrist",
+      "shape": "box",
+      "size": [0.07, 0.06, 0.08],
+      "offset": [0, 0, 0.06],
+      "color_role": "link_color"
+    },
+    {
+      "id": "j5",
+      "role": "wrist_2",
+      "shape": "box",
+      "size": [0.08, 0.075, 0.07],
+      "joint_axis": [0, 1, 0],
+      "offset": [0, 0, 0.08],
+      "color_role": "accent_color"
+    },
+    {
+      "id": "wrist_pitch_link",
+      "role": "wrist",
+      "shape": "box",
+      "size": [0.06, 0.055, 0.065],
+      "offset": [0, 0, 0.055],
+      "color_role": "link_color"
+    },
+    {
+      "id": "j6",
+      "role": "wrist_roll",
+      "shape": "box",
+      "size": [0.065, 0.065, 0.05],
+      "joint_axis": [0, 0, 1],
+      "offset": [0, 0, 0.065],
+      "color_role": "joint_color"
+    },
+    {
+      "id": "flange",
+      "role": "flange",
+      "shape": "box",
+      "size": [0.07, 0.07, 0.03],
+      "offset": [0, 0, 0.05],
+      "color_role": "base_color"
+    }
+  ],
+  "notes": "Demo schematic (Z-up), boxy cobot look. Different geometry from CR7. Not derived from official URDF/mesh. Not verified."
+}

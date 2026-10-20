@@ -1,0 +1,171 @@
+{
+  "model_key": "rokae_cr7",
+  "brand": "ROKAE",
+  "model": "CR7",
+  "robot_id": "schematic_cr7_1",
+  "label_key": "vd_model_rokae_cr7",
+  "schematic": true,
+  "geometry_style": "cylindrical_cobot",
+  "unverified_demo": true,
+  "coordinate_frame": "z_up_robot",
+  "platform_radius": 0.26,
+  "home_joints_deg": [0, -40, 50, 0, 40, 0],
+  "initial_joints_deg": [0, -40, 50, 0, 40, 0],
+  "joint_limits_deg": [
+    [-170, 170],
+    [-120, 120],
+    [-150, 150],
+    [-170, 170],
+    [-120, 120],
+    [-170, 170]
+  ],
+  "animation_deg_per_sec": 45,
+  "base_color": "#2a6f86",
+  "link_color": "#5a9bb0",
+  "joint_color": "#d7e3ec",
+  "accent_color": "#1a3d4d",
+  "segments": [
+    {
+      "id": "base",
+      "role": "base",
+      "shape": "cylinder",
+      "radius": 0.12,
+      "radius_top": 0.105,
+      "height": 0.13,
+      "mesh_axis": "z",
+      "color_role": "base_color"
+    },
+    {
+      "id": "j1",
+      "role": "shoulder_yaw",
+      "shape": "cylinder",
+      "radius": 0.085,
+      "height": 0.09,
+      "mesh_axis": "z",
+      "joint_axis": [0, 0, 1],
+      "offset": [0, 0, 0.13],
+      "color_role": "joint_color"
+    },
+    {
+      "id": "shoulder",
+      "role": "shoulder",
+      "shape": "cylinder",
+      "radius": 0.095,
+      "height": 0.12,
+      "mesh_axis": "z",
+      "offset": [0, 0, 0.09],
+      "color_role": "link_color"
+    },
+    {
+      "id": "j2",
+      "role": "shoulder_pitch",
+      "shape": "cylinder",
+      "radius": 0.07,
+      "height": 0.13,
+      "mesh_axis": "y",
+      "mesh_place": "center",
+      "joint_axis": [0, 1, 0],
+      "offset": [0, 0, 0.11],
+      "color_role": "joint_color"
+    },
+    {
+      "id": "upper_arm",
+      "role": "upper_arm",
+      "shape": "cylinder",
+      "radius": 0.055,
+      "height": 0.34,
+      "mesh_axis": "z",
+      "offset": [0, 0, 0.07],
+      "color_role": "link_color"
+    },
+    {
+      "id": "j3",
+      "role": "elbow",
+      "shape": "cylinder",
+      "radius": 0.06,
+      "height": 0.11,
+      "mesh_axis": "y",
+      "mesh_place": "center",
+      "joint_axis": [0, 1, 0],
+      "offset": [0, 0, 0.34],
+      "color_role": "accent_color"
+    },
+    {
+      "id": "forearm",
+      "role": "forearm",
+      "shape": "cylinder",
+      "radius": 0.045,
+      "height": 0.28,
+      "mesh_axis": "z",
+      "offset": [0, 0, 0.06],
+      "color_role": "link_color"
+    },
+    {
+      "id": "j4",
+      "role": "wrist_1",
+      "shape": "cylinder",
+      "radius": 0.048,
+      "height": 0.09,
+      "mesh_axis": "y",
+      "mesh_place": "center",
+      "joint_axis": [0, 1, 0],
+      "offset": [0, 0, 0.28],
+      "color_role": "joint_color"
+    },
+    {
+      "id": "wrist_yaw_link",
+      "role": "wrist",
+      "shape": "cylinder",
+      "radius": 0.04,
+      "height": 0.09,
+      "mesh_axis": "z",
+      "offset": [0, 0, 0.05],
+      "color_role": "accent_color"
+    },
+    {
+      "id": "j5",
+      "role": "wrist_2",
+      "shape": "cylinder",
+      "radius": 0.042,
+      "height": 0.08,
+      "mesh_axis": "y",
+      "mesh_place": "center",
+      "joint_axis": [0, 1, 0],
+      "offset": [0, 0, 0.09],
+      "color_role": "joint_color"
+    },
+    {
+      "id": "wrist_pitch_link",
+      "role": "wrist",
+      "shape": "cylinder",
+      "radius": 0.036,
+      "height": 0.07,
+      "mesh_axis": "z",
+      "offset": [0, 0, 0.045],
+      "color_role": "link_color"
+    },
+    {
+      "id": "j6",
+      "role": "wrist_roll",
+      "shape": "cylinder",
+      "radius": 0.038,
+      "height": 0.055,
+      "mesh_axis": "z",
+      "joint_axis": [0, 0, 1],
+      "offset": [0, 0, 0.07],
+      "color_role": "joint_color"
+    },
+    {
+      "id": "flange",
+      "role": "flange",
+      "shape": "cylinder",
+      "radius": 0.042,
+      "radius_top": 0.03,
+      "height": 0.035,
+      "mesh_axis": "z",
+      "offset": [0, 0, 0.055],
+      "color_role": "base_color"
+    }
+  ],
+  "notes": "Demo schematic (Z-up). Not official CAD. Link lengths NOT datasheet reach. Not verified on real hardware."
+}
