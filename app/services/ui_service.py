@@ -52,6 +52,29 @@ class UiService:
             """
         )
         self.ensure_ui_text_schema()
+        self.ensure_inventory_schema()
+
+    def ensure_inventory_schema(self) -> None:
+        """Idempotent inventory table create (common TxId / isDisable / Remark)."""
+        self.store.execute(
+            """
+            CREATE TABLE IF NOT EXISTS inventory (
+                TxId INTEGER PRIMARY KEY,
+                ItemCode TEXT NOT NULL DEFAULT '',
+                ItemName TEXT NOT NULL,
+                Category TEXT NOT NULL DEFAULT '',
+                Brand TEXT NOT NULL DEFAULT '',
+                Model TEXT NOT NULL DEFAULT '',
+                SerialNo TEXT NOT NULL DEFAULT '',
+                Quantity REAL,
+                Unit TEXT NOT NULL DEFAULT '',
+                Location TEXT NOT NULL DEFAULT '',
+                dimensions TEXT NOT NULL DEFAULT '',
+                isDisable INTEGER NOT NULL DEFAULT 0,
+                Remark TEXT NOT NULL DEFAULT ''
+            )
+            """
+        )
 
     def ensure_ui_text_schema(self) -> None:
         exists = self.store.fetchone(
@@ -112,23 +135,7 @@ class UiService:
                 "INSERT INTO languages (code, sort_order, label_key) VALUES (?, ?, ?)",
                 [(item["code"], item["sort_order"], item["label_key"]) for item in rows],
             )
-        if self.store.count("menus") == 0:
-            rows = load_json(resolve_path(self.config["seed_menus_path"]))
-            self.store.executemany(
-                """
-                INSERT INTO menus (menu_key, route_path, sort_order, label_key)
-                VALUES (?, ?, ?, ?)
-                """,
-                [
-                    (
-                        item["menu_key"],
-                        item["route_path"],
-                        item["sort_order"],
-                        item["label_key"],
-                    )
-                    for item in rows
-                ],
-            )
+        self.ensure_seed_menus()
         rows = load_json(resolve_path(self.config["seed_ui_text_path"]))
         for item in rows:
             existing = self.store.fetchone(
@@ -161,6 +168,42 @@ class UiService:
                         item["en"],
                         item["zh_CN"],
                         item["text_key"],
+                    ),
+                )
+
+    def ensure_seed_menus(self) -> None:
+        """Upsert menus from seed so new menus appear on existing databases."""
+        rows = load_json(resolve_path(self.config["seed_menus_path"]))
+        for item in rows:
+            existing = self.store.fetchone(
+                "SELECT menu_key FROM menus WHERE menu_key = ?",
+                (item["menu_key"],),
+            )
+            if existing is None:
+                self.store.execute(
+                    """
+                    INSERT INTO menus (menu_key, route_path, sort_order, label_key)
+                    VALUES (?, ?, ?, ?)
+                    """,
+                    (
+                        item["menu_key"],
+                        item["route_path"],
+                        item["sort_order"],
+                        item["label_key"],
+                    ),
+                )
+            else:
+                self.store.execute(
+                    """
+                    UPDATE menus
+                    SET route_path = ?, sort_order = ?, label_key = ?
+                    WHERE menu_key = ?
+                    """,
+                    (
+                        item["route_path"],
+                        item["sort_order"],
+                        item["label_key"],
+                        item["menu_key"],
                     ),
                 )
 
@@ -328,30 +371,70 @@ class UiService:
 
     def get_settings_tabs_config(self) -> dict[str, Any]:
         data = load_json(resolve_path(self.config["settings_tabs_path"]))
+        if "hosts" in data:
+            if not isinstance(data["hosts"], list):
+                raise KeyError("settings_tabs.hosts must be a list")
+            return data
         for key in ("host_menu_key", "tabs"):
             if key not in data:
                 raise KeyError(f"Missing settings_tabs key: {key}")
+        return {
+            "hosts": [
+                {
+                    "host_menu_key": data["host_menu_key"],
+                    "tabs": data["tabs"],
+                }
+            ]
+        }
+
+    def get_maint_tabs_for_menu(
+        self, menu_key: str, language: str | None = None
+    ) -> list[dict[str, str]]:
+        lang = language if language is not None else self.get_prefs()["language"]
+        settings_tabs = []
+        for host in self.get_settings_tabs_config()["hosts"]:
+            if host.get("host_menu_key") != menu_key:
+                continue
+            for tab in host.get("tabs", []):
+                settings_tabs.append(
+                    {
+                        "tab_key": tab["tab_key"],
+                        "table_key": tab["table_key"],
+                        "label": self.t(tab["label_key"], lang),
+                    }
+                )
+        return settings_tabs
+
+    def get_table_ui_hosts_config(self) -> dict[str, Any]:
+        data = load_json(resolve_path(self.config["table_ui_hosts_path"]))
+        if "hosts" not in data or not isinstance(data["hosts"], list):
+            raise KeyError("Missing table_ui_hosts key: hosts")
         return data
+
+    def get_table_ui_for_menu(self, menu_key: str) -> dict[str, str] | None:
+        for host in self.get_table_ui_hosts_config()["hosts"]:
+            if host.get("menu_key") != menu_key:
+                continue
+            if "table_key" not in host:
+                raise KeyError(f"Missing table_ui host table_key for menu: {menu_key}")
+            return {
+                "menu_key": host["menu_key"],
+                "table_key": host["table_key"],
+            }
+        return None
 
     def build_page_context(self, menu_key: str) -> dict[str, Any]:
         prefs = self.get_prefs()
         language = prefs["language"]
         fonts = self.get_fonts_config()
-        settings_tabs_config = self.get_settings_tabs_config()
 
         def translate(text_key: str) -> str:
             return self.t(text_key, language)
 
+        table_ui = self.get_table_ui_for_menu(menu_key)
         settings_tabs = []
-        if menu_key == settings_tabs_config["host_menu_key"]:
-            for tab in settings_tabs_config["tabs"]:
-                settings_tabs.append(
-                    {
-                        "tab_key": tab["tab_key"],
-                        "table_key": tab["table_key"],
-                        "label": self.t(tab["label_key"], language),
-                    }
-                )
+        if table_ui is None:
+            settings_tabs = self.get_maint_tabs_for_menu(menu_key, language)
 
         return {
             "app_name": self.config["app_name"],
@@ -365,6 +448,7 @@ class UiService:
             "current_menu": self.get_menu(menu_key, language),
             "window_title": self.build_window_title(menu_key, language),
             "settings_tabs": settings_tabs,
+            "table_ui": table_ui,
             "is_virtual_demo": menu_key == self.config["virtual_demo_menu_key"],
             "t": translate,
         }

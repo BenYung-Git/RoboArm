@@ -10,6 +10,8 @@
   "seed_ui_text_path": "data/seed/ui_text.json",
   "maint_tables_path": "data/maintenance/tables.json",
   "settings_tabs_path": "data/maintenance/settings_tabs.json",
+  "table_ui_hosts_path": "data/maintenance/table_ui_hosts.json",
+  "zebra_colors_path": "data/maintenance/zebra_colors.json",
   "virtual_demo_config_path": "data/virtual_demo/config.json",
   "virtual_demo_menu_key": "virtual_demo",
   "host": "127.0.0.1",

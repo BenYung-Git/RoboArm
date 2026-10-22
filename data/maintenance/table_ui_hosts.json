@@ -1,0 +1,8 @@
+{
+  "hosts": [
+    {
+      "menu_key": "inventory",
+      "table_key": "inventory"
+    }
+  ]
+}

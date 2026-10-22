@@ -96,6 +96,7 @@ textarea {
   display: flex;
   flex-direction: column;
   min-width: 0;
+  min-height: 100vh;
 }
 
 .top-bar {
@@ -186,7 +187,8 @@ textarea {
 
 .maint-search input,
 .maint-filter select,
-.maint-form-field input {
+.maint-form-field input,
+.maint-form-field select {
   padding: 8px;
   border: 1px solid #9fb3c8;
   border-radius: 4px;
@@ -196,22 +198,53 @@ textarea {
 .maint-icons,
 .maint-row-actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   align-items: center;
 }
 
 .maint-icon-btn {
-  width: 36px;
-  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 6px 10px;
   border: 1px solid #9fb3c8;
   border-radius: 6px;
   background: #fff;
   cursor: pointer;
-  line-height: 1;
+  line-height: 1.2;
 }
 
-.maint-icon-btn:hover {
+.maint-icon-btn:hover:not(:disabled) {
   background: #e6eef4;
+}
+
+.maint-icon-btn:disabled,
+.maint-icon-btn.is-disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.maint-btn-icon {
+  font-size: 1.05em;
+}
+
+.maint-btn-label {
+  font-size: 0.92em;
+}
+
+.maint-message {
+  min-height: 1.2em;
+  color: #334e68;
+}
+
+.maint-message.is-ok {
+  color: #0f7b4a;
+}
+
+.maint-message.is-error {
+  color: #b00020;
 }
 
 .maint-form {
@@ -235,6 +268,40 @@ textarea {
   display: flex;
   flex-direction: column;
   gap: 4px;
+}
+
+.maint-required {
+  color: #b00020;
+  margin-left: 4px;
+}
+
+.maint-readonly {
+  padding: 8px;
+  border: 1px solid #e4e7eb;
+  border-radius: 4px;
+  background: #f8fafc;
+  min-height: 36px;
+}
+
+.maint-status,
+.maint-readonly.is-enabled,
+.maint-readonly.is-disabled {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.maint-status.is-enabled,
+.maint-readonly.is-enabled {
+  color: #0f7b4a;
+  background: #e3f8ef;
+}
+
+.maint-status.is-disabled,
+.maint-readonly.is-disabled {
+  color: #9b1c1c;
+  background: #fde8e8;
 }
 
 .maint-table-wrap {
@@ -267,6 +334,19 @@ textarea {
 
 .maint-table tbody tr:nth-child(even) td {
   background: #dbeafe;
+}
+
+.maint-table tbody tr.maint-row {
+  cursor: pointer;
+}
+
+.maint-table tbody tr.maint-row.is-selected td {
+  background: #c6e0f5;
+  outline: 1px solid #2f6f8a;
+}
+
+.settings-tabs.is-single {
+  display: none;
 }
 
 .vd-root {

@@ -1,0 +1,55 @@
+程式 : Robotic Arm Control System (RoboArm) 機械臂控制系統
+版本 : RoboArm V1.0
+需求 : Python 語言,  Web 介面, github (RoboArm.git)
+支援 : Sqlite3, json, yaml, supabase Default = Sqlite3 (RoboArm.db)
+顯示 : Web Browser , Mobile , Pad 
+注意 : 完全獨立程式. 
+
+Phase I 
+1. 建立 主頁介面 (SideBar 模式)
+2. 所有介面文字 都要有 繁體/英文/簡體 (dropdown) 互換 (你決定文子翻譯) 
+   需要有資料表. 以備日後維護
+3. dropdown 字型調整 & 字體調整 (Font Size) default =14, (Fonts) default = DFKai-SB 標階體
+4. 先建立 3 個menu 暫時全部没有功能
+   "主頁" DashBoard
+   "來源資料表" Source Table
+   "系統設定" System Setting
+請回覆我的要求.不做任何動作. 
+
+
+檔案維護介面. UI
+1. 以 列表 (list) 方式顯示. default 顯示 <=6 欄 包括 TxId
+2. 所有 table default TxId Desc
+3. 要有搜尋功能. (以顯示欄為準) 不包括 flag 
+4. 如 field 是 flag 就要有 dropdown list 做filter (如失效/開啟)
+   
+檔案維護功能. CRUD
+1. 所有新增的資料表要有以下特定的欄名
+   "TxId"  type = long integer  (AutoGen)  由 1 開始. Default = last TxId + 1 (包括 isDisable=true/false)
+   "isDisable" 當 =true 顯示 "失效" =false "生效". default = false 
+2. 全部要有 "新增" "編輯" "更新" "失效", "儲存" 以 icon 顯示. 但要顯示 tips (文字說明)
+3. "失效" 是删除功能. 但不是正式. 只是 isDisable =false icon 要顯示 "失效". 當 =true 時 icon 要改為顯示 "生效" (互換)
+4. 當 修改/新增 才顯示 "儲存" 及 "取消" 
+
+Phase 1 優化
+1. 在 "系統設定" 中加一個 tab page. "介面文字"
+   主要是 Translations 的維護 CRUD 要加一個 isDisable flag (field)
+2. Translations 維護介面 暫由你設計. 但功能及介面要跟我上面的守則
+3. 要求開啟的視窗是新視窗. 不是轉換. 但已開的視窗就不可重開. 只是 refresh 該網頁
+4. 視窗的 title = "RoboArm"+ Menu 文字 (RoboArm 主頁) 
+
+
+補充:
+1. 暫時不要求用戶及權限
+2. 現只在 "系統設定" 新增 Translation 維護. 其他 menu 仍是没有功能
+
+請回覆我的要求.不做任何動作.
+ 
+
+
+Commit + Push + Message 
+
+
+請開始.一定要按我的要求. 0 HardCode, 0 fallback, 不準加任何額外流程. 及不要做無關的修改. 所有procedure 及功能 都可共用及統一. 一定要遵守.如修改中有疑點要即時詢問. 
+
+請建立一份進度完成檔. .md

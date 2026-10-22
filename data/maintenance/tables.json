@@ -61,6 +61,161 @@
           "default_value": false
         }
       ]
+    },
+    "inventory": {
+      "db_table": "inventory",
+      "label_key": "maint_table_inventory",
+      "columns": [
+        {
+          "field": "TxId",
+          "label_key": "field_txid",
+          "field_type": "long",
+          "is_flag": false,
+          "editable": false,
+          "auto_gen": true,
+          "required": true,
+          "desc_key": "field_desc_txid"
+        },
+        {
+          "field": "ItemCode",
+          "label_key": "field_item_code",
+          "field_type": "text",
+          "is_flag": false,
+          "editable": true,
+          "auto_gen": false,
+          "required": false,
+          "desc_key": "field_desc_item_code"
+        },
+        {
+          "field": "ItemName",
+          "label_key": "field_item_name",
+          "field_type": "text",
+          "is_flag": false,
+          "editable": true,
+          "auto_gen": false,
+          "required": true,
+          "desc_key": "field_desc_item_name"
+        },
+        {
+          "field": "Category",
+          "label_key": "field_category",
+          "field_type": "select",
+          "is_flag": false,
+          "editable": true,
+          "auto_gen": false,
+          "required": true,
+          "options": [
+            {
+              "value": "robot_arm",
+              "label_key": "inventory_category_robot_arm"
+            },
+            {
+              "value": "control_box",
+              "label_key": "inventory_category_control_box"
+            },
+            {
+              "value": "tool",
+              "label_key": "inventory_category_tool"
+            },
+            {
+              "value": "other",
+              "label_key": "inventory_category_other"
+            }
+          ],
+          "desc_key": "field_desc_category"
+        },
+        {
+          "field": "Quantity",
+          "label_key": "field_quantity",
+          "field_type": "number",
+          "is_flag": false,
+          "editable": true,
+          "auto_gen": false,
+          "required": false,
+          "desc_key": "field_desc_quantity"
+        },
+        {
+          "field": "isDisable",
+          "label_key": "field_is_disable",
+          "field_type": "flag",
+          "is_flag": true,
+          "editable": false,
+          "auto_gen": false,
+          "required": true,
+          "default_value": false,
+          "desc_key": "field_desc_is_disable"
+        },
+        {
+          "field": "Brand",
+          "label_key": "field_brand",
+          "field_type": "text",
+          "is_flag": false,
+          "editable": true,
+          "auto_gen": false,
+          "required": false,
+          "desc_key": "field_desc_brand"
+        },
+        {
+          "field": "Model",
+          "label_key": "field_model",
+          "field_type": "text",
+          "is_flag": false,
+          "editable": true,
+          "auto_gen": false,
+          "required": false,
+          "desc_key": "field_desc_model"
+        },
+        {
+          "field": "SerialNo",
+          "label_key": "field_serial_no",
+          "field_type": "text",
+          "is_flag": false,
+          "editable": true,
+          "auto_gen": false,
+          "required": false,
+          "desc_key": "field_desc_serial_no"
+        },
+        {
+          "field": "Unit",
+          "label_key": "field_unit",
+          "field_type": "text",
+          "is_flag": false,
+          "editable": true,
+          "auto_gen": false,
+          "required": false,
+          "desc_key": "field_desc_unit"
+        },
+        {
+          "field": "Location",
+          "label_key": "field_location",
+          "field_type": "text",
+          "is_flag": false,
+          "editable": true,
+          "auto_gen": false,
+          "required": false,
+          "desc_key": "field_desc_location"
+        },
+        {
+          "field": "dimensions",
+          "label_key": "field_dimensions",
+          "field_type": "text",
+          "is_flag": false,
+          "editable": true,
+          "auto_gen": false,
+          "required": false,
+          "desc_key": "field_desc_dimensions"
+        },
+        {
+          "field": "Remark",
+          "label_key": "field_remark",
+          "field_type": "text",
+          "is_flag": false,
+          "editable": true,
+          "auto_gen": false,
+          "required": false,
+          "desc_key": "field_desc_remark"
+        }
+      ]
     }
   }
 }

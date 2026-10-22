@@ -1,6 +1,9 @@
 import sqlite3
+from collections.abc import Callable
 from pathlib import Path
-from typing import Any
+from typing import Any, TypeVar
+
+T = TypeVar("T")
 
 
 class SqliteStore:
@@ -38,3 +41,17 @@ class SqliteStore:
         if row is None:
             raise RuntimeError(f"Unable to count table: {table_name}")
         return int(row["cnt"])
+
+    def run_transaction(self, callback: Callable[[sqlite3.Connection], T]) -> T:
+        """Run callback inside BEGIN IMMEDIATE for unique TxId allocation."""
+        connection = self.connect()
+        try:
+            connection.execute("BEGIN IMMEDIATE")
+            result = callback(connection)
+            connection.commit()
+            return result
+        except Exception:
+            connection.rollback()
+            raise
+        finally:
+            connection.close()

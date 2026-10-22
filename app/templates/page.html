@@ -6,6 +6,9 @@
   <meta name="google" content="notranslate">
   <title>{{ window_title }}</title>
   <link rel="stylesheet" href="/static/css/app.css">
+  {% if table_ui %}
+  <link rel="stylesheet" href="/static/css/table_ui.css">
+  {% endif %}
   <style>
     :root {
       --app-font-family: "{{ font_css_family }}";
@@ -62,9 +65,11 @@
           </label>
         </div>
       </header>
-      <div class="content-body">
-        {% if settings_tabs %}
-        <div class="settings-tabs" id="settingsTabs">
+      <div class="content-body{% if table_ui %} content-body-table-ui{% endif %}">
+        {% if table_ui %}
+        <div id="tableUiRoot" class="tui-root" data-table-key="{{ table_ui.table_key }}"></div>
+        {% elif settings_tabs %}
+        <div class="settings-tabs{% if settings_tabs|length == 1 %} is-single{% endif %}" id="settingsTabs">
           {% for tab in settings_tabs %}
           <button
             type="button"
@@ -84,6 +89,9 @@
     </main>
   </div>
   <script src="/static/js/app.js"></script>
+  {% if table_ui %}
+  <script src="/static/js/table_ui.js"></script>
+  {% endif %}
   {% if settings_tabs %}
   <script src="/static/js/maint.js"></script>
   {% endif %}

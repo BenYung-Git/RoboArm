@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 from typing import Any
 
@@ -8,6 +9,7 @@ from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, Field
 
 from app.services.maint_service import MaintService
+from app.services.table_layout_service import TableLayoutService
 from app.services.ui_service import UiService
 from app.services.virtual_demo_service import VirtualDemoService
 
@@ -17,6 +19,7 @@ STATIC_DIR = BASE_DIR / "static"
 
 ui_service = UiService()
 maint_service = MaintService(ui_service)
+table_layout_service = TableLayoutService(ui_service, maint_service)
 virtual_demo_service = VirtualDemoService(ui_service)
 app = FastAPI(title=ui_service.config["app_name"])
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
@@ -80,6 +83,12 @@ class CompleteMotionPayload(BaseModel):
     motion_id: int | None = None
 
 
+class TableLayoutPayload(BaseModel):
+    zebra_enabled: bool = Field(...)
+    zebra_color: str = Field(...)
+    columns: list[dict[str, Any]] = Field(...)
+
+
 
 
 def render_menu_page(request: Request, menu_key: str) -> HTMLResponse:
@@ -131,6 +140,109 @@ def maint_meta(table_key: str) -> JSONResponse:
     except KeyError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
     except (ValueError, FileNotFoundError, RuntimeError) as exc:
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+@app.get("/api/table-ui/{table_key}/meta")
+def table_ui_meta(table_key: str) -> JSONResponse:
+    try:
+        return JSONResponse(maint_service.build_table_ui_meta(table_key))
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except (ValueError, FileNotFoundError, RuntimeError) as exc:
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+@app.get("/api/table-ui/{table_key}/next-txid")
+def table_ui_next_txid(table_key: str) -> JSONResponse:
+    try:
+        return JSONResponse({"next_txid": maint_service.peek_next_txid(table_key)})
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except (ValueError, FileNotFoundError, RuntimeError) as exc:
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+@app.get("/api/table-ui/{table_key}/layout")
+def table_ui_get_layout(table_key: str) -> JSONResponse:
+    try:
+        return JSONResponse(table_layout_service.ensure_table_layout(table_key))
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except (ValueError, FileNotFoundError, RuntimeError) as exc:
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+@app.put("/api/table-ui/{table_key}/layout")
+def table_ui_save_layout(table_key: str, body: TableLayoutPayload) -> JSONResponse:
+    try:
+        return JSONResponse(
+            table_layout_service.save_layout(
+                table_key,
+                {
+                    "zebra_enabled": body.zebra_enabled,
+                    "zebra_color": body.zebra_color,
+                    "columns": body.columns,
+                },
+            )
+        )
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except (FileNotFoundError, RuntimeError) as exc:
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+@app.get("/api/table-ui/{table_key}/rows")
+def table_ui_list_rows(
+    table_key: str,
+    search: str = "",
+    isDisable: str = "",
+    sort: str = "",
+) -> JSONResponse:
+    try:
+        layout = table_layout_service.ensure_table_layout(table_key)
+        table_def = maint_service.get_table_def(table_key)
+        flag_fields = {column["field"] for column in table_def["columns"] if column["is_flag"]}
+        search_fields = [
+            field for field in layout["list_fields"] if field not in flag_fields
+        ]
+        sort_specs: list[dict[str, str]] | None
+        if sort == "":
+            sort_specs = []
+            for column in layout["columns"]:
+                direction = column.get("sort_direction") or ""
+                if direction in ("asc", "desc"):
+                    sort_specs.append(
+                        {"field": column["field_key"], "dir": direction}
+                    )
+        else:
+            parsed = json.loads(sort)
+            if not isinstance(parsed, list):
+                raise ValueError("Invalid sort payload")
+            sort_specs = []
+            for item in parsed:
+                if not isinstance(item, dict):
+                    raise ValueError("Invalid sort item")
+                if "field" not in item or "dir" not in item:
+                    raise ValueError("Invalid sort item")
+                sort_specs.append({"field": str(item["field"]), "dir": str(item["dir"])})
+        rows = maint_service.list_rows(
+            table_key,
+            search=search if search != "" else None,
+            flag_filters={"isDisable": isDisable},
+            search_fields=search_fields,
+            sort_specs=sort_specs,
+        )
+        return JSONResponse({"rows": rows, "layout": layout})
+    except json.JSONDecodeError as exc:
+        raise HTTPException(status_code=400, detail="Invalid sort payload") from exc
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except (FileNotFoundError, RuntimeError) as exc:
         raise HTTPException(status_code=500, detail=str(exc)) from exc
 
 

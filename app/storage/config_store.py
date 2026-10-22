@@ -22,6 +22,8 @@ def load_app_config() -> dict[str, Any]:
         "seed_ui_text_path",
         "maint_tables_path",
         "settings_tabs_path",
+        "table_ui_hosts_path",
+        "zebra_colors_path",
         "virtual_demo_config_path",
         "virtual_demo_menu_key",
         "host",

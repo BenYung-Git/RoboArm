@@ -1,0 +1,25 @@
+{
+  "default_color_key": "light_blue",
+  "colors": [
+    {
+      "color_key": "light_blue",
+      "label_key": "table_ui_zebra_light_blue",
+      "css_value": "#dbeafe"
+    },
+    {
+      "color_key": "light_gray",
+      "label_key": "table_ui_zebra_light_gray",
+      "css_value": "#e5e7eb"
+    },
+    {
+      "color_key": "light_green",
+      "label_key": "table_ui_zebra_light_green",
+      "css_value": "#dcfce7"
+    },
+    {
+      "color_key": "light_yellow",
+      "label_key": "table_ui_zebra_light_yellow",
+      "css_value": "#fef9c3"
+    }
+  ]
+}

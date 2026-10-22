@@ -1,0 +1,432 @@
+.sidebar {
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.content-body-table-ui {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1;
+  padding: 16px 24px 24px;
+  overflow: hidden;
+}
+
+.content {
+  min-height: 100vh;
+}
+
+.tui-root {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 0;
+  flex: 1;
+  overflow: hidden;
+}
+
+.tui-tabbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+}
+
+.tui-tabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: nowrap;
+  min-width: 0;
+  overflow-x: auto;
+}
+
+.tui-tab {
+  border: 1px solid #9fb3c8;
+  background: #fff;
+  color: #1f2933;
+  padding: 8px 14px;
+  border-radius: 6px 6px 0 0;
+  cursor: pointer;
+}
+
+.tui-tab.is-active {
+  background: #2f6f8a;
+  border-color: #2f6f8a;
+  color: #fff;
+}
+
+.tui-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.tui-pos {
+  min-width: 4.5em;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.tui-icon-btn {
+  min-width: 36px;
+  height: 36px;
+  border: 1px solid #9fb3c8;
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 6px;
+  font-family: "Segoe UI Symbol", var(--app-font-family);
+  font-size: 1em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tui-icon-btn.tui-icon-search {
+  font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", "Segoe UI Symbol", var(--app-font-family);
+  font-size: 1.05em;
+}
+
+.tui-icon-btn:hover:not(:disabled) {
+  background: #e6eef4;
+}
+
+.tui-icon-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.tui-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.tui-toolbar-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.tui-search,
+.tui-filter {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tui-search-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tui-search input,
+.tui-filter select {
+  padding: 8px;
+  border: 1px solid #9fb3c8;
+  border-radius: 4px;
+  min-width: 160px;
+  background: #fff;
+}
+
+.tui-check-all {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.tui-check-count {
+  font-variant-numeric: tabular-nums;
+  min-width: 4.5em;
+}
+
+.tui-panel {
+  min-height: 0;
+  flex: 1;
+  overflow: auto;
+  background: #fff;
+  border: 1px solid #d9e2ec;
+  border-radius: 8px;
+}
+
+.tui-table-wrap {
+  overflow: auto;
+  max-height: 100%;
+}
+
+.tui-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  white-space: nowrap;
+}
+
+.tui-table th,
+.tui-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #e4e7eb;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.tui-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: #f0f4f8;
+}
+
+.tui-table.tui-data-table tbody tr td {
+  background-color: #ffffff;
+}
+
+.tui-table.tui-data-table.tui-zebra tbody tr:nth-child(even) td {
+  background-color: var(--zebra-color);
+}
+
+.tui-table.tui-data-table.tui-zebra tbody tr.is-current:nth-child(even) td {
+  background-color: #c6e0f5;
+}
+
+.tui-table.tui-layout-table.tui-zebra tbody tr td {
+  background-color: #ffffff;
+}
+
+.tui-table.tui-layout-table.tui-zebra tbody tr:nth-child(even) td {
+  background-color: var(--zebra-color);
+}
+
+.tui-layout-row2 select#tuiZebraColor option {
+  padding: 4px 8px;
+}
+
+.tui-sortable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.tui-layout-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tui-layout-row1,
+.tui-layout-row2,
+.tui-layout-row3 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.tui-layout-row1 .tui-edit-title,
+.tui-layout-row3 h4 {
+  margin: 0;
+}
+
+.tui-layout-table-name {
+  font-size: 0.95rem;
+  color: #334e68;
+}
+
+.tui-table-name-hl {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: #dbeafe;
+  color: #0b4f6c;
+  font-weight: 600;
+}
+
+.tui-layout-row2 {
+  justify-content: flex-start;
+}
+
+.tui-layout-zebra-label {
+  white-space: nowrap;
+  color: #334e68;
+}
+
+.tui-layout-row2 select#tuiZebraColor {
+  min-width: 10rem;
+}
+
+.tui-layout-row3 .tui-edit-toolbar {
+  margin: 0;
+}
+
+.tui-drag-cell {
+  cursor: grab;
+  color: #627d98;
+  width: 2em;
+}
+
+.tui-layout-row.is-visible td {
+  background: #f8fafc;
+}
+
+.tui-table tbody tr.is-current td {
+  outline: 1px solid #2f6f8a;
+  background-color: #c6e0f5;
+}
+
+.tui-table tbody tr {
+  cursor: pointer;
+}
+
+.tui-row-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.tui-status {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.tui-status.is-enabled {
+  color: #0f7b4a;
+  background: #e3f8ef;
+}
+
+.tui-status.is-disabled {
+  color: #9b1c1c;
+  background: #fde8e8;
+}
+
+.tui-edit-wrap {
+  padding: 16px;
+}
+
+.tui-edit-toolbar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.tui-edit-title {
+  margin: 0 0 12px;
+}
+
+.tui-disabled-banner {
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  background: #fde8e8;
+  color: #9b1c1c;
+  font-weight: 600;
+}
+
+.tui-edit-wrap.is-readonly {
+  background: #faf5f5;
+}
+
+.tui-form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 720px;
+}
+
+.tui-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tui-form-field input,
+.tui-form-field select {
+  padding: 8px;
+  border: 1px solid #9fb3c8;
+  border-radius: 4px;
+  background: #fff;
+}
+
+.tui-form-field input:disabled,
+.tui-form-field select:disabled {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.tui-required {
+  color: #b00020;
+  margin-left: 4px;
+}
+
+.tui-placeholder {
+  padding: 24px;
+  color: #627d98;
+}
+
+.tui-message {
+  min-height: 1.2em;
+  color: #334e68;
+  flex-shrink: 0;
+}
+
+.tui-message.is-error {
+  color: #b00020;
+}
+
+.tui-message.is-ok {
+  color: #0f7b4a;
+}
+
+.tui-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.tui-modal {
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  width: min(420px, calc(100vw - 32px));
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+
+.tui-modal p {
+  margin: 0 0 16px;
+}
+
+.tui-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.tui-modal-actions button {
+  padding: 8px 14px;
+  border: 1px solid #9fb3c8;
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.tui-modal-actions .tui-modal-save {
+  background: #2f6f8a;
+  border-color: #2f6f8a;
+  color: #fff;
+}

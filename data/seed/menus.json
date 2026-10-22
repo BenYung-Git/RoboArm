@@ -2,5 +2,6 @@
   {"menu_key": "dashboard", "route_path": "/page/dashboard", "sort_order": 1, "label_key": "menu_dashboard"},
   {"menu_key": "source_table", "route_path": "/page/source_table", "sort_order": 2, "label_key": "menu_source_table"},
   {"menu_key": "system_setting", "route_path": "/page/system_setting", "sort_order": 3, "label_key": "menu_system_setting"},
-  {"menu_key": "virtual_demo", "route_path": "/page/virtual_demo", "sort_order": 4, "label_key": "menu_virtual_demo"}
+  {"menu_key": "virtual_demo", "route_path": "/page/virtual_demo", "sort_order": 4, "label_key": "menu_virtual_demo"},
+  {"menu_key": "inventory", "route_path": "/page/inventory", "sort_order": 5, "label_key": "menu_inventory"}
 ]

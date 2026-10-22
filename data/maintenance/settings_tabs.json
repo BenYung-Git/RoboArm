@@ -1,10 +1,14 @@
 {
-  "host_menu_key": "system_setting",
-  "tabs": [
+  "hosts": [
     {
-      "tab_key": "ui_text",
-      "label_key": "tab_interface_text",
-      "table_key": "ui_text"
+      "host_menu_key": "system_setting",
+      "tabs": [
+        {
+          "tab_key": "ui_text",
+          "label_key": "tab_interface_text",
+          "table_key": "ui_text"
+        }
+      ]
     }
   ]
 }
