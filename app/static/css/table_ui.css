@@ -178,8 +178,14 @@
 .tui-table td {
   padding: 10px 12px;
   border-bottom: 1px solid #e4e7eb;
+  border-right: 1px solid #9fb3c8;
   text-align: left;
   vertical-align: middle;
+}
+
+.tui-table th:last-child,
+.tui-table td:last-child {
+  border-right: none;
 }
 
 .tui-table thead th {
@@ -189,16 +195,164 @@
   background: #f0f4f8;
 }
 
-.tui-table.tui-data-table tbody tr td {
+.tui-table.tui-data-table thead th {
+  border-right: 1px solid #9fb3c8;
+}
+
+.tui-btn-layout-save {
+  position: relative;
+  overflow: visible;
+}
+
+.tui-layout-save-main {
+  display: inline-block;
+  line-height: 1;
+}
+
+.tui-layout-save-badge {
+  position: absolute;
+  right: 1px;
+  bottom: 1px;
+  font-size: 0.55em;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.tui-layout-width {
+  width: 5.5rem;
+  padding: 6px 8px;
+  border: 1px solid #9fb3c8;
+  border-radius: 4px;
+}
+
+.tui-detail-root {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 0;
+  flex: 1;
+}
+
+.tui-table.tui-data-table tbody tr.tui-row > td {
   background-color: #ffffff;
 }
 
-.tui-table.tui-data-table.tui-zebra tbody tr:nth-child(even) td {
+.tui-table.tui-data-table.tui-zebra:not(.tui-has-expand) tbody tr.tui-row:nth-child(even) > td {
   background-color: var(--zebra-color);
 }
 
-.tui-table.tui-data-table.tui-zebra tbody tr.is-current:nth-child(even) td {
+.tui-table.tui-data-table.tui-zebra.tui-has-expand tbody tr.tui-row.tui-zebra-row > td {
+  background-color: var(--zebra-color);
+}
+
+.tui-table.tui-data-table.tui-zebra tbody tr.tui-row.is-current > td {
   background-color: #c6e0f5;
+}
+
+.tui-expand-col {
+  width: 28px;
+  min-width: 28px;
+  max-width: 28px;
+  padding: 0 2px !important;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.tui-expand-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 1;
+  padding: 4px 6px;
+  color: #4a5d73;
+}
+
+.tui-expand-btn:hover {
+  color: #1f3a56;
+}
+
+.tui-expand-row > td {
+  padding: 0 !important;
+  background: transparent !important;
+  border-bottom: 1px solid #9fb3c8;
+}
+
+.tui-expand-panel {
+  margin: 0 0 0 28px;
+  padding: 10px 12px 12px 14px;
+  background: #f3f6fa;
+  border-left: 3px solid #7a93ad;
+  box-sizing: border-box;
+}
+
+.tui-expand-host {
+  min-height: 48px;
+}
+
+.tui-expand-loading,
+.tui-expand-error {
+  padding: 8px 4px;
+  color: #4a5d73;
+  font-size: 13px;
+}
+
+.tui-expand-error {
+  color: #a33;
+}
+
+.tui-embedded {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.tui-embed-chrome {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 8px;
+  min-height: 32px;
+}
+
+.tui-embed-title {
+  font-weight: 600;
+  color: #243447;
+}
+
+.tui-embed-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.tui-embed-actions .tui-btn-layout-save,
+.tui-embed-actions .tui-btn-open-layout {
+  flex-shrink: 0;
+}
+
+.tui-embedded > .tui-tabbar {
+  margin-bottom: 6px;
+}
+
+.tui-embedded > .tui-tabbar .tui-nav {
+  display: none;
+}
+
+.tui-embed-add {
+  white-space: nowrap;
+}
+
+.tui-embedded .tui-panel {
+  background: transparent;
+  box-shadow: none;
+}
+
+.tui-embedded > .tui-toolbar {
+  display: none;
 }
 
 .tui-table.tui-layout-table.tui-zebra tbody tr td {
@@ -216,6 +370,47 @@
 .tui-sortable {
   cursor: pointer;
   user-select: none;
+}
+
+.tui-col-resizer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 6px;
+  height: 100%;
+  cursor: col-resize;
+  user-select: none;
+}
+
+.tui-ip-detect-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tui-ip-detect-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 180px;
+  overflow: auto;
+}
+
+.tui-ip-item {
+  text-align: left;
+  padding: 6px 10px;
+  border: 1px solid #9fb3c8;
+  border-radius: 4px;
+  background: #f8fafc;
+  cursor: pointer;
+}
+
+.tui-ip-item:hover {
+  background: #e8f1f8;
+}
+
+.tui-detect-ip-btn {
+  align-self: flex-start;
 }
 
 .tui-layout-wrap {
@@ -339,10 +534,10 @@
 }
 
 .tui-form-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  max-width: 720px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 16px;
+  max-width: 960px;
 }
 
 .tui-form-field {

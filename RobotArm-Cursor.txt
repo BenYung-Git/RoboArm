@@ -580,6 +580,15 @@ Visible = false：
 - [ ] 0 HardCode、0 fallback、不自行新增流程。
 - [ ] 所有 procedure 及功能共用及統一。
 
+規則：
+1. 按版面設定的 display_order 順序，讀取各欄 sort_direction。
+2. Asc／Desc 的欄位依次加入多欄排序。
+3. 「空」不加入排序條件。
+4. Drag／上移／下移改變排列並儲存後，List 欄位顯示次序及多欄排序優先次序同步跟隨。
+5. 點 List header 循環改變該欄排序方向時，保留其他欄位的方向，排序優先次序仍按版面設定，不按點擊先後。
+6. 不額外加入版面設定未指定的排序條件。
+7. 初始預設仍為 TxId DESC，其餘欄位為空；已有儲存設定則按設定套用。
+
 ## 十一、完成後回報
 
 請列出：
@@ -596,5 +605,62 @@ Visible = false：
 3. 隔行没有顯示顏色. 當隔行底色改變要即時顯示該顏色
 4. 列表改為 mouse double Click 才進入編輯頁. 其它不變
 5  "啟用間隔行底色" 改為 "啟用" 
+
+新增一個 menu "機械臂及電空櫃設定" 
+1.新增 設定資料表
+2. 介面及功能跟 存貨管理為準則.
+請回覆 
+ 
+1.新增 分類資料表
+2. tab header "分類表"
+3. 介面及功能跟 存貨管理為準則.
+
+新增一個 menu "產品/組合設定" 
+1. 新增 有關資料表 (header & Item)
+2. 介面及功能跟 存貨管理為準則.
+3. Item 介面先由你設計. 但item 要加一個 ItemId defaul =1.0 但不是 integer 需是 1.1 要有一個小數位)
+   ItemId 自動新增 last ItemId +1/+0.1 (例如 last ItemId =1.0 新增=2.0, 如 =1.1 新增= 1.2)
+4. 這個 ItemId 是做 default sorting Asc. TxId 仍存在. 但不是 default sort field
+5. 其它 default Field 都跟要求設定不變 (如 isDisable)
+6. Item Qty default =1
+請回覆我的要求
+
+
+
+請再交完整給 cursor 優化
+
+新增存貨 data from robot_setting.yaml
+1.新增 英文名稱
+2."存放位置" ="坪輋第三倉"
+3.來源檔 "MasterUi/robot_setting.yaml"
+請交文件 Cursor 編寫
+
+1. 暫時所有 fields 都不是必需填
+2. Connect 是 real. 暫時要偵查到network 所有的IP
+3. 暫時没有
+4. 對 只完成 "機械臂及電空櫃設定"
+請回覆
+
+版面設定優化
+1. 版面設定的 icon 改為  Tips = "儲存版面設定" 
+   意思係我改完 欄位闊度. 按這個 icon 直接儲存, 不需reconfirm
+2. 版面設定也要顯示 "欄寬"
+3. list Header 可否有隔線. 就像 current record 顯示方式. 
+4. Multi Select 好像没有 "欄寬"
+5. TxId 改變 "欄寬" 但會自動回覆 (即不能改) 
+
+
+item UI 優化.
+1. item 搜尋列全部功能不要.
+2. item "版面設定儲存" icon 放在 新增設備左邊. 功能保留.
+3. item 要加 "版面設定" icon. 功能和 List 一樣
+4. item double click 直接去 編輯頁
+1 - 3 已完成
+
+請回覆
+   
+  
+   
+
 
 

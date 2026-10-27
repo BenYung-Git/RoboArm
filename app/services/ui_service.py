@@ -6,13 +6,28 @@ from app.storage.sqlite_store import SqliteStore
 
 
 class UiService:
-    def __init__(self) -> None:
-        self.config = load_app_config()
+    def __init__(
+        self,
+        sqlite_path: str | None = None,
+        config: dict[str, Any] | None = None,
+    ) -> None:
+        if config is not None:
+            self.config = config
+        else:
+            self.config = load_app_config()
         if self.config["default_storage"] != "sqlite3":
             raise ValueError(
                 f"Unsupported default_storage: {self.config['default_storage']}"
             )
-        self.store = SqliteStore(resolve_path(self.config["sqlite_path"]))
+        if sqlite_path is not None:
+            if str(sqlite_path).strip() == "":
+                raise ValueError("sqlite_path must not be empty")
+            db_path = resolve_path(sqlite_path)
+        else:
+            if "sqlite_path" not in self.config:
+                raise KeyError("Missing app config key: sqlite_path")
+            db_path = resolve_path(self.config["sqlite_path"])
+        self.store = SqliteStore(db_path)
         self.fonts_path = resolve_path(self.config["fonts_json_path"])
         self.prefs_path = resolve_path(self.config["prefs_json_path"])
         self.ensure_schema()
@@ -53,6 +68,28 @@ class UiService:
         )
         self.ensure_ui_text_schema()
         self.ensure_inventory_schema()
+        self.ensure_categories_schema()
+        self.ensure_equipment_settings_schema()
+        self.ensure_product_combinations_schema()
+        self.ensure_product_combination_items_schema()
+
+    def ensure_categories_schema(self) -> None:
+        """Idempotent categories table create (shared TxId / isDisable / Remark)."""
+        self.store.execute(
+            """
+            CREATE TABLE IF NOT EXISTS categories (
+                TxId INTEGER PRIMARY KEY,
+                CategoryGroup TEXT NOT NULL,
+                CategoryCode TEXT NOT NULL,
+                zh_TW TEXT NOT NULL,
+                en TEXT NOT NULL,
+                zh_CN TEXT NOT NULL,
+                isDisable INTEGER NOT NULL DEFAULT 0,
+                Remark TEXT NOT NULL DEFAULT '',
+                UNIQUE (CategoryGroup, CategoryCode)
+            )
+            """
+        )
 
     def ensure_inventory_schema(self) -> None:
         """Idempotent inventory table create (common TxId / isDisable / Remark)."""
@@ -62,7 +99,8 @@ class UiService:
                 TxId INTEGER PRIMARY KEY,
                 ItemCode TEXT NOT NULL DEFAULT '',
                 ItemName TEXT NOT NULL,
-                Category TEXT NOT NULL DEFAULT '',
+                ItemNameEn TEXT NOT NULL,
+                Category INTEGER NOT NULL,
                 Brand TEXT NOT NULL DEFAULT '',
                 Model TEXT NOT NULL DEFAULT '',
                 SerialNo TEXT NOT NULL DEFAULT '',
@@ -70,8 +108,80 @@ class UiService:
                 Unit TEXT NOT NULL DEFAULT '',
                 Location TEXT NOT NULL DEFAULT '',
                 dimensions TEXT NOT NULL DEFAULT '',
+                version_scb TEXT,
+                version_controller TEXT,
+                version_servo TEXT,
                 isDisable INTEGER NOT NULL DEFAULT 0,
                 Remark TEXT NOT NULL DEFAULT ''
+            )
+            """
+        )
+        columns = self.table_column_names("inventory")
+        for field in ("version_scb", "version_controller", "version_servo"):
+            if field not in columns:
+                self.store.execute(
+                    f"ALTER TABLE inventory ADD COLUMN {field} TEXT"
+                )
+
+    def ensure_equipment_settings_schema(self) -> None:
+        """Idempotent equipment_settings table create."""
+        self.store.execute(
+            """
+            CREATE TABLE IF NOT EXISTS equipment_settings (
+                TxId INTEGER PRIMARY KEY,
+                EquipmentTxId INTEGER NOT NULL UNIQUE,
+                SiteNo TEXT,
+                SiteName TEXT,
+                IpAddress TEXT,
+                Port INTEGER,
+                ConnectionMode TEXT,
+                ControllerVersion TEXT,
+                ServoVersion TEXT,
+                ScbVersion TEXT,
+                PayloadKg REAL,
+                Remark TEXT,
+                isDisable INTEGER NOT NULL DEFAULT 0,
+                CreatedAt TEXT,
+                UpdatedAt TEXT
+            )
+            """
+        )
+
+    def ensure_product_combinations_schema(self) -> None:
+        """Idempotent product_combinations table create."""
+        self.store.execute(
+            """
+            CREATE TABLE IF NOT EXISTS product_combinations (
+                TxId INTEGER PRIMARY KEY,
+                CombinationCode TEXT NOT NULL UNIQUE,
+                CombinationName TEXT NOT NULL,
+                CombinationNameEn TEXT,
+                Description TEXT,
+                Remark TEXT,
+                isDisable INTEGER NOT NULL DEFAULT 0,
+                CreatedAt TEXT,
+                UpdatedAt TEXT
+            )
+            """
+        )
+
+    def ensure_product_combination_items_schema(self) -> None:
+        """Idempotent product_combination_items table create."""
+        self.store.execute(
+            """
+            CREATE TABLE IF NOT EXISTS product_combination_items (
+                TxId INTEGER PRIMARY KEY,
+                CombinationTxId INTEGER NOT NULL,
+                ItemId REAL NOT NULL,
+                EquipmentTxId INTEGER NOT NULL,
+                ItemRole TEXT,
+                Qty INTEGER NOT NULL DEFAULT 1,
+                Remark TEXT,
+                isDisable INTEGER NOT NULL DEFAULT 0,
+                CreatedAt TEXT,
+                UpdatedAt TEXT,
+                UNIQUE (CombinationTxId, EquipmentTxId),
+                UNIQUE (CombinationTxId, ItemId)
             )
             """
         )
@@ -411,15 +521,44 @@ class UiService:
             raise KeyError("Missing table_ui_hosts key: hosts")
         return data
 
-    def get_table_ui_for_menu(self, menu_key: str) -> dict[str, str] | None:
+    def get_table_ui_for_menu(
+        self, menu_key: str, language: str | None = None
+    ) -> dict[str, Any] | None:
+        lang = language if language is not None else self.get_prefs()["language"]
         for host in self.get_table_ui_hosts_config()["hosts"]:
             if host.get("menu_key") != menu_key:
                 continue
+            if "tabs" in host:
+                tabs_config = host["tabs"]
+                if not isinstance(tabs_config, list) or not tabs_config:
+                    raise KeyError(
+                        f"table_ui host tabs must be a non-empty list: {menu_key}"
+                    )
+                tabs = []
+                for tab in tabs_config:
+                    for key in ("tab_key", "table_key", "label_key"):
+                        if key not in tab:
+                            raise KeyError(
+                                f"Missing table_ui tab key {key} for menu: {menu_key}"
+                            )
+                    tabs.append(
+                        {
+                            "tab_key": tab["tab_key"],
+                            "table_key": tab["table_key"],
+                            "label": self.t(tab["label_key"], lang),
+                        }
+                    )
+                return {
+                    "menu_key": host["menu_key"],
+                    "table_key": tabs[0]["table_key"],
+                    "tabs": tabs,
+                }
             if "table_key" not in host:
                 raise KeyError(f"Missing table_ui host table_key for menu: {menu_key}")
             return {
                 "menu_key": host["menu_key"],
                 "table_key": host["table_key"],
+                "tabs": [],
             }
         return None
 
@@ -431,7 +570,7 @@ class UiService:
         def translate(text_key: str) -> str:
             return self.t(text_key, language)
 
-        table_ui = self.get_table_ui_for_menu(menu_key)
+        table_ui = self.get_table_ui_for_menu(menu_key, language)
         settings_tabs = []
         if table_ui is None:
             settings_tabs = self.get_maint_tabs_for_menu(menu_key, language)

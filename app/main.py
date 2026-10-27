@@ -9,6 +9,7 @@ from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, Field
 
 from app.services.maint_service import MaintService
+from app.services.network_ip_service import detect_network_ips
 from app.services.table_layout_service import TableLayoutService
 from app.services.ui_service import UiService
 from app.services.virtual_demo_service import VirtualDemoService
@@ -153,6 +154,14 @@ def table_ui_meta(table_key: str) -> JSONResponse:
         raise HTTPException(status_code=500, detail=str(exc)) from exc
 
 
+@app.get("/api/network/ipv4-detect")
+def network_ipv4_detect() -> JSONResponse:
+    try:
+        return JSONResponse({"items": detect_network_ips()})
+    except RuntimeError as exc:
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
 @app.get("/api/table-ui/{table_key}/next-txid")
 def table_ui_next_txid(table_key: str) -> JSONResponse:
     try:
@@ -160,6 +169,25 @@ def table_ui_next_txid(table_key: str) -> JSONResponse:
     except KeyError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
     except (ValueError, FileNotFoundError, RuntimeError) as exc:
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+@app.get("/api/table-ui/{table_key}/peek-auto/{field}")
+def table_ui_peek_auto(table_key: str, field: str, scope_value: str) -> JSONResponse:
+    try:
+        return JSONResponse(
+            {
+                "field": field,
+                "value": maint_service.peek_auto_gen_value(
+                    table_key, field, scope_value
+                ),
+            }
+        )
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except (FileNotFoundError, RuntimeError) as exc:
         raise HTTPException(status_code=500, detail=str(exc)) from exc
 
 
@@ -200,18 +228,35 @@ def table_ui_list_rows(
     search: str = "",
     isDisable: str = "",
     sort: str = "",
+    filter_field: str = "",
+    filter_value: str = "",
 ) -> JSONResponse:
     try:
         layout = table_layout_service.ensure_table_layout(table_key)
         table_def = maint_service.get_table_def(table_key)
         flag_fields = {column["field"] for column in table_def["columns"] if column["is_flag"]}
         search_fields = [
-            field for field in layout["list_fields"] if field not in flag_fields
+            field
+            for field in layout["list_fields"]
+            if field not in flag_fields
+            and next(
+                (
+                    col
+                    for col in table_def["columns"]
+                    if col["field"] == field
+                    and col.get("db_persist", True) is not False
+                    and col["field_type"] != "display"
+                ),
+                None,
+            )
+            is not None
         ]
         sort_specs: list[dict[str, str]] | None
         if sort == "":
             sort_specs = []
             for column in layout["columns"]:
+                if column.get("is_system"):
+                    continue
                 direction = column.get("sort_direction") or ""
                 if direction in ("asc", "desc"):
                     sort_specs.append(
@@ -228,12 +273,18 @@ def table_ui_list_rows(
                 if "field" not in item or "dir" not in item:
                     raise ValueError("Invalid sort item")
                 sort_specs.append({"field": str(item["field"]), "dir": str(item["dir"])})
+        eq_filters: dict[str, Any] | None = None
+        if filter_field != "" or filter_value != "":
+            if filter_field == "" or filter_value == "":
+                raise ValueError("filter_field and filter_value must both be set")
+            eq_filters = {filter_field: filter_value}
         rows = maint_service.list_rows(
             table_key,
             search=search if search != "" else None,
             flag_filters={"isDisable": isDisable},
             search_fields=search_fields,
             sort_specs=sort_specs,
+            eq_filters=eq_filters,
         )
         return JSONResponse({"rows": rows, "layout": layout})
     except json.JSONDecodeError as exc:

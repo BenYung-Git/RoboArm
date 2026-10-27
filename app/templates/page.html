@@ -7,7 +7,7 @@
   <title>{{ window_title }}</title>
   <link rel="stylesheet" href="/static/css/app.css">
   {% if table_ui %}
-  <link rel="stylesheet" href="/static/css/table_ui.css">
+  <link rel="stylesheet" href="/static/css/table_ui.css?v=edit_form_2col1">
   {% endif %}
   <style>
     :root {
@@ -67,6 +67,18 @@
       </header>
       <div class="content-body{% if table_ui %} content-body-table-ui{% endif %}">
         {% if table_ui %}
+        {% if table_ui.tabs and table_ui.tabs|length > 0 %}
+        <div class="settings-tabs" id="tableUiHostTabs">
+          {% for tab in table_ui.tabs %}
+          <button
+            type="button"
+            class="settings-tab{% if loop.first %} active{% endif %}"
+            data-tab-key="{{ tab.tab_key }}"
+            data-table-key="{{ tab.table_key }}"
+          >{{ tab.label }}</button>
+          {% endfor %}
+        </div>
+        {% endif %}
         <div id="tableUiRoot" class="tui-root" data-table-key="{{ table_ui.table_key }}"></div>
         {% elif settings_tabs %}
         <div class="settings-tabs{% if settings_tabs|length == 1 %} is-single{% endif %}" id="settingsTabs">
@@ -90,7 +102,7 @@
   </div>
   <script src="/static/js/app.js"></script>
   {% if table_ui %}
-  <script src="/static/js/table_ui.js"></script>
+  <script src="/static/js/table_ui.js?v=embed_row_dblclick1"></script>
   {% endif %}
   {% if settings_tabs %}
   <script src="/static/js/maint.js"></script>
