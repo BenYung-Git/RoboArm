@@ -5,10 +5,6 @@
       "table_key": "inventory"
     },
     {
-      "menu_key": "equipment_settings",
-      "table_key": "equipment_settings"
-    },
-    {
       "menu_key": "product_combinations",
       "table_key": "product_combinations"
     },

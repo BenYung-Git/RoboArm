@@ -1,315 +1,1874 @@
 [
-  {"text_key": "menu_dashboard", "zh_TW": "主頁", "en": "Dashboard", "zh_CN": "主页"},
-  {"text_key": "menu_source_table", "zh_TW": "來源資料表", "en": "Source Table", "zh_CN": "来源数据表"},
-  {"text_key": "menu_system_setting", "zh_TW": "系統設定", "en": "System Setting", "zh_CN": "系统设置"},
-  {"text_key": "menu_virtual_demo", "zh_TW": "虛擬測試", "en": "Virtual Demo", "zh_CN": "虚拟测试"},
-  {"text_key": "menu_inventory", "zh_TW": "存貨管理", "en": "Inventory", "zh_CN": "存货管理"},
-  {"text_key": "menu_equipment_settings", "zh_TW": "機械臂及電控櫃設定", "en": "Robot Arm & Control Cabinet Settings", "zh_CN": "机械臂及电控柜设置"},
-  {"text_key": "menu_product_combinations", "zh_TW": "產品／組合設定", "en": "Product / Combination Settings", "zh_CN": "产品／组合设置"},
-  {"text_key": "maint_table_product_combinations", "zh_TW": "產品／組合設定", "en": "Product / Combination Settings", "zh_CN": "产品／组合设置"},
-  {"text_key": "maint_table_product_combination_items", "zh_TW": "組合設備", "en": "Combination Items", "zh_CN": "组合设备"},
-  {"text_key": "table_ui_tab_combination_items", "zh_TW": "組合設備", "en": "Combination Items", "zh_CN": "组合设备"},
-  {"text_key": "table_ui_msg_select_combination_first", "zh_TW": "請先選擇產品／組合。", "en": "Please select a product / combination first.", "zh_CN": "请先选择产品／组合。"},
-  {"text_key": "table_ui_btn_add_detail_item", "zh_TW": "＋新增設備", "en": "+ Add Equipment", "zh_CN": "＋新增设备"},
-  {"text_key": "table_ui_icon_expand_collapsed", "zh_TW": "▸", "en": "▸", "zh_CN": "▸"},
-  {"text_key": "table_ui_icon_expand_expanded", "zh_TW": "▾", "en": "▾", "zh_CN": "▾"},
-  {"text_key": "table_ui_tip_expand_row", "zh_TW": "展開明細", "en": "Expand detail", "zh_CN": "展开明细"},
-  {"text_key": "table_ui_tip_collapse_row", "zh_TW": "收合明細", "en": "Collapse detail", "zh_CN": "收合明细"},
-  {"text_key": "table_ui_msg_detail_loading", "zh_TW": "載入明細中…", "en": "Loading detail…", "zh_CN": "加载明细中…"},
-  {"text_key": "table_ui_msg_detail_load_failed", "zh_TW": "載入明細失敗。", "en": "Failed to load detail.", "zh_CN": "加载明细失败。"},
-  {"text_key": "field_combination_code", "zh_TW": "組合代號", "en": "Combination Code", "zh_CN": "组合代号"},
-  {"text_key": "field_combination_name", "zh_TW": "組合名稱", "en": "Combination Name", "zh_CN": "组合名称"},
-  {"text_key": "field_combination_name_en", "zh_TW": "英文名稱", "en": "English Name", "zh_CN": "英文名称"},
-  {"text_key": "field_description", "zh_TW": "說明", "en": "Description", "zh_CN": "说明"},
-  {"text_key": "field_combination_txid", "zh_TW": "組合", "en": "Combination", "zh_CN": "组合"},
-  {"text_key": "field_item_id", "zh_TW": "Item ID", "en": "Item ID", "zh_CN": "Item ID"},
-  {"text_key": "field_item_role", "zh_TW": "用途", "en": "Item Role", "zh_CN": "用途"},
-  {"text_key": "field_qty", "zh_TW": "數量", "en": "Qty", "zh_CN": "数量"},
-  {"text_key": "field_equipment_category", "zh_TW": "設備類別", "en": "Equipment Category", "zh_CN": "设备类别"},
-  {"text_key": "field_desc_combination_code", "zh_TW": "組合代號（唯一）", "en": "Unique combination code", "zh_CN": "组合代号（唯一）"},
-  {"text_key": "field_desc_combination_name", "zh_TW": "組合名稱", "en": "Combination name", "zh_CN": "组合名称"},
-  {"text_key": "field_desc_combination_name_en", "zh_TW": "組合英文名稱", "en": "Combination English name", "zh_CN": "组合英文名称"},
-  {"text_key": "field_desc_description", "zh_TW": "說明", "en": "Description", "zh_CN": "说明"},
-  {"text_key": "field_desc_combination_txid", "zh_TW": "所屬產品／組合", "en": "Parent product / combination", "zh_CN": "所属产品／组合"},
-  {"text_key": "field_desc_item_id", "zh_TW": "組合內項目編號", "en": "Item number within combination", "zh_CN": "组合内项目编号"},
-  {"text_key": "field_desc_item_role", "zh_TW": "設備在組合中的用途", "en": "Equipment role in combination", "zh_CN": "设备在组合中的用途"},
-  {"text_key": "field_desc_qty", "zh_TW": "數量", "en": "Quantity", "zh_CN": "数量"},
-  {"text_key": "field_desc_equipment_category", "zh_TW": "由存貨分類顯示", "en": "Shown from inventory category", "zh_CN": "由存货分类显示"},
-  {"text_key": "maint_table_equipment_settings", "zh_TW": "機械臂及電控櫃設定", "en": "Equipment Settings", "zh_CN": "机械臂及电控柜设置"},
-  {"text_key": "field_equipment_txid", "zh_TW": "設備", "en": "Equipment", "zh_CN": "设备"},
-  {"text_key": "field_site_no", "zh_TW": "站號", "en": "Site No.", "zh_CN": "站号"},
-  {"text_key": "field_site_name", "zh_TW": "站名", "en": "Site Name", "zh_CN": "站名"},
-  {"text_key": "field_ip_address", "zh_TW": "IP 位址", "en": "IP Address", "zh_CN": "IP 地址"},
-  {"text_key": "field_port", "zh_TW": "連接埠", "en": "Port", "zh_CN": "端口"},
-  {"text_key": "field_connection_mode", "zh_TW": "連線模式", "en": "Connection Mode", "zh_CN": "连接模式"},
-  {"text_key": "field_controller_version", "zh_TW": "控制器版本", "en": "Controller Version", "zh_CN": "控制器版本"},
-  {"text_key": "field_servo_version", "zh_TW": "伺服版本", "en": "Servo Version", "zh_CN": "伺服版本"},
-  {"text_key": "field_scb_version", "zh_TW": "SCB 版本", "en": "SCB Version", "zh_CN": "SCB 版本"},
-  {"text_key": "field_payload_kg", "zh_TW": "負載 (kg)", "en": "Payload (kg)", "zh_CN": "负载 (kg)"},
-  {"text_key": "field_created_at", "zh_TW": "建立時間", "en": "Created At", "zh_CN": "创建时间"},
-  {"text_key": "field_updated_at", "zh_TW": "更新時間", "en": "Updated At", "zh_CN": "更新时间"},
-  {"text_key": "field_desc_equipment_txid", "zh_TW": "關聯存貨設備", "en": "Linked inventory equipment", "zh_CN": "关联存货设备"},
-  {"text_key": "field_desc_site_no", "zh_TW": "站號", "en": "Site number", "zh_CN": "站号"},
-  {"text_key": "field_desc_site_name", "zh_TW": "站名", "en": "Site name", "zh_CN": "站名"},
-  {"text_key": "field_desc_ip_address", "zh_TW": "設備 IP 位址", "en": "Equipment IP address", "zh_CN": "设备 IP 地址"},
-  {"text_key": "field_desc_port", "zh_TW": "連接埠", "en": "Port number", "zh_CN": "端口"},
-  {"text_key": "field_desc_connection_mode", "zh_TW": "連線模式", "en": "Connection mode", "zh_CN": "连接模式"},
-  {"text_key": "field_desc_controller_version", "zh_TW": "控制器版本", "en": "Controller version", "zh_CN": "控制器版本"},
-  {"text_key": "field_desc_servo_version", "zh_TW": "伺服版本", "en": "Servo version", "zh_CN": "伺服版本"},
-  {"text_key": "field_desc_scb_version", "zh_TW": "SCB 版本", "en": "SCB version", "zh_CN": "SCB 版本"},
-  {"text_key": "field_desc_payload_kg", "zh_TW": "負載公斤數", "en": "Payload in kilograms", "zh_CN": "负载公斤数"},
-  {"text_key": "field_desc_created_at", "zh_TW": "建立時間", "en": "Created timestamp", "zh_CN": "创建时间"},
-  {"text_key": "field_desc_updated_at", "zh_TW": "更新時間", "en": "Updated timestamp", "zh_CN": "更新时间"},
-  {"text_key": "table_ui_btn_detect_network_ip", "zh_TW": "偵測網絡 IP", "en": "Detect Network IP", "zh_CN": "检测网络 IP"},
-  {"text_key": "table_ui_msg_detect_network_ip_empty", "zh_TW": "未偵測到可用 IP。", "en": "No IP addresses detected.", "zh_CN": "未检测到可用 IP。"},
-  {"text_key": "table_ui_label_ip_source_local", "zh_TW": "本機", "en": "Local", "zh_CN": "本机"},
-  {"text_key": "table_ui_label_ip_source_neighbor", "zh_TW": "鄰居", "en": "Neighbor", "zh_CN": "邻居"},
-  {"text_key": "lang_zh_TW", "zh_TW": "繁體中文", "en": "Traditional Chinese", "zh_CN": "繁体中文"},
-  {"text_key": "lang_en", "zh_TW": "英文", "en": "English", "zh_CN": "英文"},
-  {"text_key": "lang_zh_CN", "zh_TW": "簡體中文", "en": "Simplified Chinese", "zh_CN": "简体中文"},
-  {"text_key": "label_language", "zh_TW": "語言", "en": "Language", "zh_CN": "语言"},
-  {"text_key": "label_font", "zh_TW": "字型", "en": "Font", "zh_CN": "字体"},
-  {"text_key": "label_font_size", "zh_TW": "字級", "en": "Font Size", "zh_CN": "字号"},
-  {"text_key": "font_name_dfkai_sb", "zh_TW": "標楷體 (DFKai-SB)", "en": "DFKai-SB", "zh_CN": "标楷体 (DFKai-SB)"},
-  {"text_key": "font_name_pmingliu", "zh_TW": "新細明體 (PMingLiU)", "en": "PMingLiU", "zh_CN": "新细明体 (PMingLiU)"},
-  {"text_key": "font_name_jhenghei", "zh_TW": "微軟正黑體", "en": "Microsoft JhengHei", "zh_CN": "微软正黑体"},
-  {"text_key": "font_name_yahei", "zh_TW": "微軟雅黑", "en": "Microsoft YaHei", "zh_CN": "微软雅黑"},
-  {"text_key": "font_name_noto_sans", "zh_TW": "Noto Sans TC", "en": "Noto Sans TC", "zh_CN": "Noto Sans SC"},
-  {"text_key": "font_name_arial", "zh_TW": "Arial", "en": "Arial", "zh_CN": "Arial"},
-  {"text_key": "font_name_times", "zh_TW": "Times New Roman", "en": "Times New Roman", "zh_CN": "Times New Roman"},
-  {"text_key": "label_program_version", "zh_TW": "程式版本", "en": "Version", "zh_CN": "程序版本"},
-  {"text_key": "sidebar_toggle", "zh_TW": "切換選單", "en": "Toggle menu", "zh_CN": "切换菜单"},
-  {"text_key": "page_placeholder", "zh_TW": "此頁面暫無功能。", "en": "This page has no function yet.", "zh_CN": "此页面暂无功能。"},
-  {"text_key": "tab_interface_text", "zh_TW": "介面文字", "en": "Interface Text", "zh_CN": "界面文字"},
-  {"text_key": "tab_categories", "zh_TW": "分類表", "en": "Categories", "zh_CN": "分类表"},
-  {"text_key": "maint_table_ui_text", "zh_TW": "介面文字", "en": "Interface Text", "zh_CN": "界面文字"},
-  {"text_key": "maint_table_categories", "zh_TW": "分類", "en": "Category", "zh_CN": "分类"},
-  {"text_key": "field_category_group", "zh_TW": "適用資料表", "en": "Table Group", "zh_CN": "适用数据表"},
-  {"text_key": "field_category_code", "zh_TW": "分類代碼", "en": "Category Code", "zh_CN": "分类代码"},
-  {"text_key": "field_sort_order", "zh_TW": "排序", "en": "Sort Order", "zh_CN": "排序"},
-  {"text_key": "field_desc_category_group", "zh_TW": "分類適用的業務資料表", "en": "Business table for this category", "zh_CN": "分类适用的业务数据表"},
-  {"text_key": "field_desc_category_code", "zh_TW": "同一適用資料表內不可重複的分類代碼", "en": "Unique category code within the table group", "zh_CN": "同一适用数据表内不可重复的分类代码"},
-  {"text_key": "field_desc_category_name_zh_TW", "zh_TW": "分類名稱（繁體中文）", "en": "Category name (Traditional Chinese)", "zh_CN": "分类名称（繁体中文）"},
-  {"text_key": "field_desc_category_name_en", "zh_TW": "分類名稱（英文）", "en": "Category name (English)", "zh_CN": "分类名称（英文）"},
-  {"text_key": "field_desc_category_name_zh_CN", "zh_TW": "分類名稱（簡體中文）", "en": "Category name (Simplified Chinese)", "zh_CN": "分类名称（简体中文）"},
-  {"text_key": "field_desc_sort_order", "zh_TW": "列表與下拉的排序值（整數，必填）", "en": "Sort value for list and dropdown (required integer)", "zh_CN": "列表与下拉的排序值（整数，必填）"},
-  {"text_key": "field_txid", "zh_TW": "TxId", "en": "TxId", "zh_CN": "TxId"},
-  {"text_key": "field_text_key", "zh_TW": "文字鍵", "en": "Text Key", "zh_CN": "文字键"},
-  {"text_key": "field_zh_TW", "zh_TW": "繁體中文", "en": "Traditional Chinese", "zh_CN": "繁体中文"},
-  {"text_key": "field_en", "zh_TW": "英文", "en": "English", "zh_CN": "英文"},
-  {"text_key": "field_zh_CN", "zh_TW": "簡體中文", "en": "Simplified Chinese", "zh_CN": "简体中文"},
-  {"text_key": "field_is_disable", "zh_TW": "狀態", "en": "Status", "zh_CN": "状态"},
-  {"text_key": "maint_label_search", "zh_TW": "搜尋", "en": "Search", "zh_CN": "搜索"},
-  {"text_key": "maint_filter_all", "zh_TW": "全部", "en": "All", "zh_CN": "全部"},
-  {"text_key": "maint_status_enabled", "zh_TW": "生效", "en": "Enabled", "zh_CN": "生效"},
-  {"text_key": "maint_status_disabled", "zh_TW": "失效", "en": "Disabled", "zh_CN": "失效"},
-  {"text_key": "maint_tip_add", "zh_TW": "新增", "en": "Add", "zh_CN": "新增"},
-  {"text_key": "maint_tip_edit", "zh_TW": "編輯", "en": "Edit", "zh_CN": "编辑"},
-  {"text_key": "maint_tip_disable", "zh_TW": "失效", "en": "Disable", "zh_CN": "失效"},
-  {"text_key": "maint_tip_enable", "zh_TW": "生效", "en": "Enable", "zh_CN": "生效"},
-  {"text_key": "maint_tip_save", "zh_TW": "儲存", "en": "Save", "zh_CN": "保存"},
-  {"text_key": "maint_tip_cancel", "zh_TW": "取消", "en": "Cancel", "zh_CN": "取消"},
-  {"text_key": "maint_label_actions", "zh_TW": "操作", "en": "Actions", "zh_CN": "操作"},
-  {"text_key": "maint_form_add", "zh_TW": "新增資料", "en": "Add Record", "zh_CN": "新增数据"},
-  {"text_key": "maint_form_edit", "zh_TW": "編輯資料", "en": "Edit Record", "zh_CN": "编辑数据"},
-  {"text_key": "maint_icon_add", "zh_TW": "＋", "en": "+", "zh_CN": "＋"},
-  {"text_key": "maint_icon_edit", "zh_TW": "✎", "en": "✎", "zh_CN": "✎"},
-  {"text_key": "maint_icon_disable", "zh_TW": "⊘", "en": "⊘", "zh_CN": "⊘"},
-  {"text_key": "maint_icon_enable", "zh_TW": "✓", "en": "✓", "zh_CN": "✓"},
-  {"text_key": "maint_icon_save", "zh_TW": "💾", "en": "💾", "zh_CN": "💾"},
-  {"text_key": "maint_icon_cancel", "zh_TW": "✕", "en": "✕", "zh_CN": "✕"},
-  {"text_key": "maint_icon_copy", "zh_TW": "⧉", "en": "⧉", "zh_CN": "⧉"},
-  {"text_key": "maint_tip_copy", "zh_TW": "復制", "en": "Copy", "zh_CN": "复制"},
-  {"text_key": "maint_form_copy", "zh_TW": "復制新增", "en": "Copy as New", "zh_CN": "复制新增"},
-  {"text_key": "maint_form_view", "zh_TW": "資料詳情", "en": "Record Detail", "zh_CN": "资料详情"},
-  {"text_key": "maint_confirm_disable", "zh_TW": "確定將此筆資料設為失效？", "en": "Disable this record?", "zh_CN": "确定将此笔资料设为失效？"},
-  {"text_key": "maint_confirm_enable", "zh_TW": "確定將此筆資料恢復生效？", "en": "Enable this record?", "zh_CN": "确定将此笔资料恢复生效？"},
-  {"text_key": "maint_confirm_discard", "zh_TW": "有未儲存變更，確定放棄？", "en": "Discard unsaved changes?", "zh_CN": "有未保存变更，确定放弃？"},
-  {"text_key": "maint_msg_select_row", "zh_TW": "請先選取一筆資料。", "en": "Select a record first.", "zh_CN": "请先选取一笔资料。"},
-  {"text_key": "maint_msg_save_ok", "zh_TW": "已儲存。", "en": "Saved.", "zh_CN": "已保存。"},
-  {"text_key": "maint_msg_required", "zh_TW": "請填寫必填欄位。", "en": "Please fill required fields.", "zh_CN": "请填写必填栏位。"},
-  {"text_key": "tab_inventory", "zh_TW": "存貨清單", "en": "Inventory List", "zh_CN": "存货清单"},
-  {"text_key": "maint_table_inventory", "zh_TW": "存貨", "en": "Inventory", "zh_CN": "存货"},
-  {"text_key": "field_item_code", "zh_TW": "存貨編號", "en": "Item Code", "zh_CN": "存货编号"},
-  {"text_key": "field_item_name", "zh_TW": "存貨名稱", "en": "Item Name", "zh_CN": "存货名称"},
-  {"text_key": "field_item_name_en", "zh_TW": "英文名稱", "en": "English Name", "zh_CN": "英文名称"},
-  {"text_key": "field_category", "zh_TW": "類別", "en": "Category", "zh_CN": "类别"},
-  {"text_key": "field_brand", "zh_TW": "品牌", "en": "Brand", "zh_CN": "品牌"},
-  {"text_key": "field_version_scb", "zh_TW": "SCB 版本", "en": "SCB Version", "zh_CN": "SCB 版本"},
-  {"text_key": "field_version_controller", "zh_TW": "控制器版本", "en": "Controller Version", "zh_CN": "控制器版本"},
-  {"text_key": "field_version_servo", "zh_TW": "伺服版本", "en": "Servo Version", "zh_CN": "伺服版本"},
-  {"text_key": "field_model", "zh_TW": "型號", "en": "Model", "zh_CN": "型号"},
-  {"text_key": "field_serial_no", "zh_TW": "序號", "en": "Serial No.", "zh_CN": "序号"},
-  {"text_key": "field_quantity", "zh_TW": "數量", "en": "Quantity", "zh_CN": "数量"},
-  {"text_key": "field_unit", "zh_TW": "單位", "en": "Unit", "zh_CN": "单位"},
-  {"text_key": "field_location", "zh_TW": "存放位置", "en": "Location", "zh_CN": "存放位置"},
-  {"text_key": "field_dimensions", "zh_TW": "尺寸", "en": "Dimensions", "zh_CN": "尺寸"},
-  {"text_key": "field_remark", "zh_TW": "備註", "en": "Remark", "zh_CN": "备注"},
-  {"text_key": "inventory_category_robot_arm", "zh_TW": "機械臂", "en": "Robot Arm", "zh_CN": "机械臂"},
-  {"text_key": "inventory_category_control_box", "zh_TW": "控制櫃", "en": "Control Cabinet", "zh_CN": "控制柜"},
-  {"text_key": "inventory_category_tool", "zh_TW": "工具", "en": "Tool", "zh_CN": "工具"},
-  {"text_key": "inventory_category_other", "zh_TW": "其他", "en": "Other", "zh_CN": "其他"},
-  {"text_key": "table_ui_tab_list", "zh_TW": "資料列表", "en": "Data List", "zh_CN": "资料列表"},
-  {"text_key": "table_ui_tab_edit", "zh_TW": "編輯內容", "en": "Edit", "zh_CN": "编辑内容"},
-  {"text_key": "table_ui_tab_attachments", "zh_TW": "各類附件", "en": "Attachments", "zh_CN": "各类附件"},
-  {"text_key": "table_ui_tab_messages", "zh_TW": "訊息記錄", "en": "Messages", "zh_CN": "讯息记录"},
-  {"text_key": "table_ui_tip_search", "zh_TW": "搜尋", "en": "Search", "zh_CN": "搜索"},
-  {"text_key": "table_ui_icon_search", "zh_TW": "🔍", "en": "🔍", "zh_CN": "🔍"},
-  {"text_key": "table_ui_tip_nav_first", "zh_TW": "第一筆", "en": "First", "zh_CN": "第一笔"},
-  {"text_key": "table_ui_tip_nav_prev", "zh_TW": "上一筆", "en": "Previous", "zh_CN": "上一笔"},
-  {"text_key": "table_ui_tip_nav_next", "zh_TW": "下一筆", "en": "Next", "zh_CN": "下一笔"},
-  {"text_key": "table_ui_tip_nav_last", "zh_TW": "最後一筆", "en": "Last", "zh_CN": "最后一笔"},
-  {"text_key": "table_ui_icon_nav_first", "zh_TW": "◀◀", "en": "◀◀", "zh_CN": "◀◀"},
-  {"text_key": "table_ui_icon_nav_prev", "zh_TW": "◀", "en": "◀", "zh_CN": "◀"},
-  {"text_key": "table_ui_icon_nav_next", "zh_TW": "▶", "en": "▶", "zh_CN": "▶"},
-  {"text_key": "table_ui_icon_nav_last", "zh_TW": "▶▶", "en": "▶▶", "zh_CN": "▶▶"},
-  {"text_key": "table_ui_label_select_all", "zh_TW": "全部勾選", "en": "Select All", "zh_CN": "全部勾选"},
-  {"text_key": "table_ui_label_deselect_all", "zh_TW": "取消勾選", "en": "Deselect All", "zh_CN": "取消勾选"},
-  {"text_key": "table_ui_dirty_message", "zh_TW": "內容已修改，請選擇儲存或取消。", "en": "Content changed. Choose Save or Cancel.", "zh_CN": "内容已修改，请选择保存或取消。"},
-  {"text_key": "table_ui_dirty_save", "zh_TW": "儲存", "en": "Save", "zh_CN": "保存"},
-  {"text_key": "table_ui_dirty_cancel", "zh_TW": "取消", "en": "Cancel", "zh_CN": "取消"},
-  {"text_key": "table_ui_disabled_banner", "zh_TW": "此筆資料已失效（唯讀）", "en": "This record is disabled (read-only)", "zh_CN": "此笔资料已失效（只读）"},
-  {"text_key": "table_ui_mode_add", "zh_TW": "新增資料", "en": "Add Record", "zh_CN": "新增数据"},
-  {"text_key": "table_ui_mode_edit", "zh_TW": "編輯內容", "en": "Edit Record", "zh_CN": "编辑内容"},
-  {"text_key": "table_ui_mode_copy", "zh_TW": "復制新增", "en": "Copy as New", "zh_CN": "复制新增"},
-  {"text_key": "table_ui_tab_layout", "zh_TW": "版面設定", "en": "Layout", "zh_CN": "版面设定"},
-  {"text_key": "table_ui_tip_layout", "zh_TW": "儲存版面設定", "en": "Save Layout Settings", "zh_CN": "保存版面设置"},
-  {"text_key": "table_ui_tip_open_layout", "zh_TW": "版面設定", "en": "Layout Settings", "zh_CN": "版面设置"},
-  {"text_key": "table_ui_icon_layout", "zh_TW": "▦", "en": "▦", "zh_CN": "▦"},
-  {"text_key": "table_ui_icon_layout_save_badge", "zh_TW": "💾", "en": "💾", "zh_CN": "💾"},
-  {"text_key": "table_ui_tip_save_layout", "zh_TW": "儲存版面設定", "en": "Save Layout Settings", "zh_CN": "保存版面设置"},
-  {"text_key": "table_ui_layout_column_width", "zh_TW": "欄寬", "en": "Width", "zh_CN": "栏宽"},
-  {"text_key": "field_multi_select", "zh_TW": "多選", "en": "Multi Select", "zh_CN": "多选"},
-  {"text_key": "field_desc_multi_select", "zh_TW": "列表多選欄寬", "en": "List multi-select column width", "zh_CN": "列表多选栏宽"},
-  {"text_key": "table_ui_tip_cancel_layout", "zh_TW": "取消", "en": "Cancel", "zh_CN": "取消"},
-  {"text_key": "table_ui_layout_title", "zh_TW": "UI 版面設定", "en": "UI Layout Settings", "zh_CN": "UI 版面设定"},
-  {"text_key": "table_ui_layout_table_name", "zh_TW": "表格名稱", "en": "Table Name", "zh_CN": "表格名称"},
-  {"text_key": "table_ui_layout_zebra", "zh_TW": "列表間隔行底色", "en": "Zebra Rows", "zh_CN": "列表间隔行底色"},
-  {"text_key": "table_ui_layout_zebra_enabled", "zh_TW": "啟用", "en": "Enable", "zh_CN": "启用"},
-  {"text_key": "table_ui_layout_zebra_color", "zh_TW": "間隔行顏色", "en": "Zebra color", "zh_CN": "间隔行颜色"},
-  {"text_key": "table_ui_layout_columns", "zh_TW": "欄位顯示排序", "en": "Column Display Order", "zh_CN": "字段显示排序"},
-  {"text_key": "table_ui_layout_visible", "zh_TW": "顯示", "en": "Visible", "zh_CN": "显示"},
-  {"text_key": "table_ui_layout_field_name", "zh_TW": "欄位名稱", "en": "Field Name", "zh_CN": "字段名称"},
-  {"text_key": "table_ui_layout_field_desc", "zh_TW": "欄名說明", "en": "Field Description", "zh_CN": "字段说明"},
-  {"text_key": "table_ui_layout_sort_dir", "zh_TW": "排序方向", "en": "Sort Direction", "zh_CN": "排序方向"},
-  {"text_key": "table_ui_layout_sort_empty", "zh_TW": "空", "en": "Empty", "zh_CN": "空"},
-  {"text_key": "table_ui_layout_sort_asc", "zh_TW": "升序", "en": "Ascending", "zh_CN": "升序"},
-  {"text_key": "table_ui_layout_sort_desc", "zh_TW": "降序", "en": "Descending", "zh_CN": "降序"},
-  {"text_key": "table_ui_tip_move_up", "zh_TW": "上移", "en": "Move Up", "zh_CN": "上移"},
-  {"text_key": "table_ui_tip_move_down", "zh_TW": "下移", "en": "Move Down", "zh_CN": "下移"},
-  {"text_key": "table_ui_icon_move_up", "zh_TW": "▲", "en": "▲", "zh_CN": "▲"},
-  {"text_key": "table_ui_icon_move_down", "zh_TW": "▼", "en": "▼", "zh_CN": "▼"},
-  {"text_key": "table_ui_tip_drag", "zh_TW": "拖曳排序", "en": "Drag to reorder", "zh_CN": "拖曳排序"},
-  {"text_key": "table_ui_icon_drag", "zh_TW": "⋮⋮", "en": "⋮⋮", "zh_CN": "⋮⋮"},
-  {"text_key": "table_ui_msg_max_visible_columns", "zh_TW": "顯示欄位最多只可選擇 6 個。", "en": "Maximum 6 visible columns are allowed.", "zh_CN": "最多只能选择 6 个显示字段。"},
-  {"text_key": "table_ui_msg_layout_saved", "zh_TW": "版面已儲存。", "en": "Layout saved.", "zh_CN": "版面已保存。"},
-  {"text_key": "table_ui_zebra_light_blue", "zh_TW": "淺藍", "en": "Light Blue", "zh_CN": "浅蓝"},
-  {"text_key": "table_ui_zebra_light_gray", "zh_TW": "淺灰", "en": "Light Gray", "zh_CN": "浅灰"},
-  {"text_key": "table_ui_zebra_light_green", "zh_TW": "淺綠", "en": "Light Green", "zh_CN": "浅绿"},
-  {"text_key": "table_ui_zebra_light_yellow", "zh_TW": "淺黃", "en": "Light Yellow", "zh_CN": "浅黄"},
-  {"text_key": "field_desc_txid", "zh_TW": "資料識別碼（自動產生）", "en": "Record ID (auto-generated)", "zh_CN": "资料识别码（自动产生）"},
-  {"text_key": "field_desc_item_code", "zh_TW": "存貨編號", "en": "Inventory item code", "zh_CN": "存货编号"},
-  {"text_key": "field_desc_item_name", "zh_TW": "存貨名稱", "en": "Inventory item name", "zh_CN": "存货名称"},
-  {"text_key": "field_desc_item_name_en", "zh_TW": "存貨英文名稱", "en": "Inventory English name", "zh_CN": "存货英文名称"},
-  {"text_key": "field_desc_category", "zh_TW": "存貨類別", "en": "Inventory category", "zh_CN": "存货类别"},
-  {"text_key": "field_desc_quantity", "zh_TW": "數量", "en": "Quantity", "zh_CN": "数量"},
-  {"text_key": "field_desc_is_disable", "zh_TW": "生效／失效狀態", "en": "Enabled / disabled status", "zh_CN": "生效／失效状态"},
-  {"text_key": "field_desc_brand", "zh_TW": "品牌", "en": "Brand", "zh_CN": "品牌"},
-  {"text_key": "field_desc_model", "zh_TW": "型號", "en": "Model", "zh_CN": "型号"},
-  {"text_key": "field_desc_serial_no", "zh_TW": "序號", "en": "Serial number", "zh_CN": "序号"},
-  {"text_key": "field_desc_unit", "zh_TW": "單位", "en": "Unit", "zh_CN": "单位"},
-  {"text_key": "field_desc_location", "zh_TW": "存放位置", "en": "Storage location", "zh_CN": "存放位置"},
-  {"text_key": "field_desc_dimensions", "zh_TW": "尺寸（自由輸入）", "en": "Dimensions (free text)", "zh_CN": "尺寸（自由输入）"},
-  {"text_key": "field_desc_version_scb", "zh_TW": "SCB 版本（文字，可留空）", "en": "SCB version (text, optional)", "zh_CN": "SCB 版本（文字，可留空）"},
-  {"text_key": "field_desc_version_controller", "zh_TW": "控制器版本（文字，可留空）", "en": "Controller version (text, optional)", "zh_CN": "控制器版本（文字，可留空）"},
-  {"text_key": "field_desc_version_servo", "zh_TW": "伺服版本（文字，可留空）", "en": "Servo version (text, optional)", "zh_CN": "伺服版本（文字，可留空）"},
-  {"text_key": "field_desc_remark", "zh_TW": "備註", "en": "Remark", "zh_CN": "备注"},
-  {"text_key": "vd_section_robot", "zh_TW": "虛擬機械臂", "en": "Virtual Robot", "zh_CN": "虚拟机械臂"},
-  {"text_key": "vd_section_status", "zh_TW": "狀態監控", "en": "Status Monitor", "zh_CN": "状态监控"},
-  {"text_key": "vd_section_motion", "zh_TW": "動作指令", "en": "Motion Commands", "zh_CN": "动作指令"},
-  {"text_key": "vd_section_io", "zh_TW": "虛擬 I/O", "en": "Virtual I/O", "zh_CN": "虚拟 I/O"},
-  {"text_key": "vd_section_unimplemented", "zh_TW": "未實作功能", "en": "Not Implemented", "zh_CN": "未实现功能"},
-  {"text_key": "vd_label_robot", "zh_TW": "機械臂", "en": "Robot", "zh_CN": "机械臂"},
-  {"text_key": "vd_label_connected", "zh_TW": "連線", "en": "Connected", "zh_CN": "连接"},
-  {"text_key": "vd_label_e_stopped", "zh_TW": "緊急停止", "en": "E-Stop", "zh_CN": "紧急停止"},
-  {"text_key": "vd_label_joints", "zh_TW": "關節角度 (度)", "en": "Joints (deg)", "zh_CN": "关节角度 (度)"},
-  {"text_key": "vd_label_pose", "zh_TW": "位姿", "en": "Pose", "zh_CN": "位姿"},
-  {"text_key": "vd_pose_pending_fk", "zh_TW": "待接運動學", "en": "Kinematics pending", "zh_CN": "待接运动学"},
-  {"text_key": "vd_label_do", "zh_TW": "數位輸出 DO", "en": "Digital Output DO", "zh_CN": "数字输出 DO"},
-  {"text_key": "vd_label_di", "zh_TW": "數位輸入 DI（虛擬手動）", "en": "Digital Input DI (virtual manual)", "zh_CN": "数字输入 DI（虚拟手动）"},
-  {"text_key": "vd_label_log", "zh_TW": "操作紀錄", "en": "Operation Log", "zh_CN": "操作记录"},
-  {"text_key": "vd_label_log_time", "zh_TW": "時間", "en": "Time", "zh_CN": "时间"},
-  {"text_key": "vd_label_log_action", "zh_TW": "動作", "en": "Action", "zh_CN": "动作"},
-  {"text_key": "vd_label_log_result", "zh_TW": "結果", "en": "Result", "zh_CN": "结果"},
-  {"text_key": "vd_status_yes", "zh_TW": "是", "en": "Yes", "zh_CN": "是"},
-  {"text_key": "vd_status_no", "zh_TW": "否", "en": "No", "zh_CN": "否"},
-  {"text_key": "vd_btn_connect", "zh_TW": "連線", "en": "Connect", "zh_CN": "连接"},
-  {"text_key": "vd_btn_disconnect", "zh_TW": "斷線", "en": "Disconnect", "zh_CN": "断开"},
-  {"text_key": "vd_btn_estop", "zh_TW": "緊急停止", "en": "E-Stop", "zh_CN": "紧急停止"},
-  {"text_key": "vd_btn_reset_estop", "zh_TW": "解除緊急停止", "en": "Reset E-Stop", "zh_CN": "解除紧急停止"},
-  {"text_key": "vd_btn_move_home", "zh_TW": "回原點", "en": "Move Home", "zh_CN": "回原点"},
-  {"text_key": "vd_btn_move_j", "zh_TW": "執行 moveJ", "en": "Run moveJ", "zh_CN": "执行 moveJ"},
-  {"text_key": "vd_btn_move_l", "zh_TW": "moveL", "en": "moveL", "zh_CN": "moveL"},
-  {"text_key": "vd_btn_move_servo", "zh_TW": "moveServo", "en": "moveServo", "zh_CN": "moveServo"},
-  {"text_key": "vd_btn_move_line", "zh_TW": "moveLine", "en": "moveLine", "zh_CN": "moveLine"},
-  {"text_key": "vd_btn_sync_move", "zh_TW": "sync_move", "en": "sync_move", "zh_CN": "sync_move"},
-  {"text_key": "vd_btn_weld", "zh_TW": "焊接 weld", "en": "Weld", "zh_CN": "焊接 weld"},
-  {"text_key": "vd_btn_torch", "zh_TW": "焊槍 torch", "en": "Torch", "zh_CN": "焊枪 torch"},
-  {"text_key": "vd_joint_input_hint", "zh_TW": "J1–J6 單位為關節角度（°）。待機可編輯目標角；運動中顯示目前姿態角度（與畫面同步）。與模型標籤 XYZ（m）不同。", "en": "J1–J6 are joint angles in degrees (°). Edit targets while idle; during motion they show the live pose (synced with the view). Distinct from model label XYZ (m).", "zh_CN": "J1–J6 单位为关节角度（°）。待机可编辑目标角；运动中显示当前姿态角度（与画面同步）。与模型标签 XYZ（m）不同。"},
-  {"text_key": "vd_result_ok", "zh_TW": "完成", "en": "Done", "zh_CN": "完成"},
-  {"text_key": "vd_result_not_connected", "zh_TW": "未連線，已拒絕", "en": "Rejected: not connected", "zh_CN": "未连接，已拒绝"},
-  {"text_key": "vd_result_estop", "zh_TW": "緊急停止中，已拒絕", "en": "Rejected: E-Stop active", "zh_CN": "紧急停止中，已拒绝"},
-  {"text_key": "vd_result_invalid_joints", "zh_TW": "關節輸入無效", "en": "Invalid joint input", "zh_CN": "关节输入无效"},
-  {"text_key": "vd_result_not_implemented", "zh_TW": "未實作", "en": "Not implemented", "zh_CN": "未实现"},
-  {"text_key": "vd_action_connect", "zh_TW": "連線", "en": "Connect", "zh_CN": "连接"},
-  {"text_key": "vd_action_disconnect", "zh_TW": "斷線", "en": "Disconnect", "zh_CN": "断开"},
-  {"text_key": "vd_action_estop", "zh_TW": "緊急停止", "en": "E-Stop", "zh_CN": "紧急停止"},
-  {"text_key": "vd_action_reset_estop", "zh_TW": "解除緊急停止", "en": "Reset E-Stop", "zh_CN": "解除紧急停止"},
-  {"text_key": "vd_action_move_home", "zh_TW": "回原點", "en": "Move Home", "zh_CN": "回原点"},
-  {"text_key": "vd_action_move_j", "zh_TW": "moveJ", "en": "moveJ", "zh_CN": "moveJ"},
-  {"text_key": "vd_action_set_do", "zh_TW": "設定 DO", "en": "Set DO", "zh_CN": "设置 DO"},
-  {"text_key": "vd_action_set_di", "zh_TW": "設定 DI", "en": "Set DI", "zh_CN": "设置 DI"},
-  {"text_key": "vd_action_move_l", "zh_TW": "moveL", "en": "moveL", "zh_CN": "moveL"},
-  {"text_key": "vd_action_move_servo", "zh_TW": "moveServo", "en": "moveServo", "zh_CN": "moveServo"},
-  {"text_key": "vd_action_move_line", "zh_TW": "moveLine", "en": "moveLine", "zh_CN": "moveLine"},
-  {"text_key": "vd_action_sync_move", "zh_TW": "sync_move", "en": "sync_move", "zh_CN": "sync_move"},
-  {"text_key": "vd_action_weld", "zh_TW": "焊接", "en": "Weld", "zh_CN": "焊接"},
-  {"text_key": "vd_action_torch", "zh_TW": "焊槍", "en": "Torch", "zh_CN": "焊枪"},
-  {"text_key": "vd_message_banner", "zh_TW": "訊息", "en": "Message", "zh_CN": "消息"},
-  {"text_key": "vd_schematic_disclaimer", "zh_TW": "自製六軸示意模型，非官方 CAD，非真機精確模擬", "en": "Custom 6-axis schematic model; not official CAD; not a precise real-robot simulation", "zh_CN": "自制六轴示意模型，非官方 CAD，非真机精确模拟"},
-  {"text_key": "vd_model_rokae_cr7", "zh_TW": "ROKAE CR7（示意）", "en": "ROKAE CR7 (schematic)", "zh_CN": "ROKAE CR7（示意）"},
-  {"text_key": "vd_model_jaka_zu7", "zh_TW": "JAKA Zu7（示意）", "en": "JAKA Zu7 (schematic)", "zh_CN": "JAKA Zu7（示意）"},
-  {"text_key": "vd_label_model_select", "zh_TW": "型號", "en": "Model", "zh_CN": "型号"},
-  {"text_key": "vd_label_target_joints", "zh_TW": "目標關節", "en": "Target joints", "zh_CN": "目标关节"},
-  {"text_key": "vd_label_current_joints", "zh_TW": "當前關節", "en": "Current joints", "zh_CN": "当前关节"},
-  {"text_key": "vd_label_is_moving", "zh_TW": "動作中", "en": "Moving", "zh_CN": "动作中"},
-  {"text_key": "vd_section_3d", "zh_TW": "3D 示意", "en": "3D Schematic", "zh_CN": "3D 示意"},
-  {"text_key": "vd_demo_limits_note", "zh_TW": "Demo 角度限制，未經真機核實", "en": "Demo joint limits; not verified on real hardware", "zh_CN": "Demo 角度限制，未经真机核实"},
-  {"text_key": "vd_action_select_model", "zh_TW": "切換型號", "en": "Switch model", "zh_CN": "切换型号"},
-  {"text_key": "vd_action_set_target", "zh_TW": "設定目標關節", "en": "Set target joints", "zh_CN": "设定目标关节"},
-  {"text_key": "vd_result_aborted", "zh_TW": "已中止", "en": "Aborted", "zh_CN": "已中止"},
-  {"text_key": "vd_result_joint_limit", "zh_TW": "超出 Demo 角度限制", "en": "Outside demo joint limits", "zh_CN": "超出 Demo 角度限制"},
-  {"text_key": "vd_result_motion_started", "zh_TW": "動作開始", "en": "Motion started", "zh_CN": "动作开始"},
-  {"text_key": "vd_label_demo_select", "zh_TW": "示範", "en": "Demo", "zh_CN": "示范"},
-  {"text_key": "vd_demo_none", "zh_TW": "（無）", "en": "(None)", "zh_CN": "（无）"},
-  {"text_key": "vd_demo_carry_vertical_1", "zh_TW": "搬運動作示範1（上下搬運）", "en": "Carry demo 1 (vertical)", "zh_CN": "搬运动作示范1（上下搬运）"},
-  {"text_key": "vd_demo_carry_front_back_2", "zh_TW": "搬運動作示範2（前後搬運 >180°）", "en": "Carry demo 2 (front/back >180°)", "zh_CN": "搬运动作示范2（前后搬运 >180°）"},
-  {"text_key": "vd_demo_speed", "zh_TW": "播放速度", "en": "Playback speed", "zh_CN": "播放速度"},
-  {"text_key": "vd_demo_speed_x1", "zh_TW": "×1 正常", "en": "×1 Normal", "zh_CN": "×1 正常"},
-  {"text_key": "vd_demo_speed_x2", "zh_TW": "×2", "en": "×2", "zh_CN": "×2"},
-  {"text_key": "vd_demo_speed_x3", "zh_TW": "×3", "en": "×3", "zh_CN": "×3"},
-  {"text_key": "vd_btn_run_demo", "zh_TW": "執行示範", "en": "Run demo", "zh_CN": "执行示范"},
-  {"text_key": "vd_btn_reset_demo", "zh_TW": "重置示範", "en": "Reset demo", "zh_CN": "重置示范"},
-  {"text_key": "vd_demo_phase", "zh_TW": "示範階段", "en": "Demo phase", "zh_CN": "示范阶段"},
-  {"text_key": "vd_demo_needs_reset", "zh_TW": "請先重置示範", "en": "Reset demo first", "zh_CN": "请先重置示范"},
-  {"text_key": "vd_demo_blocked", "zh_TW": "示範執行中，已拒絕", "en": "Rejected: demo running", "zh_CN": "示范执行中，已拒绝"},
-  {"text_key": "vd_demo_model_unsupported", "zh_TW": "目前型號不支援此示範", "en": "Demo not supported on this model", "zh_CN": "当前型号不支持此示范"},
-  {"text_key": "vd_result_unreachable", "zh_TW": "路徑不可達／預檢失敗", "en": "Unreachable / preflight failed", "zh_CN": "路径不可达／预检失败"},
-  {"text_key": "vd_result_preflight_ok", "zh_TW": "預檢通過", "en": "Preflight OK", "zh_CN": "预检通过"},
-  {"text_key": "vd_action_run_demo", "zh_TW": "執行示範", "en": "Run demo", "zh_CN": "执行示范"},
-  {"text_key": "vd_action_reset_demo", "zh_TW": "重置示範", "en": "Reset demo", "zh_CN": "重置示范"},
-  {"text_key": "vd_action_select_demo", "zh_TW": "選擇示範", "en": "Select demo", "zh_CN": "选择示范"},
-  {"text_key": "vd_label_show_joint_labels", "zh_TW": "顯示關節標籤", "en": "Show joint labels", "zh_CN": "显示关节标签"}
+  {
+    "text_key": "menu_dashboard",
+    "zh_TW": "主頁",
+    "en": "Dashboard",
+    "zh_CN": "主页"
+  },
+  {
+    "text_key": "menu_source_table",
+    "zh_TW": "來源資料表",
+    "en": "Source Table",
+    "zh_CN": "来源数据表"
+  },
+  {
+    "text_key": "menu_system_setting",
+    "zh_TW": "系統設定",
+    "en": "System Setting",
+    "zh_CN": "系统设置"
+  },
+  {
+    "text_key": "menu_virtual_demo",
+    "zh_TW": "虛擬測試",
+    "en": "Virtual Demo",
+    "zh_CN": "虚拟测试"
+  },
+  {
+    "text_key": "menu_inventory",
+    "zh_TW": "存貨管理",
+    "en": "Inventory",
+    "zh_CN": "存货管理"
+  },
+  {
+    "text_key": "menu_product_combinations",
+    "zh_TW": "產品／組合設定",
+    "en": "Product / Combination Settings",
+    "zh_CN": "产品／组合设置"
+  },
+  {
+    "text_key": "maint_table_product_combinations",
+    "zh_TW": "產品／組合設定",
+    "en": "Product / Combination Settings",
+    "zh_CN": "产品／组合设置"
+  },
+  {
+    "text_key": "maint_table_product_combination_items",
+    "zh_TW": "組合設備",
+    "en": "Combination Items",
+    "zh_CN": "组合设备"
+  },
+  {
+    "text_key": "table_ui_tab_combination_items",
+    "zh_TW": "組合設備",
+    "en": "Combination Items",
+    "zh_CN": "组合设备"
+  },
+  {
+    "text_key": "table_ui_msg_select_combination_first",
+    "zh_TW": "請先選擇產品／組合。",
+    "en": "Please select a product / combination first.",
+    "zh_CN": "请先选择产品／组合。"
+  },
+  {
+    "text_key": "table_ui_btn_add_detail_item",
+    "zh_TW": "＋新增設備",
+    "en": "+ Add Equipment",
+    "zh_CN": "＋新增设备"
+  },
+  {
+    "text_key": "table_ui_icon_expand_collapsed",
+    "zh_TW": "▸",
+    "en": "▸",
+    "zh_CN": "▸"
+  },
+  {
+    "text_key": "table_ui_icon_expand_expanded",
+    "zh_TW": "▾",
+    "en": "▾",
+    "zh_CN": "▾"
+  },
+  {
+    "text_key": "table_ui_tip_expand_row",
+    "zh_TW": "展開明細",
+    "en": "Expand detail",
+    "zh_CN": "展开明细"
+  },
+  {
+    "text_key": "table_ui_tip_collapse_row",
+    "zh_TW": "收合明細",
+    "en": "Collapse detail",
+    "zh_CN": "收合明细"
+  },
+  {
+    "text_key": "table_ui_msg_detail_loading",
+    "zh_TW": "載入明細中…",
+    "en": "Loading detail…",
+    "zh_CN": "加载明细中…"
+  },
+  {
+    "text_key": "table_ui_msg_detail_load_failed",
+    "zh_TW": "載入明細失敗。",
+    "en": "Failed to load detail.",
+    "zh_CN": "加载明细失败。"
+  },
+  {
+    "text_key": "field_combination_code",
+    "zh_TW": "組合代號",
+    "en": "Combination Code",
+    "zh_CN": "组合代号"
+  },
+  {
+    "text_key": "field_combination_name",
+    "zh_TW": "組合名稱",
+    "en": "Combination Name",
+    "zh_CN": "组合名称"
+  },
+  {
+    "text_key": "field_combination_name_en",
+    "zh_TW": "英文名稱",
+    "en": "English Name",
+    "zh_CN": "英文名称"
+  },
+  {
+    "text_key": "field_description",
+    "zh_TW": "說明",
+    "en": "Description",
+    "zh_CN": "说明"
+  },
+  {
+    "text_key": "field_combination_txid",
+    "zh_TW": "組合",
+    "en": "Combination",
+    "zh_CN": "组合"
+  },
+  {
+    "text_key": "field_item_id",
+    "zh_TW": "Item ID",
+    "en": "Item ID",
+    "zh_CN": "Item ID"
+  },
+  {
+    "text_key": "field_item_role",
+    "zh_TW": "用途",
+    "en": "Item Role",
+    "zh_CN": "用途"
+  },
+  {
+    "text_key": "field_qty",
+    "zh_TW": "數量",
+    "en": "Qty",
+    "zh_CN": "数量"
+  },
+  {
+    "text_key": "field_equipment_category",
+    "zh_TW": "設備類別",
+    "en": "Equipment Category",
+    "zh_CN": "设备类别"
+  },
+  {
+    "text_key": "field_desc_combination_code",
+    "zh_TW": "組合代號（唯一）",
+    "en": "Unique combination code",
+    "zh_CN": "组合代号（唯一）"
+  },
+  {
+    "text_key": "field_desc_combination_name",
+    "zh_TW": "組合名稱",
+    "en": "Combination name",
+    "zh_CN": "组合名称"
+  },
+  {
+    "text_key": "field_desc_combination_name_en",
+    "zh_TW": "組合英文名稱",
+    "en": "Combination English name",
+    "zh_CN": "组合英文名称"
+  },
+  {
+    "text_key": "field_desc_description",
+    "zh_TW": "說明",
+    "en": "Description",
+    "zh_CN": "说明"
+  },
+  {
+    "text_key": "field_desc_combination_txid",
+    "zh_TW": "所屬產品／組合",
+    "en": "Parent product / combination",
+    "zh_CN": "所属产品／组合"
+  },
+  {
+    "text_key": "field_desc_item_id",
+    "zh_TW": "組合內項目編號",
+    "en": "Item number within combination",
+    "zh_CN": "组合内项目编号"
+  },
+  {
+    "text_key": "field_desc_item_role",
+    "zh_TW": "設備在組合中的用途",
+    "en": "Equipment role in combination",
+    "zh_CN": "设备在组合中的用途"
+  },
+  {
+    "text_key": "field_desc_qty",
+    "zh_TW": "數量",
+    "en": "Quantity",
+    "zh_CN": "数量"
+  },
+  {
+    "text_key": "field_desc_equipment_category",
+    "zh_TW": "由存貨分類顯示",
+    "en": "Shown from inventory category",
+    "zh_CN": "由存货分类显示"
+  },
+  {
+    "text_key": "field_equipment_txid",
+    "zh_TW": "設備",
+    "en": "Equipment",
+    "zh_CN": "设备"
+  },
+  {
+    "text_key": "field_created_at",
+    "zh_TW": "建立時間",
+    "en": "Created At",
+    "zh_CN": "创建时间"
+  },
+  {
+    "text_key": "field_updated_at",
+    "zh_TW": "更新時間",
+    "en": "Updated At",
+    "zh_CN": "更新时间"
+  },
+  {
+    "text_key": "field_desc_equipment_txid",
+    "zh_TW": "關聯存貨設備",
+    "en": "Linked inventory equipment",
+    "zh_CN": "关联存货设备"
+  },
+  {
+    "text_key": "field_desc_created_at",
+    "zh_TW": "建立時間",
+    "en": "Created timestamp",
+    "zh_CN": "创建时间"
+  },
+  {
+    "text_key": "field_desc_updated_at",
+    "zh_TW": "更新時間",
+    "en": "Updated timestamp",
+    "zh_CN": "更新时间"
+  },
+  {
+    "text_key": "lang_zh_TW",
+    "zh_TW": "繁體中文",
+    "en": "Traditional Chinese",
+    "zh_CN": "繁体中文"
+  },
+  {
+    "text_key": "lang_en",
+    "zh_TW": "英文",
+    "en": "English",
+    "zh_CN": "英文"
+  },
+  {
+    "text_key": "lang_zh_CN",
+    "zh_TW": "簡體中文",
+    "en": "Simplified Chinese",
+    "zh_CN": "简体中文"
+  },
+  {
+    "text_key": "label_language",
+    "zh_TW": "語言",
+    "en": "Language",
+    "zh_CN": "语言"
+  },
+  {
+    "text_key": "label_font",
+    "zh_TW": "字型",
+    "en": "Font",
+    "zh_CN": "字体"
+  },
+  {
+    "text_key": "label_font_size",
+    "zh_TW": "字級",
+    "en": "Font Size",
+    "zh_CN": "字号"
+  },
+  {
+    "text_key": "font_name_dfkai_sb",
+    "zh_TW": "標楷體 (DFKai-SB)",
+    "en": "DFKai-SB",
+    "zh_CN": "标楷体 (DFKai-SB)"
+  },
+  {
+    "text_key": "font_name_pmingliu",
+    "zh_TW": "新細明體 (PMingLiU)",
+    "en": "PMingLiU",
+    "zh_CN": "新细明体 (PMingLiU)"
+  },
+  {
+    "text_key": "font_name_jhenghei",
+    "zh_TW": "微軟正黑體",
+    "en": "Microsoft JhengHei",
+    "zh_CN": "微软正黑体"
+  },
+  {
+    "text_key": "font_name_yahei",
+    "zh_TW": "微軟雅黑",
+    "en": "Microsoft YaHei",
+    "zh_CN": "微软雅黑"
+  },
+  {
+    "text_key": "font_name_noto_sans",
+    "zh_TW": "Noto Sans TC",
+    "en": "Noto Sans TC",
+    "zh_CN": "Noto Sans SC"
+  },
+  {
+    "text_key": "font_name_arial",
+    "zh_TW": "Arial",
+    "en": "Arial",
+    "zh_CN": "Arial"
+  },
+  {
+    "text_key": "font_name_times",
+    "zh_TW": "Times New Roman",
+    "en": "Times New Roman",
+    "zh_CN": "Times New Roman"
+  },
+  {
+    "text_key": "label_program_version",
+    "zh_TW": "程式版本",
+    "en": "Version",
+    "zh_CN": "程序版本"
+  },
+  {
+    "text_key": "sidebar_toggle",
+    "zh_TW": "切換選單",
+    "en": "Toggle menu",
+    "zh_CN": "切换菜单"
+  },
+  {
+    "text_key": "page_placeholder",
+    "zh_TW": "此頁面暫無功能。",
+    "en": "This page has no function yet.",
+    "zh_CN": "此页面暂无功能。"
+  },
+  {
+    "text_key": "tab_interface_text",
+    "zh_TW": "介面文字",
+    "en": "Interface Text",
+    "zh_CN": "界面文字"
+  },
+  {
+    "text_key": "tab_categories",
+    "zh_TW": "分類表",
+    "en": "Categories",
+    "zh_CN": "分类表"
+  },
+  {
+    "text_key": "maint_table_ui_text",
+    "zh_TW": "介面文字",
+    "en": "Interface Text",
+    "zh_CN": "界面文字"
+  },
+  {
+    "text_key": "maint_table_categories",
+    "zh_TW": "分類",
+    "en": "Category",
+    "zh_CN": "分类"
+  },
+  {
+    "text_key": "field_category_group",
+    "zh_TW": "適用資料表",
+    "en": "Table Group",
+    "zh_CN": "适用数据表"
+  },
+  {
+    "text_key": "field_category_code",
+    "zh_TW": "分類代碼",
+    "en": "Category Code",
+    "zh_CN": "分类代码"
+  },
+  {
+    "text_key": "field_sort_order",
+    "zh_TW": "排序",
+    "en": "Sort Order",
+    "zh_CN": "排序"
+  },
+  {
+    "text_key": "field_desc_category_group",
+    "zh_TW": "分類適用的業務資料表",
+    "en": "Business table for this category",
+    "zh_CN": "分类适用的业务数据表"
+  },
+  {
+    "text_key": "field_desc_category_code",
+    "zh_TW": "同一適用資料表內不可重複的分類代碼",
+    "en": "Unique category code within the table group",
+    "zh_CN": "同一适用数据表内不可重复的分类代码"
+  },
+  {
+    "text_key": "field_desc_category_name_zh_TW",
+    "zh_TW": "分類名稱（繁體中文）",
+    "en": "Category name (Traditional Chinese)",
+    "zh_CN": "分类名称（繁体中文）"
+  },
+  {
+    "text_key": "field_desc_category_name_en",
+    "zh_TW": "分類名稱（英文）",
+    "en": "Category name (English)",
+    "zh_CN": "分类名称（英文）"
+  },
+  {
+    "text_key": "field_desc_category_name_zh_CN",
+    "zh_TW": "分類名稱（簡體中文）",
+    "en": "Category name (Simplified Chinese)",
+    "zh_CN": "分类名称（简体中文）"
+  },
+  {
+    "text_key": "field_desc_sort_order",
+    "zh_TW": "列表與下拉的排序值（整數，必填）",
+    "en": "Sort value for list and dropdown (required integer)",
+    "zh_CN": "列表与下拉的排序值（整数，必填）"
+  },
+  {
+    "text_key": "field_txid",
+    "zh_TW": "TxId",
+    "en": "TxId",
+    "zh_CN": "TxId"
+  },
+  {
+    "text_key": "field_text_key",
+    "zh_TW": "文字鍵",
+    "en": "Text Key",
+    "zh_CN": "文字键"
+  },
+  {
+    "text_key": "field_zh_TW",
+    "zh_TW": "繁體中文",
+    "en": "Traditional Chinese",
+    "zh_CN": "繁体中文"
+  },
+  {
+    "text_key": "field_en",
+    "zh_TW": "英文",
+    "en": "English",
+    "zh_CN": "英文"
+  },
+  {
+    "text_key": "field_zh_CN",
+    "zh_TW": "簡體中文",
+    "en": "Simplified Chinese",
+    "zh_CN": "简体中文"
+  },
+  {
+    "text_key": "field_is_disable",
+    "zh_TW": "狀態",
+    "en": "Status",
+    "zh_CN": "状态"
+  },
+  {
+    "text_key": "maint_label_search",
+    "zh_TW": "搜尋",
+    "en": "Search",
+    "zh_CN": "搜索"
+  },
+  {
+    "text_key": "maint_filter_all",
+    "zh_TW": "全部",
+    "en": "All",
+    "zh_CN": "全部"
+  },
+  {
+    "text_key": "maint_status_enabled",
+    "zh_TW": "生效",
+    "en": "Enabled",
+    "zh_CN": "生效"
+  },
+  {
+    "text_key": "maint_status_disabled",
+    "zh_TW": "失效",
+    "en": "Disabled",
+    "zh_CN": "失效"
+  },
+  {
+    "text_key": "maint_tip_add",
+    "zh_TW": "新增",
+    "en": "Add",
+    "zh_CN": "新增"
+  },
+  {
+    "text_key": "maint_tip_edit",
+    "zh_TW": "編輯",
+    "en": "Edit",
+    "zh_CN": "编辑"
+  },
+  {
+    "text_key": "maint_tip_disable",
+    "zh_TW": "失效",
+    "en": "Disable",
+    "zh_CN": "失效"
+  },
+  {
+    "text_key": "maint_tip_enable",
+    "zh_TW": "生效",
+    "en": "Enable",
+    "zh_CN": "生效"
+  },
+  {
+    "text_key": "maint_tip_save",
+    "zh_TW": "儲存",
+    "en": "Save",
+    "zh_CN": "保存"
+  },
+  {
+    "text_key": "maint_tip_cancel",
+    "zh_TW": "取消",
+    "en": "Cancel",
+    "zh_CN": "取消"
+  },
+  {
+    "text_key": "maint_label_actions",
+    "zh_TW": "操作",
+    "en": "Actions",
+    "zh_CN": "操作"
+  },
+  {
+    "text_key": "maint_form_add",
+    "zh_TW": "新增資料",
+    "en": "Add Record",
+    "zh_CN": "新增数据"
+  },
+  {
+    "text_key": "maint_form_edit",
+    "zh_TW": "編輯資料",
+    "en": "Edit Record",
+    "zh_CN": "编辑数据"
+  },
+  {
+    "text_key": "maint_icon_add",
+    "zh_TW": "＋",
+    "en": "+",
+    "zh_CN": "＋"
+  },
+  {
+    "text_key": "maint_icon_edit",
+    "zh_TW": "✎",
+    "en": "✎",
+    "zh_CN": "✎"
+  },
+  {
+    "text_key": "maint_icon_disable",
+    "zh_TW": "⊘",
+    "en": "⊘",
+    "zh_CN": "⊘"
+  },
+  {
+    "text_key": "maint_icon_enable",
+    "zh_TW": "✓",
+    "en": "✓",
+    "zh_CN": "✓"
+  },
+  {
+    "text_key": "maint_icon_save",
+    "zh_TW": "💾",
+    "en": "💾",
+    "zh_CN": "💾"
+  },
+  {
+    "text_key": "maint_icon_cancel",
+    "zh_TW": "✕",
+    "en": "✕",
+    "zh_CN": "✕"
+  },
+  {
+    "text_key": "maint_icon_copy",
+    "zh_TW": "⧉",
+    "en": "⧉",
+    "zh_CN": "⧉"
+  },
+  {
+    "text_key": "maint_tip_copy",
+    "zh_TW": "復制",
+    "en": "Copy",
+    "zh_CN": "复制"
+  },
+  {
+    "text_key": "maint_form_copy",
+    "zh_TW": "復制新增",
+    "en": "Copy as New",
+    "zh_CN": "复制新增"
+  },
+  {
+    "text_key": "maint_form_view",
+    "zh_TW": "資料詳情",
+    "en": "Record Detail",
+    "zh_CN": "资料详情"
+  },
+  {
+    "text_key": "maint_confirm_disable",
+    "zh_TW": "確定將此筆資料設為失效？",
+    "en": "Disable this record?",
+    "zh_CN": "确定将此笔资料设为失效？"
+  },
+  {
+    "text_key": "maint_confirm_enable",
+    "zh_TW": "確定將此筆資料恢復生效？",
+    "en": "Enable this record?",
+    "zh_CN": "确定将此笔资料恢复生效？"
+  },
+  {
+    "text_key": "maint_confirm_discard",
+    "zh_TW": "有未儲存變更，確定放棄？",
+    "en": "Discard unsaved changes?",
+    "zh_CN": "有未保存变更，确定放弃？"
+  },
+  {
+    "text_key": "maint_msg_select_row",
+    "zh_TW": "請先選取一筆資料。",
+    "en": "Select a record first.",
+    "zh_CN": "请先选取一笔资料。"
+  },
+  {
+    "text_key": "maint_msg_save_ok",
+    "zh_TW": "已儲存。",
+    "en": "Saved.",
+    "zh_CN": "已保存。"
+  },
+  {
+    "text_key": "maint_msg_required",
+    "zh_TW": "請填寫必填欄位。",
+    "en": "Please fill required fields.",
+    "zh_CN": "请填写必填栏位。"
+  },
+  {
+    "text_key": "tab_inventory",
+    "zh_TW": "存貨清單",
+    "en": "Inventory List",
+    "zh_CN": "存货清单"
+  },
+  {
+    "text_key": "maint_table_inventory",
+    "zh_TW": "存貨",
+    "en": "Inventory",
+    "zh_CN": "存货"
+  },
+  {
+    "text_key": "field_item_code",
+    "zh_TW": "存貨編號",
+    "en": "Item Code",
+    "zh_CN": "存货编号"
+  },
+  {
+    "text_key": "field_item_name",
+    "zh_TW": "存貨名稱",
+    "en": "Item Name",
+    "zh_CN": "存货名称"
+  },
+  {
+    "text_key": "field_item_name_en",
+    "zh_TW": "英文名稱",
+    "en": "English Name",
+    "zh_CN": "英文名称"
+  },
+  {
+    "text_key": "field_category",
+    "zh_TW": "類別",
+    "en": "Category",
+    "zh_CN": "类别"
+  },
+  {
+    "text_key": "field_brand",
+    "zh_TW": "品牌",
+    "en": "Brand",
+    "zh_CN": "品牌"
+  },
+  {
+    "text_key": "field_version_scb",
+    "zh_TW": "SCB 版本",
+    "en": "SCB Version",
+    "zh_CN": "SCB 版本"
+  },
+  {
+    "text_key": "field_version_controller",
+    "zh_TW": "控制器版本",
+    "en": "Controller Version",
+    "zh_CN": "控制器版本"
+  },
+  {
+    "text_key": "field_version_servo",
+    "zh_TW": "伺服版本",
+    "en": "Servo Version",
+    "zh_CN": "伺服版本"
+  },
+  {
+    "text_key": "field_model",
+    "zh_TW": "型號",
+    "en": "Model",
+    "zh_CN": "型号"
+  },
+  {
+    "text_key": "field_serial_no",
+    "zh_TW": "序號",
+    "en": "Serial No.",
+    "zh_CN": "序号"
+  },
+  {
+    "text_key": "field_quantity",
+    "zh_TW": "數量",
+    "en": "Quantity",
+    "zh_CN": "数量"
+  },
+  {
+    "text_key": "field_unit",
+    "zh_TW": "單位",
+    "en": "Unit",
+    "zh_CN": "单位"
+  },
+  {
+    "text_key": "field_location",
+    "zh_TW": "存放位置",
+    "en": "Location",
+    "zh_CN": "存放位置"
+  },
+  {
+    "text_key": "field_dimensions",
+    "zh_TW": "尺寸",
+    "en": "Dimensions",
+    "zh_CN": "尺寸"
+  },
+  {
+    "text_key": "field_remark",
+    "zh_TW": "備註",
+    "en": "Remark",
+    "zh_CN": "备注"
+  },
+  {
+    "text_key": "inventory_category_robot_arm",
+    "zh_TW": "機械臂",
+    "en": "Robot Arm",
+    "zh_CN": "机械臂"
+  },
+  {
+    "text_key": "inventory_category_control_box",
+    "zh_TW": "控制櫃",
+    "en": "Control Cabinet",
+    "zh_CN": "控制柜"
+  },
+  {
+    "text_key": "inventory_category_tool",
+    "zh_TW": "工具",
+    "en": "Tool",
+    "zh_CN": "工具"
+  },
+  {
+    "text_key": "inventory_category_other",
+    "zh_TW": "其他",
+    "en": "Other",
+    "zh_CN": "其他"
+  },
+  {
+    "text_key": "table_ui_tab_list",
+    "zh_TW": "資料列表",
+    "en": "Data List",
+    "zh_CN": "资料列表"
+  },
+  {
+    "text_key": "table_ui_tab_edit",
+    "zh_TW": "編輯內容",
+    "en": "Edit",
+    "zh_CN": "编辑内容"
+  },
+  {
+    "text_key": "table_ui_tab_attachments",
+    "zh_TW": "各類附件",
+    "en": "Attachments",
+    "zh_CN": "各类附件"
+  },
+  {
+    "text_key": "table_ui_tab_messages",
+    "zh_TW": "訊息記錄",
+    "en": "Messages",
+    "zh_CN": "讯息记录"
+  },
+  {
+    "text_key": "table_ui_tip_search",
+    "zh_TW": "搜尋",
+    "en": "Search",
+    "zh_CN": "搜索"
+  },
+  {
+    "text_key": "table_ui_icon_search",
+    "zh_TW": "🔍",
+    "en": "🔍",
+    "zh_CN": "🔍"
+  },
+  {
+    "text_key": "table_ui_tip_nav_first",
+    "zh_TW": "第一筆",
+    "en": "First",
+    "zh_CN": "第一笔"
+  },
+  {
+    "text_key": "table_ui_tip_nav_prev",
+    "zh_TW": "上一筆",
+    "en": "Previous",
+    "zh_CN": "上一笔"
+  },
+  {
+    "text_key": "table_ui_tip_nav_next",
+    "zh_TW": "下一筆",
+    "en": "Next",
+    "zh_CN": "下一笔"
+  },
+  {
+    "text_key": "table_ui_tip_nav_last",
+    "zh_TW": "最後一筆",
+    "en": "Last",
+    "zh_CN": "最后一笔"
+  },
+  {
+    "text_key": "table_ui_icon_nav_first",
+    "zh_TW": "◀◀",
+    "en": "◀◀",
+    "zh_CN": "◀◀"
+  },
+  {
+    "text_key": "table_ui_icon_nav_prev",
+    "zh_TW": "◀",
+    "en": "◀",
+    "zh_CN": "◀"
+  },
+  {
+    "text_key": "table_ui_icon_nav_next",
+    "zh_TW": "▶",
+    "en": "▶",
+    "zh_CN": "▶"
+  },
+  {
+    "text_key": "table_ui_icon_nav_last",
+    "zh_TW": "▶▶",
+    "en": "▶▶",
+    "zh_CN": "▶▶"
+  },
+  {
+    "text_key": "table_ui_label_select_all",
+    "zh_TW": "全部勾選",
+    "en": "Select All",
+    "zh_CN": "全部勾选"
+  },
+  {
+    "text_key": "table_ui_label_deselect_all",
+    "zh_TW": "取消勾選",
+    "en": "Deselect All",
+    "zh_CN": "取消勾选"
+  },
+  {
+    "text_key": "table_ui_dirty_message",
+    "zh_TW": "內容已修改，請選擇儲存或取消。",
+    "en": "Content changed. Choose Save or Cancel.",
+    "zh_CN": "内容已修改，请选择保存或取消。"
+  },
+  {
+    "text_key": "table_ui_dirty_save",
+    "zh_TW": "儲存",
+    "en": "Save",
+    "zh_CN": "保存"
+  },
+  {
+    "text_key": "table_ui_dirty_cancel",
+    "zh_TW": "取消",
+    "en": "Cancel",
+    "zh_CN": "取消"
+  },
+  {
+    "text_key": "table_ui_disabled_banner",
+    "zh_TW": "此筆資料已失效（唯讀）",
+    "en": "This record is disabled (read-only)",
+    "zh_CN": "此笔资料已失效（只读）"
+  },
+  {
+    "text_key": "table_ui_mode_add",
+    "zh_TW": "新增資料",
+    "en": "Add Record",
+    "zh_CN": "新增数据"
+  },
+  {
+    "text_key": "table_ui_mode_edit",
+    "zh_TW": "編輯內容",
+    "en": "Edit Record",
+    "zh_CN": "编辑内容"
+  },
+  {
+    "text_key": "table_ui_mode_copy",
+    "zh_TW": "復制新增",
+    "en": "Copy as New",
+    "zh_CN": "复制新增"
+  },
+  {
+    "text_key": "table_ui_tab_layout",
+    "zh_TW": "版面設定",
+    "en": "Layout",
+    "zh_CN": "版面设定"
+  },
+  {
+    "text_key": "table_ui_tip_layout",
+    "zh_TW": "儲存版面設定",
+    "en": "Save Layout Settings",
+    "zh_CN": "保存版面设置"
+  },
+  {
+    "text_key": "table_ui_tip_open_layout",
+    "zh_TW": "版面設定",
+    "en": "Layout Settings",
+    "zh_CN": "版面设置"
+  },
+  {
+    "text_key": "table_ui_icon_layout",
+    "zh_TW": "▦",
+    "en": "▦",
+    "zh_CN": "▦"
+  },
+  {
+    "text_key": "table_ui_icon_layout_save_badge",
+    "zh_TW": "💾",
+    "en": "💾",
+    "zh_CN": "💾"
+  },
+  {
+    "text_key": "table_ui_tip_save_layout",
+    "zh_TW": "儲存版面設定",
+    "en": "Save Layout Settings",
+    "zh_CN": "保存版面设置"
+  },
+  {
+    "text_key": "table_ui_layout_column_width",
+    "zh_TW": "欄寬",
+    "en": "Width",
+    "zh_CN": "栏宽"
+  },
+  {
+    "text_key": "field_multi_select",
+    "zh_TW": "多選",
+    "en": "Multi Select",
+    "zh_CN": "多选"
+  },
+  {
+    "text_key": "field_desc_multi_select",
+    "zh_TW": "列表多選欄寬",
+    "en": "List multi-select column width",
+    "zh_CN": "列表多选栏宽"
+  },
+  {
+    "text_key": "table_ui_tip_cancel_layout",
+    "zh_TW": "取消",
+    "en": "Cancel",
+    "zh_CN": "取消"
+  },
+  {
+    "text_key": "table_ui_layout_title",
+    "zh_TW": "UI 版面設定",
+    "en": "UI Layout Settings",
+    "zh_CN": "UI 版面设定"
+  },
+  {
+    "text_key": "table_ui_layout_table_name",
+    "zh_TW": "表格名稱",
+    "en": "Table Name",
+    "zh_CN": "表格名称"
+  },
+  {
+    "text_key": "table_ui_layout_zebra",
+    "zh_TW": "列表間隔行底色",
+    "en": "Zebra Rows",
+    "zh_CN": "列表间隔行底色"
+  },
+  {
+    "text_key": "table_ui_layout_zebra_enabled",
+    "zh_TW": "啟用",
+    "en": "Enable",
+    "zh_CN": "启用"
+  },
+  {
+    "text_key": "table_ui_layout_zebra_color",
+    "zh_TW": "間隔行顏色",
+    "en": "Zebra color",
+    "zh_CN": "间隔行颜色"
+  },
+  {
+    "text_key": "table_ui_layout_columns",
+    "zh_TW": "欄位顯示排序",
+    "en": "Column Display Order",
+    "zh_CN": "字段显示排序"
+  },
+  {
+    "text_key": "table_ui_layout_visible",
+    "zh_TW": "顯示",
+    "en": "Visible",
+    "zh_CN": "显示"
+  },
+  {
+    "text_key": "table_ui_layout_field_name",
+    "zh_TW": "欄位名稱",
+    "en": "Field Name",
+    "zh_CN": "字段名称"
+  },
+  {
+    "text_key": "table_ui_layout_field_desc",
+    "zh_TW": "欄名說明",
+    "en": "Field Description",
+    "zh_CN": "字段说明"
+  },
+  {
+    "text_key": "table_ui_layout_sort_dir",
+    "zh_TW": "排序方向",
+    "en": "Sort Direction",
+    "zh_CN": "排序方向"
+  },
+  {
+    "text_key": "table_ui_layout_sort_empty",
+    "zh_TW": "空",
+    "en": "Empty",
+    "zh_CN": "空"
+  },
+  {
+    "text_key": "table_ui_layout_sort_asc",
+    "zh_TW": "升序",
+    "en": "Ascending",
+    "zh_CN": "升序"
+  },
+  {
+    "text_key": "table_ui_layout_sort_desc",
+    "zh_TW": "降序",
+    "en": "Descending",
+    "zh_CN": "降序"
+  },
+  {
+    "text_key": "table_ui_tip_move_up",
+    "zh_TW": "上移",
+    "en": "Move Up",
+    "zh_CN": "上移"
+  },
+  {
+    "text_key": "table_ui_tip_move_down",
+    "zh_TW": "下移",
+    "en": "Move Down",
+    "zh_CN": "下移"
+  },
+  {
+    "text_key": "table_ui_icon_move_up",
+    "zh_TW": "▲",
+    "en": "▲",
+    "zh_CN": "▲"
+  },
+  {
+    "text_key": "table_ui_icon_move_down",
+    "zh_TW": "▼",
+    "en": "▼",
+    "zh_CN": "▼"
+  },
+  {
+    "text_key": "table_ui_tip_drag",
+    "zh_TW": "拖曳排序",
+    "en": "Drag to reorder",
+    "zh_CN": "拖曳排序"
+  },
+  {
+    "text_key": "table_ui_icon_drag",
+    "zh_TW": "⋮⋮",
+    "en": "⋮⋮",
+    "zh_CN": "⋮⋮"
+  },
+  {
+    "text_key": "table_ui_msg_max_visible_columns",
+    "zh_TW": "顯示欄位最多只可選擇 6 個。",
+    "en": "Maximum 6 visible columns are allowed.",
+    "zh_CN": "最多只能选择 6 个显示字段。"
+  },
+  {
+    "text_key": "table_ui_msg_layout_saved",
+    "zh_TW": "版面已儲存。",
+    "en": "Layout saved.",
+    "zh_CN": "版面已保存。"
+  },
+  {
+    "text_key": "table_ui_zebra_light_blue",
+    "zh_TW": "淺藍",
+    "en": "Light Blue",
+    "zh_CN": "浅蓝"
+  },
+  {
+    "text_key": "table_ui_zebra_light_gray",
+    "zh_TW": "淺灰",
+    "en": "Light Gray",
+    "zh_CN": "浅灰"
+  },
+  {
+    "text_key": "table_ui_zebra_light_green",
+    "zh_TW": "淺綠",
+    "en": "Light Green",
+    "zh_CN": "浅绿"
+  },
+  {
+    "text_key": "table_ui_zebra_light_yellow",
+    "zh_TW": "淺黃",
+    "en": "Light Yellow",
+    "zh_CN": "浅黄"
+  },
+  {
+    "text_key": "field_desc_txid",
+    "zh_TW": "資料識別碼（自動產生）",
+    "en": "Record ID (auto-generated)",
+    "zh_CN": "资料识别码（自动产生）"
+  },
+  {
+    "text_key": "field_desc_item_code",
+    "zh_TW": "存貨編號",
+    "en": "Inventory item code",
+    "zh_CN": "存货编号"
+  },
+  {
+    "text_key": "field_desc_item_name",
+    "zh_TW": "存貨名稱",
+    "en": "Inventory item name",
+    "zh_CN": "存货名称"
+  },
+  {
+    "text_key": "field_desc_item_name_en",
+    "zh_TW": "存貨英文名稱",
+    "en": "Inventory English name",
+    "zh_CN": "存货英文名称"
+  },
+  {
+    "text_key": "field_desc_category",
+    "zh_TW": "存貨類別",
+    "en": "Inventory category",
+    "zh_CN": "存货类别"
+  },
+  {
+    "text_key": "field_desc_quantity",
+    "zh_TW": "數量",
+    "en": "Quantity",
+    "zh_CN": "数量"
+  },
+  {
+    "text_key": "field_desc_is_disable",
+    "zh_TW": "生效／失效狀態",
+    "en": "Enabled / disabled status",
+    "zh_CN": "生效／失效状态"
+  },
+  {
+    "text_key": "field_desc_brand",
+    "zh_TW": "品牌",
+    "en": "Brand",
+    "zh_CN": "品牌"
+  },
+  {
+    "text_key": "field_desc_model",
+    "zh_TW": "型號",
+    "en": "Model",
+    "zh_CN": "型号"
+  },
+  {
+    "text_key": "field_desc_serial_no",
+    "zh_TW": "序號",
+    "en": "Serial number",
+    "zh_CN": "序号"
+  },
+  {
+    "text_key": "field_desc_unit",
+    "zh_TW": "單位",
+    "en": "Unit",
+    "zh_CN": "单位"
+  },
+  {
+    "text_key": "field_desc_location",
+    "zh_TW": "存放位置",
+    "en": "Storage location",
+    "zh_CN": "存放位置"
+  },
+  {
+    "text_key": "field_desc_dimensions",
+    "zh_TW": "尺寸（自由輸入）",
+    "en": "Dimensions (free text)",
+    "zh_CN": "尺寸（自由输入）"
+  },
+  {
+    "text_key": "field_desc_version_scb",
+    "zh_TW": "SCB 版本（文字，可留空）",
+    "en": "SCB version (text, optional)",
+    "zh_CN": "SCB 版本（文字，可留空）"
+  },
+  {
+    "text_key": "field_desc_version_controller",
+    "zh_TW": "控制器版本（文字，可留空）",
+    "en": "Controller version (text, optional)",
+    "zh_CN": "控制器版本（文字，可留空）"
+  },
+  {
+    "text_key": "field_desc_version_servo",
+    "zh_TW": "伺服版本（文字，可留空）",
+    "en": "Servo version (text, optional)",
+    "zh_CN": "伺服版本（文字，可留空）"
+  },
+  {
+    "text_key": "field_desc_remark",
+    "zh_TW": "備註",
+    "en": "Remark",
+    "zh_CN": "备注"
+  },
+  {
+    "text_key": "vd_section_robot",
+    "zh_TW": "虛擬機械臂",
+    "en": "Virtual Robot",
+    "zh_CN": "虚拟机械臂"
+  },
+  {
+    "text_key": "vd_section_status",
+    "zh_TW": "狀態監控",
+    "en": "Status Monitor",
+    "zh_CN": "状态监控"
+  },
+  {
+    "text_key": "vd_section_motion",
+    "zh_TW": "動作指令",
+    "en": "Motion Commands",
+    "zh_CN": "动作指令"
+  },
+  {
+    "text_key": "vd_section_io",
+    "zh_TW": "虛擬 I/O",
+    "en": "Virtual I/O",
+    "zh_CN": "虚拟 I/O"
+  },
+  {
+    "text_key": "vd_section_unimplemented",
+    "zh_TW": "未實作功能",
+    "en": "Not Implemented",
+    "zh_CN": "未实现功能"
+  },
+  {
+    "text_key": "vd_label_robot",
+    "zh_TW": "機械臂",
+    "en": "Robot",
+    "zh_CN": "机械臂"
+  },
+  {
+    "text_key": "vd_label_connected",
+    "zh_TW": "連線",
+    "en": "Connected",
+    "zh_CN": "连接"
+  },
+  {
+    "text_key": "vd_label_e_stopped",
+    "zh_TW": "緊急停止",
+    "en": "E-Stop",
+    "zh_CN": "紧急停止"
+  },
+  {
+    "text_key": "vd_label_joints",
+    "zh_TW": "關節角度 (度)",
+    "en": "Joints (deg)",
+    "zh_CN": "关节角度 (度)"
+  },
+  {
+    "text_key": "vd_label_pose",
+    "zh_TW": "位姿",
+    "en": "Pose",
+    "zh_CN": "位姿"
+  },
+  {
+    "text_key": "vd_pose_pending_fk",
+    "zh_TW": "待接運動學",
+    "en": "Kinematics pending",
+    "zh_CN": "待接运动学"
+  },
+  {
+    "text_key": "vd_label_do",
+    "zh_TW": "數位輸出 DO",
+    "en": "Digital Output DO",
+    "zh_CN": "数字输出 DO"
+  },
+  {
+    "text_key": "vd_label_di",
+    "zh_TW": "數位輸入 DI（虛擬手動）",
+    "en": "Digital Input DI (virtual manual)",
+    "zh_CN": "数字输入 DI（虚拟手动）"
+  },
+  {
+    "text_key": "vd_label_log",
+    "zh_TW": "操作紀錄",
+    "en": "Operation Log",
+    "zh_CN": "操作记录"
+  },
+  {
+    "text_key": "vd_label_log_time",
+    "zh_TW": "時間",
+    "en": "Time",
+    "zh_CN": "时间"
+  },
+  {
+    "text_key": "vd_label_log_action",
+    "zh_TW": "動作",
+    "en": "Action",
+    "zh_CN": "动作"
+  },
+  {
+    "text_key": "vd_label_log_result",
+    "zh_TW": "結果",
+    "en": "Result",
+    "zh_CN": "结果"
+  },
+  {
+    "text_key": "vd_status_yes",
+    "zh_TW": "是",
+    "en": "Yes",
+    "zh_CN": "是"
+  },
+  {
+    "text_key": "vd_status_no",
+    "zh_TW": "否",
+    "en": "No",
+    "zh_CN": "否"
+  },
+  {
+    "text_key": "vd_btn_connect",
+    "zh_TW": "連線",
+    "en": "Connect",
+    "zh_CN": "连接"
+  },
+  {
+    "text_key": "vd_btn_disconnect",
+    "zh_TW": "斷線",
+    "en": "Disconnect",
+    "zh_CN": "断开"
+  },
+  {
+    "text_key": "vd_btn_estop",
+    "zh_TW": "緊急停止",
+    "en": "E-Stop",
+    "zh_CN": "紧急停止"
+  },
+  {
+    "text_key": "vd_btn_reset_estop",
+    "zh_TW": "解除緊急停止",
+    "en": "Reset E-Stop",
+    "zh_CN": "解除紧急停止"
+  },
+  {
+    "text_key": "vd_btn_move_home",
+    "zh_TW": "回原點",
+    "en": "Move Home",
+    "zh_CN": "回原点"
+  },
+  {
+    "text_key": "vd_btn_move_j",
+    "zh_TW": "執行 moveJ",
+    "en": "Run moveJ",
+    "zh_CN": "执行 moveJ"
+  },
+  {
+    "text_key": "vd_btn_move_l",
+    "zh_TW": "moveL",
+    "en": "moveL",
+    "zh_CN": "moveL"
+  },
+  {
+    "text_key": "vd_btn_move_servo",
+    "zh_TW": "moveServo",
+    "en": "moveServo",
+    "zh_CN": "moveServo"
+  },
+  {
+    "text_key": "vd_btn_move_line",
+    "zh_TW": "moveLine",
+    "en": "moveLine",
+    "zh_CN": "moveLine"
+  },
+  {
+    "text_key": "vd_btn_sync_move",
+    "zh_TW": "sync_move",
+    "en": "sync_move",
+    "zh_CN": "sync_move"
+  },
+  {
+    "text_key": "vd_btn_weld",
+    "zh_TW": "焊接 weld",
+    "en": "Weld",
+    "zh_CN": "焊接 weld"
+  },
+  {
+    "text_key": "vd_btn_torch",
+    "zh_TW": "焊槍 torch",
+    "en": "Torch",
+    "zh_CN": "焊枪 torch"
+  },
+  {
+    "text_key": "vd_joint_input_hint",
+    "zh_TW": "J1–J6 單位為關節角度（°）。待機可編輯目標角；運動中顯示目前姿態角度（與畫面同步）。與模型標籤 XYZ（m）不同。",
+    "en": "J1–J6 are joint angles in degrees (°). Edit targets while idle; during motion they show the live pose (synced with the view). Distinct from model label XYZ (m).",
+    "zh_CN": "J1–J6 单位为关节角度（°）。待机可编辑目标角；运动中显示当前姿态角度（与画面同步）。与模型标签 XYZ（m）不同。"
+  },
+  {
+    "text_key": "vd_result_ok",
+    "zh_TW": "完成",
+    "en": "Done",
+    "zh_CN": "完成"
+  },
+  {
+    "text_key": "vd_result_not_connected",
+    "zh_TW": "未連線，已拒絕",
+    "en": "Rejected: not connected",
+    "zh_CN": "未连接，已拒绝"
+  },
+  {
+    "text_key": "vd_result_estop",
+    "zh_TW": "緊急停止中，已拒絕",
+    "en": "Rejected: E-Stop active",
+    "zh_CN": "紧急停止中，已拒绝"
+  },
+  {
+    "text_key": "vd_result_invalid_joints",
+    "zh_TW": "關節輸入無效",
+    "en": "Invalid joint input",
+    "zh_CN": "关节输入无效"
+  },
+  {
+    "text_key": "vd_result_not_implemented",
+    "zh_TW": "未實作",
+    "en": "Not implemented",
+    "zh_CN": "未实现"
+  },
+  {
+    "text_key": "vd_action_connect",
+    "zh_TW": "連線",
+    "en": "Connect",
+    "zh_CN": "连接"
+  },
+  {
+    "text_key": "vd_action_disconnect",
+    "zh_TW": "斷線",
+    "en": "Disconnect",
+    "zh_CN": "断开"
+  },
+  {
+    "text_key": "vd_action_estop",
+    "zh_TW": "緊急停止",
+    "en": "E-Stop",
+    "zh_CN": "紧急停止"
+  },
+  {
+    "text_key": "vd_action_reset_estop",
+    "zh_TW": "解除緊急停止",
+    "en": "Reset E-Stop",
+    "zh_CN": "解除紧急停止"
+  },
+  {
+    "text_key": "vd_action_move_home",
+    "zh_TW": "回原點",
+    "en": "Move Home",
+    "zh_CN": "回原点"
+  },
+  {
+    "text_key": "vd_action_move_j",
+    "zh_TW": "moveJ",
+    "en": "moveJ",
+    "zh_CN": "moveJ"
+  },
+  {
+    "text_key": "vd_action_set_do",
+    "zh_TW": "設定 DO",
+    "en": "Set DO",
+    "zh_CN": "设置 DO"
+  },
+  {
+    "text_key": "vd_action_set_di",
+    "zh_TW": "設定 DI",
+    "en": "Set DI",
+    "zh_CN": "设置 DI"
+  },
+  {
+    "text_key": "vd_action_move_l",
+    "zh_TW": "moveL",
+    "en": "moveL",
+    "zh_CN": "moveL"
+  },
+  {
+    "text_key": "vd_action_move_servo",
+    "zh_TW": "moveServo",
+    "en": "moveServo",
+    "zh_CN": "moveServo"
+  },
+  {
+    "text_key": "vd_action_move_line",
+    "zh_TW": "moveLine",
+    "en": "moveLine",
+    "zh_CN": "moveLine"
+  },
+  {
+    "text_key": "vd_action_sync_move",
+    "zh_TW": "sync_move",
+    "en": "sync_move",
+    "zh_CN": "sync_move"
+  },
+  {
+    "text_key": "vd_action_weld",
+    "zh_TW": "焊接",
+    "en": "Weld",
+    "zh_CN": "焊接"
+  },
+  {
+    "text_key": "vd_action_torch",
+    "zh_TW": "焊槍",
+    "en": "Torch",
+    "zh_CN": "焊枪"
+  },
+  {
+    "text_key": "vd_message_banner",
+    "zh_TW": "訊息",
+    "en": "Message",
+    "zh_CN": "消息"
+  },
+  {
+    "text_key": "vd_schematic_disclaimer",
+    "zh_TW": "自製六軸示意模型，非官方 CAD，非真機精確模擬",
+    "en": "Custom 6-axis schematic model; not official CAD; not a precise real-robot simulation",
+    "zh_CN": "自制六轴示意模型，非官方 CAD，非真机精确模拟"
+  },
+  {
+    "text_key": "vd_model_rokae_cr7",
+    "zh_TW": "ROKAE CR7（示意）",
+    "en": "ROKAE CR7 (schematic)",
+    "zh_CN": "ROKAE CR7（示意）"
+  },
+  {
+    "text_key": "vd_model_jaka_zu7",
+    "zh_TW": "JAKA Zu7（示意）",
+    "en": "JAKA Zu7 (schematic)",
+    "zh_CN": "JAKA Zu7（示意）"
+  },
+  {
+    "text_key": "vd_label_model_select",
+    "zh_TW": "型號",
+    "en": "Model",
+    "zh_CN": "型号"
+  },
+  {
+    "text_key": "vd_label_target_joints",
+    "zh_TW": "目標關節",
+    "en": "Target joints",
+    "zh_CN": "目标关节"
+  },
+  {
+    "text_key": "vd_label_current_joints",
+    "zh_TW": "當前關節",
+    "en": "Current joints",
+    "zh_CN": "当前关节"
+  },
+  {
+    "text_key": "vd_label_is_moving",
+    "zh_TW": "動作中",
+    "en": "Moving",
+    "zh_CN": "动作中"
+  },
+  {
+    "text_key": "vd_section_3d",
+    "zh_TW": "3D 示意",
+    "en": "3D Schematic",
+    "zh_CN": "3D 示意"
+  },
+  {
+    "text_key": "vd_demo_limits_note",
+    "zh_TW": "Demo 角度限制，未經真機核實",
+    "en": "Demo joint limits; not verified on real hardware",
+    "zh_CN": "Demo 角度限制，未经真机核实"
+  },
+  {
+    "text_key": "vd_action_select_model",
+    "zh_TW": "切換型號",
+    "en": "Switch model",
+    "zh_CN": "切换型号"
+  },
+  {
+    "text_key": "vd_action_set_target",
+    "zh_TW": "設定目標關節",
+    "en": "Set target joints",
+    "zh_CN": "设定目标关节"
+  },
+  {
+    "text_key": "vd_result_aborted",
+    "zh_TW": "已中止",
+    "en": "Aborted",
+    "zh_CN": "已中止"
+  },
+  {
+    "text_key": "vd_result_joint_limit",
+    "zh_TW": "超出 Demo 角度限制",
+    "en": "Outside demo joint limits",
+    "zh_CN": "超出 Demo 角度限制"
+  },
+  {
+    "text_key": "vd_result_motion_started",
+    "zh_TW": "動作開始",
+    "en": "Motion started",
+    "zh_CN": "动作开始"
+  },
+  {
+    "text_key": "vd_label_demo_select",
+    "zh_TW": "示範",
+    "en": "Demo",
+    "zh_CN": "示范"
+  },
+  {
+    "text_key": "vd_demo_none",
+    "zh_TW": "（無）",
+    "en": "(None)",
+    "zh_CN": "（无）"
+  },
+  {
+    "text_key": "vd_demo_carry_vertical_1",
+    "zh_TW": "搬運動作示範1（上下搬運）",
+    "en": "Carry demo 1 (vertical)",
+    "zh_CN": "搬运动作示范1（上下搬运）"
+  },
+  {
+    "text_key": "vd_demo_carry_front_back_2",
+    "zh_TW": "搬運動作示範2（前後搬運 >180°）",
+    "en": "Carry demo 2 (front/back >180°)",
+    "zh_CN": "搬运动作示范2（前后搬运 >180°）"
+  },
+  {
+    "text_key": "vd_demo_speed",
+    "zh_TW": "播放速度",
+    "en": "Playback speed",
+    "zh_CN": "播放速度"
+  },
+  {
+    "text_key": "vd_demo_speed_x1",
+    "zh_TW": "×1 正常",
+    "en": "×1 Normal",
+    "zh_CN": "×1 正常"
+  },
+  {
+    "text_key": "vd_demo_speed_x2",
+    "zh_TW": "×2",
+    "en": "×2",
+    "zh_CN": "×2"
+  },
+  {
+    "text_key": "vd_demo_speed_x3",
+    "zh_TW": "×3",
+    "en": "×3",
+    "zh_CN": "×3"
+  },
+  {
+    "text_key": "vd_btn_run_demo",
+    "zh_TW": "執行示範",
+    "en": "Run demo",
+    "zh_CN": "执行示范"
+  },
+  {
+    "text_key": "vd_btn_reset_demo",
+    "zh_TW": "重置示範",
+    "en": "Reset demo",
+    "zh_CN": "重置示范"
+  },
+  {
+    "text_key": "vd_demo_phase",
+    "zh_TW": "示範階段",
+    "en": "Demo phase",
+    "zh_CN": "示范阶段"
+  },
+  {
+    "text_key": "vd_demo_needs_reset",
+    "zh_TW": "請先重置示範",
+    "en": "Reset demo first",
+    "zh_CN": "请先重置示范"
+  },
+  {
+    "text_key": "vd_demo_blocked",
+    "zh_TW": "示範執行中，已拒絕",
+    "en": "Rejected: demo running",
+    "zh_CN": "示范执行中，已拒绝"
+  },
+  {
+    "text_key": "vd_demo_model_unsupported",
+    "zh_TW": "目前型號不支援此示範",
+    "en": "Demo not supported on this model",
+    "zh_CN": "当前型号不支持此示范"
+  },
+  {
+    "text_key": "vd_result_unreachable",
+    "zh_TW": "路徑不可達／預檢失敗",
+    "en": "Unreachable / preflight failed",
+    "zh_CN": "路径不可达／预检失败"
+  },
+  {
+    "text_key": "vd_result_preflight_ok",
+    "zh_TW": "預檢通過",
+    "en": "Preflight OK",
+    "zh_CN": "预检通过"
+  },
+  {
+    "text_key": "vd_action_run_demo",
+    "zh_TW": "執行示範",
+    "en": "Run demo",
+    "zh_CN": "执行示范"
+  },
+  {
+    "text_key": "vd_action_reset_demo",
+    "zh_TW": "重置示範",
+    "en": "Reset demo",
+    "zh_CN": "重置示范"
+  },
+  {
+    "text_key": "vd_action_select_demo",
+    "zh_TW": "選擇示範",
+    "en": "Select demo",
+    "zh_CN": "选择示范"
+  },
+  {
+    "text_key": "vd_label_show_joint_labels",
+    "zh_TW": "顯示關節標籤",
+    "en": "Show joint labels",
+    "zh_CN": "显示关节标签"
+  },
+  {
+    "text_key": "tab_software_version",
+    "zh_TW": "軟件版本",
+    "en": "Software Version",
+    "zh_CN": "软件版本"
+  },
+  {
+    "text_key": "status_not_provided",
+    "zh_TW": "未提供",
+    "en": "Not provided",
+    "zh_CN": "未提供"
+  },
+  {
+    "text_key": "status_not_configured",
+    "zh_TW": "未配置",
+    "en": "Not configured",
+    "zh_CN": "未配置"
+  },
+  {
+    "text_key": "status_not_checked",
+    "zh_TW": "尚未檢查",
+    "en": "Not checked yet",
+    "zh_CN": "尚未检查"
+  },
+  {
+    "text_key": "status_load_success",
+    "zh_TW": "成功",
+    "en": "Success",
+    "zh_CN": "成功"
+  },
+  {
+    "text_key": "status_load_failed",
+    "zh_TW": "失敗",
+    "en": "Failed",
+    "zh_CN": "失败"
+  },
+  {
+    "text_key": "sw_section_system",
+    "zh_TW": "RoboArm／主系統",
+    "en": "RoboArm / Host System",
+    "zh_CN": "RoboArm／主系统"
+  },
+  {
+    "text_key": "sw_section_jaka",
+    "zh_TW": "JAKA 連線環境",
+    "en": "JAKA Connection Environment",
+    "zh_CN": "JAKA 连接环境"
+  },
+  {
+    "text_key": "sw_section_details",
+    "zh_TW": "詳細資料",
+    "en": "Details",
+    "zh_CN": "详细资料"
+  },
+  {
+    "text_key": "sw_btn_expand_details",
+    "zh_TW": "展開詳細資料",
+    "en": "Expand details",
+    "zh_CN": "展开详细资料"
+  },
+  {
+    "text_key": "sw_btn_collapse_details",
+    "zh_TW": "收起詳細資料",
+    "en": "Collapse details",
+    "zh_CN": "收起详细资料"
+  },
+  {
+    "text_key": "sw_label_app_version",
+    "zh_TW": "RoboArm 軟件版本",
+    "en": "RoboArm Software Version",
+    "zh_CN": "RoboArm 软件版本"
+  },
+  {
+    "text_key": "sw_label_host_python",
+    "zh_TW": "主系統 Python 版本",
+    "en": "Host Python Version",
+    "zh_CN": "主系统 Python 版本"
+  },
+  {
+    "text_key": "sw_label_os_arch",
+    "zh_TW": "作業系統／架構",
+    "en": "OS / Architecture",
+    "zh_CN": "操作系统／架构"
+  },
+  {
+    "text_key": "sw_label_jaka_python",
+    "zh_TW": "JAKA 連線 Python 版本",
+    "en": "JAKA Connection Python Version",
+    "zh_CN": "JAKA 连接 Python 版本"
+  },
+  {
+    "text_key": "sw_label_jaka_sdk_version",
+    "zh_TW": "JAKA SDK 版本",
+    "en": "JAKA SDK Version",
+    "zh_CN": "JAKA SDK 版本"
+  },
+  {
+    "text_key": "sw_label_sdk_lib_name",
+    "zh_TW": "SDK 動態程式庫檔名",
+    "en": "SDK Dynamic Library Filename",
+    "zh_CN": "SDK 动态程序库文件名"
+  },
+  {
+    "text_key": "sw_label_sdk_lib_version",
+    "zh_TW": "SDK 動態程式庫版本",
+    "en": "SDK Dynamic Library Version",
+    "zh_CN": "SDK 动态程序库版本"
+  },
+  {
+    "text_key": "sw_label_host_python_exe",
+    "zh_TW": "主系統 Python 執行路徑",
+    "en": "Host Python Executable Path",
+    "zh_CN": "主系统 Python 执行路径"
+  },
+  {
+    "text_key": "sw_label_host_env_dir",
+    "zh_TW": "主系統 Python 環境目錄",
+    "en": "Host Python Environment Directory",
+    "zh_CN": "主系统 Python 环境目录"
+  },
+  {
+    "text_key": "sw_label_jaka_python_exe",
+    "zh_TW": "JAKA Python 執行路徑",
+    "en": "JAKA Python Executable Path",
+    "zh_CN": "JAKA Python 执行路径"
+  },
+  {
+    "text_key": "sw_label_jaka_env_dir",
+    "zh_TW": "JAKA Python 環境目錄",
+    "en": "JAKA Python Environment Directory",
+    "zh_CN": "JAKA Python 环境目录"
+  },
+  {
+    "text_key": "sw_label_jaka_sdk_dir",
+    "zh_TW": "SDK 目錄",
+    "en": "SDK Directory",
+    "zh_CN": "SDK 目录"
+  },
+  {
+    "text_key": "sw_label_sdk_lib_full_path",
+    "zh_TW": "SDK 動態程式庫完整路徑",
+    "en": "SDK Dynamic Library Full Path",
+    "zh_CN": "SDK 动态程序库完整路径"
+  },
+  {
+    "text_key": "sw_label_sdk_python_module",
+    "zh_TW": "Python SDK 模組檔名／路徑",
+    "en": "Python SDK Module Filename / Path",
+    "zh_CN": "Python SDK 模块文件名／路径"
+  }
 ]
-
-

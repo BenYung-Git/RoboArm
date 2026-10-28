@@ -1287,15 +1287,6 @@
         '"' +
         (readonly ? " disabled" : "") +
         ">";
-      if (column.field === "IpAddress" && !readonly) {
-        control =
-          '<div class="tui-ip-detect-wrap">' +
-          control +
-          '<button type="button" class="tui-btn tui-detect-ip-btn" id="' + eid("DetectIpBtn") + '">' +
-          escapeHtml(labels().btn_detect_network_ip) +
-          "</button>" +
-          '<div class="tui-ip-detect-list" id="' + eid("DetectIpList") + '"></div></div>';
-      }
     }
     return (
       '<label class="tui-form-field tui-field-row" data-field="' +
@@ -2216,43 +2207,6 @@
     });
   }
 
-  async function detectNetworkIps() {
-    const listEl = byEid("DetectIpList");
-    if (!listEl) {
-      return;
-    }
-    listEl.innerHTML = "";
-    try {
-      const result = await api("/api/network/ipv4-detect");
-      const items = result.items || [];
-      if (!items.length) {
-        listEl.textContent = labels().msg_detect_network_ip_empty;
-        return;
-      }
-      items.forEach(function (item) {
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "tui-ip-item";
-        const sourceLabel =
-          item.source === "local"
-            ? labels().label_detect_network_ip_source_local
-            : labels().label_detect_network_ip_source_neighbor;
-        const iface = item.interface ? " (" + item.interface + ")" : "";
-        btn.textContent = item.ip + " · " + sourceLabel + iface;
-        btn.addEventListener("click", function () {
-          const input = byFieldEid("IpAddress");
-          if (input) {
-            input.value = item.ip;
-            markDirtyIfNeeded();
-          }
-        });
-        listEl.appendChild(btn);
-      });
-    } catch (error) {
-      setMessage(String(error.message || error), true);
-    }
-  }
-
   function bindEvents() {
     root.querySelectorAll("[data-tui-tab]").forEach(function (btn) {
       btn.addEventListener("click", async function () {
@@ -2670,13 +2624,6 @@
           syncDisplayFieldsFromRelation(input.getAttribute("data-field"));
         });
       });
-
-    const detectBtn = byEid("DetectIpBtn");
-    if (detectBtn) {
-      detectBtn.addEventListener("click", async function () {
-        await detectNetworkIps();
-      });
-    }
 
     bindColumnResizers();
   }

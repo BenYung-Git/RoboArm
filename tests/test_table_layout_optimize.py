@@ -75,7 +75,7 @@ class TableLayoutOptimizeTests(unittest.TestCase):
         self.assertEqual(meta["labels"]["icon_layout_save_badge"], "💾")
 
     def test_multi_select_defaults_and_width_range(self) -> None:
-        for table_key in ("inventory", "categories", "equipment_settings"):
+        for table_key in ("inventory", "categories", "product_combinations"):
             layout = self.layout.ensure_table_layout(table_key)
             ms = next(
                 col
@@ -110,22 +110,22 @@ class TableLayoutOptimizeTests(unittest.TestCase):
         self.assertEqual(by_reload["TxId"]["column_width"], 120)
 
     def test_width_range_validation(self) -> None:
-        layout = self.layout.ensure_table_layout("equipment_settings")
+        layout = self.layout.ensure_table_layout("product_combinations")
         with self.assertRaises(ValueError):
             self.layout.save_layout(
-                "equipment_settings",
+                "product_combinations",
                 self._payload_from_layout(
                     layout, __multi_select={"column_width": 20}
                 ),
             )
         with self.assertRaises(ValueError):
             self.layout.save_layout(
-                "equipment_settings",
+                "product_combinations",
                 self._payload_from_layout(layout, TxId={"column_width": 50}),
             )
         with self.assertRaises(ValueError):
             self.layout.save_layout(
-                "equipment_settings",
+                "product_combinations",
                 self._payload_from_layout(layout, TxId={"column_width": 700}),
             )
 
@@ -151,7 +151,7 @@ class TableLayoutOptimizeTests(unittest.TestCase):
         self.assertEqual(by_key["CategoryCode"]["column_width"], 160)
 
     def test_same_flow_all_table_ui_hosts(self) -> None:
-        for table_key in ("inventory", "categories", "equipment_settings"):
+        for table_key in ("inventory", "categories", "product_combinations"):
             layout = self.layout.ensure_table_layout(table_key)
             self.assertIn("__multi_select", {
                 col["field_key"] for col in layout["columns"]

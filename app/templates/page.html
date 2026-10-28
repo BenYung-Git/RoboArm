@@ -65,8 +65,19 @@
           </label>
         </div>
       </header>
-      <div class="content-body{% if table_ui %} content-body-table-ui{% endif %}">
-        {% if table_ui %}
+      <div class="content-body{% if table_ui %} content-body-table-ui{% endif %}{% if is_system_setting %} content-body-system-setting{% endif %}">
+        {% if is_system_setting %}
+        <div class="settings-tabs" id="systemSettingTabs">
+          <button type="button" class="settings-tab active" data-panel="ui_text">{{ t('tab_interface_text') }}</button>
+          <button type="button" class="settings-tab" data-panel="software">{{ t('tab_software_version') }}</button>
+        </div>
+        <div class="sys-panel" id="systemPanelUiText" data-panel="ui_text">
+          <div id="maintRoot" class="maint-root" data-table-key="ui_text"></div>
+        </div>
+        <div class="sys-panel is-hidden" id="systemPanelSoftware" data-panel="software">
+          <div id="softwareVersionRoot" class="sw-root" aria-live="polite"></div>
+        </div>
+        {% elif table_ui %}
         {% if table_ui.tabs and table_ui.tabs|length > 0 %}
         <div class="settings-tabs" id="tableUiHostTabs">
           {% for tab in table_ui.tabs %}
@@ -104,7 +115,7 @@
   {% if table_ui %}
   <script src="/static/js/table_ui.js?v=embed_row_dblclick1"></script>
   {% endif %}
-  {% if settings_tabs %}
+  {% if settings_tabs or is_system_setting %}
   <script src="/static/js/maint.js"></script>
   {% endif %}
   {% if is_virtual_demo %}

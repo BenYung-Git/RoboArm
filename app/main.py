@@ -9,7 +9,7 @@ from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, Field
 
 from app.services.maint_service import MaintService
-from app.services.network_ip_service import detect_network_ips
+from app.services.software_info_service import SoftwareInfoService
 from app.services.table_layout_service import TableLayoutService
 from app.services.ui_service import UiService
 from app.services.virtual_demo_service import VirtualDemoService
@@ -22,6 +22,7 @@ ui_service = UiService()
 maint_service = MaintService(ui_service)
 table_layout_service = TableLayoutService(ui_service, maint_service)
 virtual_demo_service = VirtualDemoService(ui_service)
+software_info_service = SoftwareInfoService(ui_service)
 app = FastAPI(title=ui_service.config["app_name"])
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 templates = Jinja2Templates(directory=str(TEMPLATES_DIR))
@@ -134,6 +135,15 @@ def post_prefs(body: PrefsUpdate) -> JSONResponse:
         raise HTTPException(status_code=500, detail=str(exc)) from exc
 
 
+@app.get("/api/system/software-info")
+def system_software_info() -> JSONResponse:
+    """Read-only host / app info. Does not load JAKA SDK or start robot processes."""
+    try:
+        return JSONResponse(software_info_service.build_payload())
+    except (ValueError, FileNotFoundError, KeyError, RuntimeError) as exc:
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
 @app.get("/api/maint/{table_key}/meta")
 def maint_meta(table_key: str) -> JSONResponse:
     try:
@@ -151,14 +161,6 @@ def table_ui_meta(table_key: str) -> JSONResponse:
     except KeyError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
     except (ValueError, FileNotFoundError, RuntimeError) as exc:
-        raise HTTPException(status_code=500, detail=str(exc)) from exc
-
-
-@app.get("/api/network/ipv4-detect")
-def network_ipv4_detect() -> JSONResponse:
-    try:
-        return JSONResponse({"items": detect_network_ips()})
-    except RuntimeError as exc:
         raise HTTPException(status_code=500, detail=str(exc)) from exc
 
 

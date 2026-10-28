@@ -78,15 +78,12 @@ class ProductCombinationsTests(unittest.TestCase):
                 "SELECT menu_key, sort_order, route_path FROM menus"
             )
         }
-        self.assertEqual(menus["product_combinations"]["sort_order"], 7)
+        self.assertEqual(menus["product_combinations"]["sort_order"], 6)
         self.assertEqual(
             menus["product_combinations"]["route_path"],
             "/page/product_combinations",
         )
-        self.assertEqual(
-            menus["product_combinations"]["sort_order"],
-            menus["equipment_settings"]["sort_order"] + 1,
-        )
+        self.assertNotIn("equipment_settings", menus)
         host = self.ui.get_table_ui_for_menu("product_combinations")
         self.assertEqual(host["table_key"], "product_combinations")
         self.assertEqual(
@@ -352,11 +349,11 @@ class ProductCombinationsTests(unittest.TestCase):
         )
         self.assertTrue(toggled["isDisable"])
 
-    def test_inventory_and_equipment_settings_untouched_defs(self) -> None:
+    def test_inventory_untouched_by_combination_writes(self) -> None:
         inv_def = self.maint.get_table_def("inventory")
         self.assertEqual(inv_def["db_table"], "inventory")
-        eq_def = self.maint.get_table_def("equipment_settings")
-        self.assertEqual(eq_def["db_table"], "equipment_settings")
+        with self.assertRaises(KeyError):
+            self.maint.get_table_def("equipment_settings")
         inv_count = self.ui.store.fetchone(
             "SELECT COUNT(*) AS n FROM inventory"
         )["n"]

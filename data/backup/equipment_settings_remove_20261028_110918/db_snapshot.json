@@ -1,0 +1,478 @@
+{
+  "equipment_settings_rows": [
+    {
+      "TxId": 1,
+      "EquipmentTxId": 6,
+      "SiteNo": "T1",
+      "SiteName": null,
+      "IpAddress": "169.254.68.185",
+      "Port": null,
+      "ConnectionMode": "real",
+      "ControllerVersion": null,
+      "ServoVersion": null,
+      "ScbVersion": null,
+      "PayloadKg": null,
+      "Remark": null,
+      "isDisable": 0,
+      "CreatedAt": "2026-10-23T10:05:17+00:00",
+      "UpdatedAt": "2026-10-23T10:05:17+00:00"
+    }
+  ],
+  "menu_row": [
+    {
+      "menu_key": "equipment_settings",
+      "route_path": "/page/equipment_settings",
+      "sort_order": 6,
+      "label_key": "menu_equipment_settings"
+    }
+  ],
+  "ui_text_keys": [
+    {
+      "TxId": 999120,
+      "text_key": "field_connection_mode",
+      "zh_TW": "連線模式",
+      "en": "Connection Mode",
+      "zh_CN": "连接模式",
+      "isDisable": 0
+    },
+    {
+      "TxId": 999121,
+      "text_key": "field_controller_version",
+      "zh_TW": "控制器版本",
+      "en": "Controller Version",
+      "zh_CN": "控制器版本",
+      "isDisable": 0
+    },
+    {
+      "TxId": 999132,
+      "text_key": "field_desc_connection_mode",
+      "zh_TW": "連線模式",
+      "en": "Connection mode",
+      "zh_CN": "连接模式",
+      "isDisable": 0
+    },
+    {
+      "TxId": 999133,
+      "text_key": "field_desc_controller_version",
+      "zh_TW": "控制器版本",
+      "en": "Controller version",
+      "zh_CN": "控制器版本",
+      "isDisable": 0
+    },
+    {
+      "TxId": 999130,
+      "text_key": "field_desc_ip_address",
+      "zh_TW": "設備 IP 位址",
+      "en": "Equipment IP address",
+      "zh_CN": "设备 IP 地址",
+      "isDisable": 0
+    },
+    {
+      "TxId": 999136,
+      "text_key": "field_desc_payload_kg",
+      "zh_TW": "負載公斤數",
+      "en": "Payload in kilograms",
+      "zh_CN": "负载公斤数",
+      "isDisable": 0
+    },
+    {
+      "TxId": 999131,
+      "text_key": "field_desc_port",
+      "zh_TW": "連接埠",
+      "en": "Port number",
+      "zh_CN": "端口",
+      "isDisable": 0
+    },
+    {
+      "TxId": 999135,
+      "text_key": "field_desc_scb_version",
+      "zh_TW": "SCB 版本",
+      "en": "SCB version",
+      "zh_CN": "SCB 版本",
+      "isDisable": 0
+    },
+    {
+      "TxId": 999134,
+      "text_key": "field_desc_servo_version",
+      "zh_TW": "伺服版本",
+      "en": "Servo version",
+      "zh_CN": "伺服版本",
+      "isDisable": 0
+    },
+    {
+      "TxId": 999129,
+      "text_key": "field_desc_site_name",
+      "zh_TW": "站名",
+      "en": "Site name",
+      "zh_CN": "站名",
+      "isDisable": 0
+    },
+    {
+      "TxId": 999128,
+      "text_key": "field_desc_site_no",
+      "zh_TW": "站號",
+      "en": "Site number",
+      "zh_CN": "站号",
+      "isDisable": 0
+    },
+    {
+      "TxId": 999118,
+      "text_key": "field_ip_address",
+      "zh_TW": "IP 位址",
+      "en": "IP Address",
+      "zh_CN": "IP 地址",
+      "isDisable": 0
+    },
+    {
+      "TxId": 999124,
+      "text_key": "field_payload_kg",
+      "zh_TW": "負載 (kg)",
+      "en": "Payload (kg)",
+      "zh_CN": "负载 (kg)",
+      "isDisable": 0
+    },
+    {
+      "TxId": 999119,
+      "text_key": "field_port",
+      "zh_TW": "連接埠",
+      "en": "Port",
+      "zh_CN": "端口",
+      "isDisable": 0
+    },
+    {
+      "TxId": 999123,
+      "text_key": "field_scb_version",
+      "zh_TW": "SCB 版本",
+      "en": "SCB Version",
+      "zh_CN": "SCB 版本",
+      "isDisable": 0
+    },
+    {
+      "TxId": 999122,
+      "text_key": "field_servo_version",
+      "zh_TW": "伺服版本",
+      "en": "Servo Version",
+      "zh_CN": "伺服版本",
+      "isDisable": 0
+    },
+    {
+      "TxId": 999117,
+      "text_key": "field_site_name",
+      "zh_TW": "站名",
+      "en": "Site Name",
+      "zh_CN": "站名",
+      "isDisable": 0
+    },
+    {
+      "TxId": 999116,
+      "text_key": "field_site_no",
+      "zh_TW": "站號",
+      "en": "Site No.",
+      "zh_CN": "站号",
+      "isDisable": 0
+    },
+    {
+      "TxId": 999114,
+      "text_key": "maint_table_equipment_settings",
+      "zh_TW": "機械臂及電控櫃設定",
+      "en": "Equipment Settings",
+      "zh_CN": "机械臂及电控柜设置",
+      "isDisable": 0
+    },
+    {
+      "TxId": 999113,
+      "text_key": "menu_equipment_settings",
+      "zh_TW": "機械臂及電控櫃設定",
+      "en": "Robot Arm & Control Cabinet Settings",
+      "zh_CN": "机械臂及电控柜设置",
+      "isDisable": 0
+    },
+    {
+      "TxId": 999139,
+      "text_key": "table_ui_btn_detect_network_ip",
+      "zh_TW": "偵測網絡 IP",
+      "en": "Detect Network IP",
+      "zh_CN": "检测网络 IP",
+      "isDisable": 0
+    },
+    {
+      "TxId": 999141,
+      "text_key": "table_ui_label_ip_source_local",
+      "zh_TW": "本機",
+      "en": "Local",
+      "zh_CN": "本机",
+      "isDisable": 0
+    },
+    {
+      "TxId": 999142,
+      "text_key": "table_ui_label_ip_source_neighbor",
+      "zh_TW": "鄰居",
+      "en": "Neighbor",
+      "zh_CN": "邻居",
+      "isDisable": 0
+    },
+    {
+      "TxId": 999140,
+      "text_key": "table_ui_msg_detect_network_ip_empty",
+      "zh_TW": "未偵測到可用 IP。",
+      "en": "No IP addresses detected.",
+      "zh_CN": "未检测到可用 IP。",
+      "isDisable": 0
+    }
+  ],
+  "ui_table_settings": [
+    {
+      "TxId": 3,
+      "table_key": "equipment_settings",
+      "table_name": "maint_table_equipment_settings",
+      "zebra_enabled": 1,
+      "zebra_color": "light_blue",
+      "isDisable": 0,
+      "Remark": "",
+      "created_at": "2026-10-23T10:04:10+00:00",
+      "updated_at": "2026-10-23T10:04:10+00:00"
+    }
+  ],
+  "ui_table_columns": [
+    {
+      "TxId": 30,
+      "table_setting_id": 3,
+      "field_key": "ConnectionMode",
+      "field_label_key": "field_connection_mode",
+      "field_desc_key": "field_desc_connection_mode",
+      "visible": 0,
+      "display_order": 0,
+      "sort_direction": "",
+      "isDisable": 0,
+      "Remark": "",
+      "created_at": "2026-10-23T10:04:10+00:00",
+      "updated_at": "2026-10-23T10:04:10+00:00",
+      "column_width": 100
+    },
+    {
+      "TxId": 31,
+      "table_setting_id": 3,
+      "field_key": "ControllerVersion",
+      "field_label_key": "field_controller_version",
+      "field_desc_key": "field_desc_controller_version",
+      "visible": 0,
+      "display_order": 0,
+      "sort_direction": "",
+      "isDisable": 0,
+      "Remark": "",
+      "created_at": "2026-10-23T10:04:10+00:00",
+      "updated_at": "2026-10-23T10:04:10+00:00",
+      "column_width": 100
+    },
+    {
+      "TxId": 37,
+      "table_setting_id": 3,
+      "field_key": "CreatedAt",
+      "field_label_key": "field_created_at",
+      "field_desc_key": "field_desc_created_at",
+      "visible": 0,
+      "display_order": 0,
+      "sort_direction": "",
+      "isDisable": 0,
+      "Remark": "",
+      "created_at": "2026-10-23T10:04:10+00:00",
+      "updated_at": "2026-10-23T10:04:10+00:00",
+      "column_width": 100
+    },
+    {
+      "TxId": 25,
+      "table_setting_id": 3,
+      "field_key": "EquipmentTxId",
+      "field_label_key": "field_equipment_txid",
+      "field_desc_key": "field_desc_equipment_txid",
+      "visible": 1,
+      "display_order": 2,
+      "sort_direction": "",
+      "isDisable": 0,
+      "Remark": "",
+      "created_at": "2026-10-23T10:04:10+00:00",
+      "updated_at": "2026-10-23T10:04:10+00:00",
+      "column_width": 100
+    },
+    {
+      "TxId": 28,
+      "table_setting_id": 3,
+      "field_key": "IpAddress",
+      "field_label_key": "field_ip_address",
+      "field_desc_key": "field_desc_ip_address",
+      "visible": 1,
+      "display_order": 5,
+      "sort_direction": "",
+      "isDisable": 0,
+      "Remark": "",
+      "created_at": "2026-10-23T10:04:10+00:00",
+      "updated_at": "2026-10-23T10:04:10+00:00",
+      "column_width": 100
+    },
+    {
+      "TxId": 34,
+      "table_setting_id": 3,
+      "field_key": "PayloadKg",
+      "field_label_key": "field_payload_kg",
+      "field_desc_key": "field_desc_payload_kg",
+      "visible": 0,
+      "display_order": 0,
+      "sort_direction": "",
+      "isDisable": 0,
+      "Remark": "",
+      "created_at": "2026-10-23T10:04:10+00:00",
+      "updated_at": "2026-10-23T10:04:10+00:00",
+      "column_width": 100
+    },
+    {
+      "TxId": 29,
+      "table_setting_id": 3,
+      "field_key": "Port",
+      "field_label_key": "field_port",
+      "field_desc_key": "field_desc_port",
+      "visible": 1,
+      "display_order": 6,
+      "sort_direction": "",
+      "isDisable": 0,
+      "Remark": "",
+      "created_at": "2026-10-23T10:04:10+00:00",
+      "updated_at": "2026-10-23T10:04:10+00:00",
+      "column_width": 100
+    },
+    {
+      "TxId": 35,
+      "table_setting_id": 3,
+      "field_key": "Remark",
+      "field_label_key": "field_remark",
+      "field_desc_key": "field_desc_remark",
+      "visible": 0,
+      "display_order": 0,
+      "sort_direction": "",
+      "isDisable": 0,
+      "Remark": "",
+      "created_at": "2026-10-23T10:04:10+00:00",
+      "updated_at": "2026-10-23T10:04:10+00:00",
+      "column_width": 100
+    },
+    {
+      "TxId": 33,
+      "table_setting_id": 3,
+      "field_key": "ScbVersion",
+      "field_label_key": "field_scb_version",
+      "field_desc_key": "field_desc_scb_version",
+      "visible": 0,
+      "display_order": 0,
+      "sort_direction": "",
+      "isDisable": 0,
+      "Remark": "",
+      "created_at": "2026-10-23T10:04:10+00:00",
+      "updated_at": "2026-10-23T10:04:10+00:00",
+      "column_width": 100
+    },
+    {
+      "TxId": 32,
+      "table_setting_id": 3,
+      "field_key": "ServoVersion",
+      "field_label_key": "field_servo_version",
+      "field_desc_key": "field_desc_servo_version",
+      "visible": 0,
+      "display_order": 0,
+      "sort_direction": "",
+      "isDisable": 0,
+      "Remark": "",
+      "created_at": "2026-10-23T10:04:10+00:00",
+      "updated_at": "2026-10-23T10:04:10+00:00",
+      "column_width": 100
+    },
+    {
+      "TxId": 27,
+      "table_setting_id": 3,
+      "field_key": "SiteName",
+      "field_label_key": "field_site_name",
+      "field_desc_key": "field_desc_site_name",
+      "visible": 1,
+      "display_order": 4,
+      "sort_direction": "",
+      "isDisable": 0,
+      "Remark": "",
+      "created_at": "2026-10-23T10:04:10+00:00",
+      "updated_at": "2026-10-23T10:04:10+00:00",
+      "column_width": 100
+    },
+    {
+      "TxId": 26,
+      "table_setting_id": 3,
+      "field_key": "SiteNo",
+      "field_label_key": "field_site_no",
+      "field_desc_key": "field_desc_site_no",
+      "visible": 1,
+      "display_order": 3,
+      "sort_direction": "",
+      "isDisable": 0,
+      "Remark": "",
+      "created_at": "2026-10-23T10:04:10+00:00",
+      "updated_at": "2026-10-23T10:04:10+00:00",
+      "column_width": 100
+    },
+    {
+      "TxId": 24,
+      "table_setting_id": 3,
+      "field_key": "TxId",
+      "field_label_key": "field_txid",
+      "field_desc_key": "field_desc_txid",
+      "visible": 1,
+      "display_order": 1,
+      "sort_direction": "desc",
+      "isDisable": 0,
+      "Remark": "",
+      "created_at": "2026-10-23T10:04:10+00:00",
+      "updated_at": "2026-10-23T10:04:10+00:00",
+      "column_width": 100
+    },
+    {
+      "TxId": 38,
+      "table_setting_id": 3,
+      "field_key": "UpdatedAt",
+      "field_label_key": "field_updated_at",
+      "field_desc_key": "field_desc_updated_at",
+      "visible": 0,
+      "display_order": 0,
+      "sort_direction": "",
+      "isDisable": 0,
+      "Remark": "",
+      "created_at": "2026-10-23T10:04:10+00:00",
+      "updated_at": "2026-10-23T10:04:10+00:00",
+      "column_width": 100
+    },
+    {
+      "TxId": 40,
+      "table_setting_id": 3,
+      "field_key": "__multi_select",
+      "field_label_key": "field_multi_select",
+      "field_desc_key": "field_desc_multi_select",
+      "visible": 1,
+      "display_order": 0,
+      "sort_direction": "",
+      "isDisable": 0,
+      "Remark": "",
+      "created_at": "2026-10-26T03:11:09+00:00",
+      "updated_at": "2026-10-26T03:11:09+00:00",
+      "column_width": 48
+    },
+    {
+      "TxId": 36,
+      "table_setting_id": 3,
+      "field_key": "isDisable",
+      "field_label_key": "field_is_disable",
+      "field_desc_key": "field_desc_is_disable",
+      "visible": 0,
+      "display_order": 0,
+      "sort_direction": "",
+      "isDisable": 0,
+      "Remark": "",
+      "created_at": "2026-10-23T10:04:10+00:00",
+      "updated_at": "2026-10-23T10:04:10+00:00",
+      "column_width": 100
+    }
+  ]
+}

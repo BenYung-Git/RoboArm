@@ -678,12 +678,12 @@
     });
   }
 
-  document.querySelectorAll(".settings-tab").forEach(function (tab) {
+  document.querySelectorAll("#settingsTabs .settings-tab").forEach(function (tab) {
     tab.addEventListener("click", async function () {
       if (!(await confirmLeaveIfDirty())) {
         return;
       }
-      document.querySelectorAll(".settings-tab").forEach(function (item) {
+      document.querySelectorAll("#settingsTabs .settings-tab").forEach(function (item) {
         item.classList.remove("active");
       });
       tab.classList.add("active");

@@ -281,18 +281,6 @@ class MaintService:
                 "dirty_save": self.ui.t("table_ui_dirty_save", lang),
                 "dirty_cancel": self.ui.t("table_ui_dirty_cancel", lang),
                 "disabled_banner": self.ui.t("table_ui_disabled_banner", lang),
-                "btn_detect_network_ip": self.ui.t(
-                    "table_ui_btn_detect_network_ip", lang
-                ),
-                "msg_detect_network_ip_empty": self.ui.t(
-                    "table_ui_msg_detect_network_ip_empty", lang
-                ),
-                "label_detect_network_ip_source_local": self.ui.t(
-                    "table_ui_label_ip_source_local", lang
-                ),
-                "label_detect_network_ip_source_neighbor": self.ui.t(
-                    "table_ui_label_ip_source_neighbor", lang
-                ),
                 "mode_add": self.ui.t("table_ui_mode_add", lang),
                 "mode_edit": self.ui.t("table_ui_mode_edit", lang),
                 "mode_copy": self.ui.t("table_ui_mode_copy", lang),

@@ -300,8 +300,15 @@
       "db_table": "categories",
       "label_key": "maint_table_categories",
       "supports_categories": false,
-      "unique_keys": [["CategoryGroup", "CategoryCode"]],
-      "protected_fields_when_referenced": ["CategoryGroup"],
+      "unique_keys": [
+        [
+          "CategoryGroup",
+          "CategoryCode"
+        ]
+      ],
+      "protected_fields_when_referenced": [
+        "CategoryGroup"
+      ],
       "columns": [
         {
           "field": "TxId",
@@ -406,242 +413,15 @@
         }
       ]
     },
-    "equipment_settings": {
-      "db_table": "equipment_settings",
-      "label_key": "maint_table_equipment_settings",
-      "supports_categories": false,
-      "unique_keys": [["EquipmentTxId"]],
-      "field_visibility": {
-        "depends_on_field": "EquipmentTxId",
-        "annotate_key": "category_code",
-        "rules": [
-          {
-            "category_code": "robot_arm",
-            "show_fields": ["ServoVersion", "ScbVersion", "PayloadKg"]
-          },
-          {
-            "category_code": "control_box",
-            "hide_fields": ["ServoVersion", "ScbVersion", "PayloadKg"]
-          }
-        ]
-      },
-      "columns": [
-        {
-          "field": "TxId",
-          "label_key": "field_txid",
-          "field_type": "long",
-          "is_flag": false,
-          "editable": false,
-          "auto_gen": true,
-          "required": true,
-          "desc_key": "field_desc_txid"
-        },
-        {
-          "field": "EquipmentTxId",
-          "label_key": "field_equipment_txid",
-          "field_type": "relation",
-          "is_flag": false,
-          "editable": true,
-          "auto_gen": false,
-          "required": true,
-          "desc_key": "field_desc_equipment_txid",
-          "relation": {
-            "source_kind": "table",
-            "source_table_key": "inventory",
-            "value_field": "TxId",
-            "label": {
-              "kind": "row_lang_fields",
-              "fields": {
-                "zh_TW": "ItemName",
-                "en": "ItemNameEn",
-                "zh_CN": "ItemName"
-              }
-            },
-            "filters": [
-              {
-                "field": "isDisable",
-                "op": "eq",
-                "value": 0,
-                "selection_only": true
-              },
-              {
-                "field": "Category",
-                "op": "related_in",
-                "related_table_key": "categories",
-                "related_value_field": "TxId",
-                "related_match_field": "CategoryCode",
-                "related_group_field": "CategoryGroup",
-                "related_group_value_from": "source_table_key",
-                "value": ["robot_arm", "control_box"]
-              }
-            ],
-            "order_by": [
-              {
-                "field_from": "label_lang",
-                "dir": "asc"
-              }
-            ],
-            "option_annotate": [
-              {
-                "from_field": "Category",
-                "lookup_table_key": "categories",
-                "lookup_value_field": "TxId",
-                "take_field": "CategoryCode",
-                "as": "category_code"
-              }
-            ]
-          }
-        },
-        {
-          "field": "SiteNo",
-          "label_key": "field_site_no",
-          "field_type": "text",
-          "is_flag": false,
-          "editable": true,
-          "auto_gen": false,
-          "required": false,
-          "nullable": true,
-          "desc_key": "field_desc_site_no"
-        },
-        {
-          "field": "SiteName",
-          "label_key": "field_site_name",
-          "field_type": "text",
-          "is_flag": false,
-          "editable": true,
-          "auto_gen": false,
-          "required": false,
-          "nullable": true,
-          "desc_key": "field_desc_site_name"
-        },
-        {
-          "field": "IpAddress",
-          "label_key": "field_ip_address",
-          "field_type": "text",
-          "is_flag": false,
-          "editable": true,
-          "auto_gen": false,
-          "required": false,
-          "nullable": true,
-          "desc_key": "field_desc_ip_address"
-        },
-        {
-          "field": "Port",
-          "label_key": "field_port",
-          "field_type": "long",
-          "is_flag": false,
-          "editable": true,
-          "auto_gen": false,
-          "required": false,
-          "nullable": true,
-          "desc_key": "field_desc_port"
-        },
-        {
-          "field": "ConnectionMode",
-          "label_key": "field_connection_mode",
-          "field_type": "text",
-          "is_flag": false,
-          "editable": false,
-          "auto_gen": false,
-          "required": true,
-          "force_value": "real",
-          "desc_key": "field_desc_connection_mode"
-        },
-        {
-          "field": "ControllerVersion",
-          "label_key": "field_controller_version",
-          "field_type": "text",
-          "is_flag": false,
-          "editable": true,
-          "auto_gen": false,
-          "required": false,
-          "nullable": true,
-          "desc_key": "field_desc_controller_version"
-        },
-        {
-          "field": "ServoVersion",
-          "label_key": "field_servo_version",
-          "field_type": "text",
-          "is_flag": false,
-          "editable": true,
-          "auto_gen": false,
-          "required": false,
-          "nullable": true,
-          "desc_key": "field_desc_servo_version"
-        },
-        {
-          "field": "ScbVersion",
-          "label_key": "field_scb_version",
-          "field_type": "text",
-          "is_flag": false,
-          "editable": true,
-          "auto_gen": false,
-          "required": false,
-          "nullable": true,
-          "desc_key": "field_desc_scb_version"
-        },
-        {
-          "field": "PayloadKg",
-          "label_key": "field_payload_kg",
-          "field_type": "number",
-          "is_flag": false,
-          "editable": true,
-          "auto_gen": false,
-          "required": false,
-          "nullable": true,
-          "desc_key": "field_desc_payload_kg"
-        },
-        {
-          "field": "Remark",
-          "label_key": "field_remark",
-          "field_type": "text",
-          "is_flag": false,
-          "editable": true,
-          "auto_gen": false,
-          "required": false,
-          "nullable": true,
-          "desc_key": "field_desc_remark"
-        },
-        {
-          "field": "isDisable",
-          "label_key": "field_is_disable",
-          "field_type": "flag",
-          "is_flag": true,
-          "editable": false,
-          "auto_gen": false,
-          "required": true,
-          "default_value": false,
-          "desc_key": "field_desc_is_disable"
-        },
-        {
-          "field": "CreatedAt",
-          "label_key": "field_created_at",
-          "field_type": "datetime",
-          "is_flag": false,
-          "editable": false,
-          "auto_gen": true,
-          "auto_gen_on": ["create"],
-          "required": true,
-          "desc_key": "field_desc_created_at"
-        },
-        {
-          "field": "UpdatedAt",
-          "label_key": "field_updated_at",
-          "field_type": "datetime",
-          "is_flag": false,
-          "editable": false,
-          "auto_gen": true,
-          "auto_gen_on": ["create", "update"],
-          "required": true,
-          "desc_key": "field_desc_updated_at"
-        }
-      ]
-    },
     "product_combinations": {
       "db_table": "product_combinations",
       "label_key": "maint_table_product_combinations",
       "supports_categories": false,
-      "unique_keys": [["CombinationCode"]],
+      "unique_keys": [
+        [
+          "CombinationCode"
+        ]
+      ],
       "detail": {
         "table_key": "product_combination_items",
         "parent_field": "CombinationTxId",
@@ -742,7 +522,9 @@
           "is_flag": false,
           "editable": false,
           "auto_gen": true,
-          "auto_gen_on": ["create"],
+          "auto_gen_on": [
+            "create"
+          ],
           "required": true,
           "desc_key": "field_desc_created_at"
         },
@@ -753,7 +535,10 @@
           "is_flag": false,
           "editable": false,
           "auto_gen": true,
-          "auto_gen_on": ["create", "update"],
+          "auto_gen_on": [
+            "create",
+            "update"
+          ],
           "required": true,
           "desc_key": "field_desc_updated_at"
         }
@@ -764,11 +549,20 @@
       "label_key": "maint_table_product_combination_items",
       "supports_categories": false,
       "unique_keys": [
-        ["CombinationTxId", "EquipmentTxId"],
-        ["CombinationTxId", "ItemId"]
+        [
+          "CombinationTxId",
+          "EquipmentTxId"
+        ],
+        [
+          "CombinationTxId",
+          "ItemId"
+        ]
       ],
       "default_list_sort": [
-        {"field": "ItemId", "dir": "asc"}
+        {
+          "field": "ItemId",
+          "dir": "asc"
+        }
       ],
       "columns": [
         {
@@ -940,7 +734,9 @@
           "is_flag": false,
           "editable": false,
           "auto_gen": true,
-          "auto_gen_on": ["create"],
+          "auto_gen_on": [
+            "create"
+          ],
           "required": true,
           "desc_key": "field_desc_created_at"
         },
@@ -951,7 +747,10 @@
           "is_flag": false,
           "editable": false,
           "auto_gen": true,
-          "auto_gen_on": ["create", "update"],
+          "auto_gen_on": [
+            "create",
+            "update"
+          ],
           "required": true,
           "desc_key": "field_desc_updated_at"
         }

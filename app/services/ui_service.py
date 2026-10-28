@@ -69,9 +69,9 @@ class UiService:
         self.ensure_ui_text_schema()
         self.ensure_inventory_schema()
         self.ensure_categories_schema()
-        self.ensure_equipment_settings_schema()
         self.ensure_product_combinations_schema()
         self.ensure_product_combination_items_schema()
+        self.retire_equipment_settings_feature()
 
     def ensure_categories_schema(self) -> None:
         """Idempotent categories table create (shared TxId / isDisable / Remark)."""
@@ -123,29 +123,68 @@ class UiService:
                     f"ALTER TABLE inventory ADD COLUMN {field} TEXT"
                 )
 
-    def ensure_equipment_settings_schema(self) -> None:
-        """Idempotent equipment_settings table create."""
+    def retire_equipment_settings_feature(self) -> None:
+        """Remove retired equipment_settings feature artifacts from existing DBs.
+
+        Idempotent and narrowly scoped: only menu_key / table_key / text_key values
+        that belonged to equipment_settings. Custom non-seed menus are untouched.
+        """
         self.store.execute(
+            "DELETE FROM menus WHERE menu_key = ?",
+            ("equipment_settings",),
+        )
+        obsolete_keys = (
+            "menu_equipment_settings",
+            "maint_table_equipment_settings",
+            "field_site_no",
+            "field_site_name",
+            "field_ip_address",
+            "field_port",
+            "field_connection_mode",
+            "field_controller_version",
+            "field_servo_version",
+            "field_scb_version",
+            "field_payload_kg",
+            "field_desc_site_no",
+            "field_desc_site_name",
+            "field_desc_ip_address",
+            "field_desc_port",
+            "field_desc_connection_mode",
+            "field_desc_controller_version",
+            "field_desc_servo_version",
+            "field_desc_scb_version",
+            "field_desc_payload_kg",
+            "table_ui_btn_detect_network_ip",
+            "table_ui_msg_detect_network_ip_empty",
+            "table_ui_label_ip_source_local",
+            "table_ui_label_ip_source_neighbor",
+        )
+        placeholders = ", ".join("?" for _ in obsolete_keys)
+        self.store.execute(
+            f"DELETE FROM ui_text WHERE text_key IN ({placeholders})",
+            obsolete_keys,
+        )
+        layout_table = self.store.fetchone(
             """
-            CREATE TABLE IF NOT EXISTS equipment_settings (
-                TxId INTEGER PRIMARY KEY,
-                EquipmentTxId INTEGER NOT NULL UNIQUE,
-                SiteNo TEXT,
-                SiteName TEXT,
-                IpAddress TEXT,
-                Port INTEGER,
-                ConnectionMode TEXT,
-                ControllerVersion TEXT,
-                ServoVersion TEXT,
-                ScbVersion TEXT,
-                PayloadKg REAL,
-                Remark TEXT,
-                isDisable INTEGER NOT NULL DEFAULT 0,
-                CreatedAt TEXT,
-                UpdatedAt TEXT
-            )
+            SELECT name FROM sqlite_master
+            WHERE type = 'table' AND name = 'ui_table_settings'
             """
         )
+        if layout_table is not None:
+            setting = self.store.fetchone(
+                "SELECT TxId FROM ui_table_settings WHERE table_key = ?",
+                ("equipment_settings",),
+            )
+            if setting is not None:
+                self.store.execute(
+                    "DELETE FROM ui_table_columns WHERE table_setting_id = ?",
+                    (setting["TxId"],),
+                )
+                self.store.execute(
+                    "DELETE FROM ui_table_settings WHERE TxId = ?",
+                    (setting["TxId"],),
+                )
+        self.store.execute("DROP TABLE IF EXISTS equipment_settings")
 
     def ensure_product_combinations_schema(self) -> None:
         """Idempotent product_combinations table create."""
@@ -571,6 +610,7 @@ class UiService:
             return self.t(text_key, language)
 
         table_ui = self.get_table_ui_for_menu(menu_key, language)
+        is_system_setting = menu_key == "system_setting"
         settings_tabs = []
         if table_ui is None:
             settings_tabs = self.get_maint_tabs_for_menu(menu_key, language)
@@ -589,6 +629,7 @@ class UiService:
             "settings_tabs": settings_tabs,
             "table_ui": table_ui,
             "is_virtual_demo": menu_key == self.config["virtual_demo_menu_key"],
+            "is_system_setting": is_system_setting,
             "t": translate,
         }
 

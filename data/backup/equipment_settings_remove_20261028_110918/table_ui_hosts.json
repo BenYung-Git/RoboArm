@@ -1,0 +1,26 @@
+{
+  "hosts": [
+    {
+      "menu_key": "inventory",
+      "table_key": "inventory"
+    },
+    {
+      "menu_key": "equipment_settings",
+      "table_key": "equipment_settings"
+    },
+    {
+      "menu_key": "product_combinations",
+      "table_key": "product_combinations"
+    },
+    {
+      "menu_key": "source_table",
+      "tabs": [
+        {
+          "tab_key": "categories",
+          "label_key": "tab_categories",
+          "table_key": "categories"
+        }
+      ]
+    }
+  ]
+}

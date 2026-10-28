@@ -382,37 +382,6 @@
   user-select: none;
 }
 
-.tui-ip-detect-wrap {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.tui-ip-detect-list {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  max-height: 180px;
-  overflow: auto;
-}
-
-.tui-ip-item {
-  text-align: left;
-  padding: 6px 10px;
-  border: 1px solid #9fb3c8;
-  border-radius: 4px;
-  background: #f8fafc;
-  cursor: pointer;
-}
-
-.tui-ip-item:hover {
-  background: #e8f1f8;
-}
-
-.tui-detect-ip-btn {
-  align-self: flex-start;
-}
-
 .tui-layout-wrap {
   display: flex;
   flex-direction: column;
