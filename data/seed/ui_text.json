@@ -1870,5 +1870,203 @@
     "zh_TW": "Python SDK 模組檔名／路徑",
     "en": "Python SDK Module Filename / Path",
     "zh_CN": "Python SDK 模块文件名／路径"
+  },
+  {
+    "text_key": "sw_label_jaka_import_status",
+    "zh_TW": "SDK 載入驗證",
+    "en": "SDK Import Verification",
+    "zh_CN": "SDK 载入验证"
+  },
+  {
+    "text_key": "sw_label_jaka_controller_status",
+    "zh_TW": "實機連線驗證",
+    "en": "Controller Connection Verification",
+    "zh_CN": "实机连线验证"
+  },
+  {
+    "text_key": "status_jaka_import_verified",
+    "zh_TW": "已配置／載入驗證通過",
+    "en": "Configured / import verified",
+    "zh_CN": "已配置／载入验证通过"
+  },
+  {
+    "text_key": "status_jaka_controller_unverified",
+    "zh_TW": "實機連線：未驗證",
+    "en": "Controller connection: not verified",
+    "zh_CN": "实机连线：未验证"
+  },
+  {
+    "text_key": "status_configured",
+    "zh_TW": "已配置",
+    "en": "Configured",
+    "zh_CN": "已配置"
+  },
+  {
+    "text_key": "eq_conn_title",
+    "zh_TW": "連線設定",
+    "en": "Connection Settings",
+    "zh_CN": "连接设置"
+  },
+  {
+    "text_key": "eq_conn_btn_open",
+    "zh_TW": "連線設定",
+    "en": "Connection Settings",
+    "zh_CN": "连接设置"
+  },
+  {
+    "text_key": "eq_conn_shared_warning",
+    "zh_TW": "此設定屬於設備，修改後會套用至所有引用此設備的產品／組合。",
+    "en": "These settings belong to the equipment and will apply to every product/combination that references it.",
+    "zh_CN": "此设置属于设备，修改后会套用至所有引用此设备的产品／组合。"
+  },
+  {
+    "text_key": "eq_conn_label_equipment_name",
+    "zh_TW": "設備名稱",
+    "en": "Equipment Name",
+    "zh_CN": "设备名称"
+  },
+  {
+    "text_key": "eq_conn_label_equipment_id",
+    "zh_TW": "設備識別碼",
+    "en": "Equipment ID",
+    "zh_CN": "设备识别码"
+  },
+  {
+    "text_key": "eq_conn_label_equipment_category",
+    "zh_TW": "設備分類",
+    "en": "Equipment Category",
+    "zh_CN": "设备分类"
+  },
+  {
+    "text_key": "eq_conn_label_driver_type",
+    "zh_TW": "驅動類型",
+    "en": "Driver Type",
+    "zh_CN": "驱动类型"
+  },
+  {
+    "text_key": "eq_conn_label_connection_mode",
+    "zh_TW": "連線方式",
+    "en": "Connection Mode",
+    "zh_CN": "连接方式"
+  },
+  {
+    "text_key": "eq_conn_label_host_address",
+    "zh_TW": "設備 IP（IPv4）",
+    "en": "Equipment IP (IPv4)",
+    "zh_CN": "设备 IP（IPv4）"
+  },
+  {
+    "text_key": "eq_conn_driver_jaka",
+    "zh_TW": "JAKA",
+    "en": "JAKA",
+    "zh_CN": "JAKA"
+  },
+  {
+    "text_key": "eq_conn_mode_network",
+    "zh_TW": "網絡",
+    "en": "Network",
+    "zh_CN": "网络"
+  },
+  {
+    "text_key": "eq_conn_btn_save",
+    "zh_TW": "儲存",
+    "en": "Save",
+    "zh_CN": "保存"
+  },
+  {
+    "text_key": "eq_conn_btn_cancel",
+    "zh_TW": "取消",
+    "en": "Cancel",
+    "zh_CN": "取消"
+  },
+  {
+    "text_key": "eq_conn_btn_clear",
+    "zh_TW": "清除連線設定",
+    "en": "Clear Connection Settings",
+    "zh_CN": "清除连接设置"
+  },
+  {
+    "text_key": "eq_conn_clear_confirm",
+    "zh_TW": "確定清除此設備的連線設定？不會刪除設備或組合項目。",
+    "en": "Clear connection settings for this equipment? The equipment and combination items will not be deleted.",
+    "zh_CN": "确定清除此设备的连接设置？不会删除设备或组合项目。"
+  },
+  {
+    "text_key": "eq_conn_msg_not_applicable",
+    "zh_TW": "此設備類型不支援連線設定。",
+    "en": "Connection settings are not available for this equipment type.",
+    "zh_CN": "此设备类型不支持连接设置。"
+  },
+  {
+    "text_key": "eq_conn_msg_select_equipment_first",
+    "zh_TW": "請先選擇並儲存設備。",
+    "en": "Please select and save the equipment first.",
+    "zh_CN": "请先选择并保存设备。"
+  },
+  {
+    "text_key": "eq_conn_msg_save_item_first",
+    "zh_TW": "請先儲存此設備項目後再設定連線。",
+    "en": "Please save this equipment item before editing connection settings.",
+    "zh_CN": "请先保存此设备项目后再设置连接。"
+  },
+  {
+    "text_key": "eq_conn_msg_saved",
+    "zh_TW": "連線設定已儲存。",
+    "en": "Connection settings saved.",
+    "zh_CN": "连接设置已保存。"
+  },
+  {
+    "text_key": "eq_conn_msg_cleared",
+    "zh_TW": "連線設定已清除。",
+    "en": "Connection settings cleared.",
+    "zh_CN": "连接设置已清除。"
+  },
+  {
+    "text_key": "eq_conn_hint_host_ipv4",
+    "zh_TW": "請輸入 IPv4 位址，例如 192.168.1.10。不進行連網驗證。",
+    "en": "Enter an IPv4 address, e.g. 192.168.1.10. No network validation is performed.",
+    "zh_CN": "请输入 IPv4 地址，例如 192.168.1.10。不进行联网验证。"
+  },
+  {
+    "text_key": "eq_conn_err_driver_type_required",
+    "zh_TW": "請選擇驅動類型。",
+    "en": "Please select a driver type.",
+    "zh_CN": "请选择驱动类型。"
+  },
+  {
+    "text_key": "eq_conn_err_driver_type_invalid",
+    "zh_TW": "驅動類型無效。",
+    "en": "Invalid driver type.",
+    "zh_CN": "驱动类型无效。"
+  },
+  {
+    "text_key": "eq_conn_err_connection_mode_required",
+    "zh_TW": "請選擇連線方式。",
+    "en": "Please select a connection mode.",
+    "zh_CN": "请选择连接方式。"
+  },
+  {
+    "text_key": "eq_conn_err_connection_mode_invalid",
+    "zh_TW": "連線方式無效。",
+    "en": "Invalid connection mode.",
+    "zh_CN": "连接方式无效。"
+  },
+  {
+    "text_key": "eq_conn_err_host_address_required",
+    "zh_TW": "請輸入設備 IP（IPv4）。",
+    "en": "Please enter the equipment IP (IPv4).",
+    "zh_CN": "请输入设备 IP（IPv4）。"
+  },
+  {
+    "text_key": "eq_conn_err_host_address_invalid_ipv4",
+    "zh_TW": "設備 IP 必須是有效的 IPv4 位址。",
+    "en": "Equipment IP must be a valid IPv4 address.",
+    "zh_CN": "设备 IP 必须是有效的 IPv4 地址。"
+  },
+  {
+    "text_key": "eq_conn_status_badge",
+    "zh_TW": "連線",
+    "en": "Conn.",
+    "zh_CN": "连接"
   }
 ]

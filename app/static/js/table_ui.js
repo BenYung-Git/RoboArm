@@ -694,6 +694,25 @@
       });
       const toggleTip = row.isDisable ? L.tip_enable : L.tip_disable;
       const toggleIcon = row.isDisable ? L.icon_enable : L.icon_disable;
+      let connAction = "";
+      if (
+        supportsEquipmentConnection() &&
+        isJakaConnectable(
+          row.EquipmentTxId_category_code,
+          row.EquipmentTxId_brand
+        )
+      ) {
+        connAction =
+          '<button type="button" class="tui-btn tui-conn-row-btn" data-txid="' +
+          escapeHtml(row.TxId) +
+          '" data-equipment-txid="' +
+          escapeHtml(row.EquipmentTxId) +
+          '" title="' +
+          escapeHtml(L.btn_equipment_connection || "") +
+          '">' +
+          escapeHtml(L.btn_equipment_connection || "") +
+          "</button>";
+      }
       body +=
         '<td class="tui-row-actions">' +
         '<button type="button" class="tui-icon-btn tui-toggle-btn" data-txid="' +
@@ -710,6 +729,7 @@
         '">' +
         escapeHtml(L.icon_copy) +
         "</button>" +
+        connAction +
         "</td></tr>";
       if (expanded) {
         const err = state.expandErrors[txKey];
@@ -1177,13 +1197,12 @@
     const readonly =
       isEditReadonly() ||
       !column.editable ||
-      column.auto_gen ||
       column.is_flag ||
       column.force_value != null ||
       (column.field === "TxId" &&
         (state.editMode === "add" || state.editMode === "copy"));
     const requiredMark =
-      column.required && !readonly && !column.auto_gen && !column.is_flag
+      column.required && !readonly && !column.is_flag
         ? '<span class="tui-required">*</span>'
         : "";
     let value = fieldValueForForm(column);
@@ -1300,6 +1319,83 @@
     );
   }
 
+  function supportsEquipmentConnection() {
+    return !!(
+      state.meta &&
+      state.meta.equipment_connection &&
+      state.meta.equipment_connection.enabled
+    );
+  }
+
+  function isJakaConnectable(categoryCode, brand) {
+    if (categoryCode !== "robot_arm" && categoryCode !== "control_box") {
+      return false;
+    }
+    return String(brand || "").trim().toLowerCase() === "jaka";
+  }
+
+  function equipmentAnnotateFromSource(source) {
+    if (!source) {
+      return { value: "", category_code: "", brand: "" };
+    }
+    return {
+      value: source.EquipmentTxId,
+      category_code: source.EquipmentTxId_category_code || "",
+      brand: source.EquipmentTxId_brand || "",
+    };
+  }
+
+  function currentEquipmentAnnotate() {
+    if (!supportsEquipmentConnection()) {
+      return { value: "", category_code: "", brand: "" };
+    }
+    if (state.tab === "edit" && state.editMode) {
+      const select = byFieldEid("EquipmentTxId");
+      if (select && select.value !== "") {
+        const col = columnByField("EquipmentTxId");
+        const selected = ((col && col.options) || []).find(function (option) {
+          return String(option.value) === String(select.value);
+        });
+        if (selected) {
+          return {
+            value: select.value,
+            category_code: selected.category_code || "",
+            brand: selected.brand || "",
+          };
+        }
+        return {
+          value: select.value,
+          category_code: (state.editSource && state.editSource.EquipmentTxId_category_code) || "",
+          brand: (state.editSource && state.editSource.EquipmentTxId_brand) || "",
+        };
+      }
+      return equipmentAnnotateFromSource(state.editSource);
+    }
+    if (state.currentIndex >= 0 && state.rows[state.currentIndex]) {
+      return equipmentAnnotateFromSource(state.rows[state.currentIndex]);
+    }
+    return { value: "", category_code: "", brand: "" };
+  }
+
+  function renderEquipmentConnectionButton() {
+    if (!supportsEquipmentConnection()) {
+      return "";
+    }
+    const L = labels();
+    const info = currentEquipmentAnnotate();
+    const applicable = isJakaConnectable(info.category_code, info.brand);
+    if (!applicable) {
+      return "";
+    }
+    return (
+      '<button type="button" class="tui-btn tui-conn-btn" id="' +
+      eid("EquipmentConnBtn") +
+      '">' +
+      escapeHtml(L.btn_equipment_connection || "") +
+      "</button>"
+    );
+  }
+
   function renderEdit() {
     const L = labels();
     if (!state.editMode) {
@@ -1314,6 +1410,7 @@
     state.meta.columns.forEach(function (column) {
       fieldsHtml += renderEditField(column);
     });
+    const connBtn = renderEquipmentConnectionButton();
     return (
       '<div class="tui-panel"><div class="tui-edit-wrap' +
       (readonly ? " is-readonly" : "") +
@@ -1321,6 +1418,7 @@
       '<div class="tui-edit-toolbar">' +
       iconBtn(eid("SaveBtn"), L.icon_save, L.tip_save, !readonly && !state.saving) +
       iconBtn(eid("CancelBtn"), L.icon_cancel, L.tip_cancel, !readonly) +
+      connBtn +
       "</div>" +
       (readonly
         ? '<div class="tui-disabled-banner">' +
@@ -1488,6 +1586,22 @@
     const selected = (relationCol.options || []).find(function (option) {
       return String(option.value) === String(select.value);
     });
+    if (state.editSource) {
+      state.editSource[relationField] = select.value;
+      Object.keys(state.editSource).forEach(function (key) {
+        if (key.indexOf(relationField + "_") === 0) {
+          delete state.editSource[key];
+        }
+      });
+      if (selected) {
+        Object.keys(selected).forEach(function (key) {
+          if (key === "value" || key === "label") {
+            return;
+          }
+          state.editSource[relationField + "_" + key] = selected[key];
+        });
+      }
+    }
     state.meta.columns.forEach(function (column) {
       if (column.field_type !== "display") {
         return;
@@ -1505,6 +1619,25 @@
       displayEl.value =
         selected && selected[annotateKey] != null ? selected[annotateKey] : "";
     });
+    if (relationField === "EquipmentTxId" && supportsEquipmentConnection()) {
+      const toolbar = root.querySelector(".tui-edit-toolbar");
+      if (toolbar) {
+        const existing = byEid("EquipmentConnBtn");
+        if (existing) {
+          existing.remove();
+        }
+        const html = renderEquipmentConnectionButton();
+        if (html) {
+          toolbar.insertAdjacentHTML("beforeend", html);
+          const btn = byEid("EquipmentConnBtn");
+          if (btn) {
+            btn.addEventListener("click", async function () {
+              await handleOpenEquipmentConnection();
+            });
+          }
+        }
+      }
+    }
   }
 
   function validateRequired(payload) {
@@ -1551,6 +1684,253 @@
           resolve("cancel");
         });
     });
+  }
+
+  function showConfirmDialog(message, confirmLabel, cancelLabel) {
+    return new Promise(function (resolve) {
+      const backdrop = document.createElement("div");
+      backdrop.className = "tui-modal-backdrop";
+      backdrop.innerHTML =
+        '<div class="tui-modal" role="dialog">' +
+        "<p>" +
+        escapeHtml(message) +
+        "</p>" +
+        '<div class="tui-modal-actions">' +
+        '<button type="button" class="tui-modal-cancel">' +
+        escapeHtml(cancelLabel) +
+        "</button>" +
+        '<button type="button" class="tui-modal-save">' +
+        escapeHtml(confirmLabel) +
+        "</button>" +
+        "</div></div>";
+      document.body.appendChild(backdrop);
+      backdrop.querySelector(".tui-modal-save").addEventListener("click", function () {
+        document.body.removeChild(backdrop);
+        resolve(true);
+      });
+      backdrop
+        .querySelector(".tui-modal-cancel")
+        .addEventListener("click", function () {
+          document.body.removeChild(backdrop);
+          resolve(false);
+        });
+    });
+  }
+
+  function optionHtml(options, selected) {
+    return (options || [])
+      .map(function (option) {
+        return (
+          '<option value="' +
+          escapeHtml(option.value) +
+          '"' +
+          (String(option.value) === String(selected) ? " selected" : "") +
+          ">" +
+          escapeHtml(option.label) +
+          "</option>"
+        );
+      })
+      .join("");
+  }
+
+  async function openEquipmentConnectionModal(equipmentTxId) {
+    const L = labels();
+    if (!equipmentTxId) {
+      setMessage(L.msg_select_equipment_first || "", true);
+      return;
+    }
+    let view;
+    try {
+      view = await api(
+        "/api/equipment/" + encodeURIComponent(equipmentTxId) + "/connection"
+      );
+    } catch (error) {
+      setMessage(String(error.message || error), true);
+      return;
+    }
+    if (!view.applicable) {
+      setMessage(
+        (view.labels && view.labels.not_applicable) ||
+          L.msg_connection_not_applicable ||
+          "",
+        true
+      );
+      return;
+    }
+    const conn = view.connection || {};
+    const labelsMap = view.labels || {};
+    const backdrop = document.createElement("div");
+    backdrop.className = "tui-modal-backdrop";
+    backdrop.innerHTML =
+      '<div class="tui-modal tui-conn-modal" role="dialog" aria-modal="true">' +
+      "<h3>" +
+      escapeHtml(labelsMap.title || "") +
+      "</h3>" +
+      '<p class="tui-conn-warning">' +
+      escapeHtml(labelsMap.shared_warning || "") +
+      "</p>" +
+      '<div class="tui-conn-readonly">' +
+      "<div><span>" +
+      escapeHtml(labelsMap.equipment_name || "") +
+      "</span><strong class=\"tui-conn-wrap\">" +
+      escapeHtml(view.equipment.name || "") +
+      "</strong></div>" +
+      "<div><span>" +
+      escapeHtml(labelsMap.equipment_id || "") +
+      "</span><strong class=\"tui-conn-wrap\">" +
+      escapeHtml(
+        String(view.equipment.txid) +
+          (view.equipment.item_code ? " / " + view.equipment.item_code : "") +
+          (view.equipment.serial_no ? " / " + view.equipment.serial_no : "")
+      ) +
+      "</strong></div>" +
+      "<div><span>" +
+      escapeHtml(labelsMap.equipment_category || "") +
+      "</span><strong class=\"tui-conn-wrap\">" +
+      escapeHtml(view.equipment.category_label || "") +
+      "</strong></div>" +
+      "<div><span>" +
+      escapeHtml(view.status_label || "") +
+      "</span></div>" +
+      "</div>" +
+      '<div class="tui-conn-form">' +
+      "<label><span>" +
+      escapeHtml(labelsMap.driver_type || "") +
+      '</span><select id="EqConnDriver">' +
+      optionHtml(
+        view.options.driver_types,
+        conn.driver_type || "jaka"
+      ) +
+      "</select></label>" +
+      "<label><span>" +
+      escapeHtml(labelsMap.connection_mode || "") +
+      '</span><select id="EqConnMode">' +
+      optionHtml(
+        view.options.connection_modes,
+        conn.connection_mode || "network"
+      ) +
+      "</select></label>" +
+      "<label><span>" +
+      escapeHtml(labelsMap.host_address || "") +
+      '</span><input type="text" id="EqConnHost" value="' +
+      escapeHtml(conn.host_address || "") +
+      '" autocomplete="off"></label>' +
+      '<p class="tui-conn-hint">' +
+      escapeHtml(labelsMap.host_hint || "") +
+      "</p>" +
+      "<label><span>" +
+      escapeHtml(labelsMap.remark || "") +
+      '</span><textarea id="EqConnRemark" rows="2">' +
+      escapeHtml(conn.remark || "") +
+      "</textarea></label>" +
+      '<div class="tui-conn-error" id="EqConnError" hidden></div>' +
+      "</div>" +
+      '<div class="tui-modal-actions tui-conn-actions">' +
+      (view.configured
+        ? '<button type="button" class="tui-modal-clear" id="EqConnClear">' +
+          escapeHtml(labelsMap.clear || "") +
+          "</button>"
+        : "") +
+      '<button type="button" class="tui-modal-cancel" id="EqConnCancel">' +
+      escapeHtml(labelsMap.cancel || "") +
+      "</button>" +
+      '<button type="button" class="tui-modal-save" id="EqConnSave">' +
+      escapeHtml(labelsMap.save || "") +
+      "</button>" +
+      "</div></div>";
+    document.body.appendChild(backdrop);
+
+    function closeModal() {
+      if (backdrop.parentNode) {
+        document.body.removeChild(backdrop);
+      }
+    }
+
+    function showError(text) {
+      const el = backdrop.querySelector("#EqConnError");
+      if (!el) {
+        return;
+      }
+      if (!text) {
+        el.hidden = true;
+        el.textContent = "";
+        return;
+      }
+      el.hidden = false;
+      el.textContent = text;
+    }
+
+    backdrop.querySelector("#EqConnCancel").addEventListener("click", closeModal);
+    backdrop.querySelector("#EqConnSave").addEventListener("click", async function () {
+      showError("");
+      const payload = {
+        driver_type: backdrop.querySelector("#EqConnDriver").value,
+        connection_mode: backdrop.querySelector("#EqConnMode").value,
+        host_address: backdrop.querySelector("#EqConnHost").value,
+        remark: backdrop.querySelector("#EqConnRemark").value,
+      };
+      try {
+        await api(
+          "/api/equipment/" + encodeURIComponent(equipmentTxId) + "/connection",
+          {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          }
+        );
+        closeModal();
+        setMessage(labelsMap.saved || "", false);
+      } catch (error) {
+        showError(String(error.message || error));
+      }
+    });
+    const clearBtn = backdrop.querySelector("#EqConnClear");
+    if (clearBtn) {
+      clearBtn.addEventListener("click", async function () {
+        const ok = await showConfirmDialog(
+          labelsMap.clear_confirm || "",
+          labelsMap.clear || "",
+          labelsMap.cancel || ""
+        );
+        if (!ok) {
+          return;
+        }
+        try {
+          await api(
+            "/api/equipment/" +
+              encodeURIComponent(equipmentTxId) +
+              "/connection",
+            { method: "DELETE" }
+          );
+          closeModal();
+          setMessage(labelsMap.cleared || "", false);
+        } catch (error) {
+          showError(String(error.message || error));
+        }
+      });
+    }
+  }
+
+  async function handleOpenEquipmentConnection(equipmentTxId) {
+    const L = labels();
+    if (!supportsEquipmentConnection()) {
+      return;
+    }
+    if (state.editMode === "add" || state.editMode === "copy") {
+      setMessage(L.msg_save_item_first || "", true);
+      return;
+    }
+    const info = currentEquipmentAnnotate();
+    const txid = equipmentTxId || info.value;
+    if (!txid) {
+      setMessage(L.msg_select_equipment_first || "", true);
+      return;
+    }
+    if (!isJakaConnectable(info.category_code, info.brand) && !equipmentTxId) {
+      setMessage(L.msg_connection_not_applicable || "", true);
+      return;
+    }
+    await openEquipmentConnectionModal(txid);
   }
 
   async function reloadEditSource() {
@@ -2547,6 +2927,22 @@
       });
     });
 
+    root.querySelectorAll(".tui-conn-row-btn").forEach(function (btn) {
+      btn.addEventListener("click", async function (event) {
+        event.stopPropagation();
+        await openEquipmentConnectionModal(
+          btn.getAttribute("data-equipment-txid")
+        );
+      });
+    });
+
+    const equipmentConnBtn = byEid("EquipmentConnBtn");
+    if (equipmentConnBtn) {
+      equipmentConnBtn.addEventListener("click", async function () {
+        await handleOpenEquipmentConnection();
+      });
+    }
+
     Array.prototype.forEach.call(
       root.querySelectorAll("tr.tui-row"),
       function (rowEl) {
@@ -2559,6 +2955,7 @@
             event.target.closest(".tui-row-check") ||
             event.target.closest(".tui-toggle-btn") ||
             event.target.closest(".tui-copy-btn") ||
+            event.target.closest(".tui-conn-row-btn") ||
             event.target.closest(".tui-expand-btn") ||
             event.target.closest(".tui-col-resizer") ||
             event.target.closest("a, button, input, select, textarea")

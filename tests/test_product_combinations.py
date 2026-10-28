@@ -211,6 +211,30 @@ class ProductCombinationsTests(unittest.TestCase):
             sort_specs=[{"field": "ItemId", "dir": "asc"}],
         )
         self.assertEqual([row["ItemId"] for row in rows], [1.0, 1.1, 1.2])
+        meta = self.maint.build_table_ui_meta("product_combination_items")
+        item_col = next(col for col in meta["columns"] if col["field"] == "ItemId")
+        self.assertTrue(item_col["editable"])
+        self.assertTrue(item_col["auto_gen"])
+        extra = self._inv("a4", "設備四", "Eq Four")
+        manual = self.maint.create_row(
+            "product_combination_items",
+            {
+                "CombinationTxId": header["TxId"],
+                "EquipmentTxId": extra["TxId"],
+                "ItemId": 0.5,
+                "Qty": 1,
+            },
+        )
+        self.assertEqual(manual["ItemId"], 0.5)
+        ordered = self.maint.list_rows(
+            "product_combination_items",
+            eq_filters={"CombinationTxId": header["TxId"]},
+            sort_specs=None,
+        )
+        self.assertEqual(
+            [row["ItemId"] for row in ordered],
+            [0.5, 1.0, 1.1, 1.2],
+        )
 
     def test_equipment_relation_and_category_display(self) -> None:
         header = self.maint.create_row(

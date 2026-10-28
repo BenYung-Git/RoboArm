@@ -71,6 +71,7 @@ class UiService:
         self.ensure_categories_schema()
         self.ensure_product_combinations_schema()
         self.ensure_product_combination_items_schema()
+        self.ensure_equipment_connection_schema()
         self.retire_equipment_settings_feature()
 
     def ensure_categories_schema(self) -> None:
@@ -185,6 +186,22 @@ class UiService:
                     (setting["TxId"],),
                 )
         self.store.execute("DROP TABLE IF EXISTS equipment_settings")
+
+    def ensure_equipment_connection_schema(self) -> None:
+        """Idempotent per-physical-equipment connection settings (not equipment_settings)."""
+        self.store.execute(
+            """
+            CREATE TABLE IF NOT EXISTS equipment_connection (
+                EquipmentTxId INTEGER PRIMARY KEY,
+                DriverType TEXT NOT NULL,
+                ConnectionMode TEXT NOT NULL,
+                HostAddress TEXT NOT NULL,
+                Remark TEXT NOT NULL DEFAULT '',
+                CreatedAt TEXT NOT NULL,
+                UpdatedAt TEXT NOT NULL
+            )
+            """
+        )
 
     def ensure_product_combinations_schema(self) -> None:
         """Idempotent product_combinations table create."""

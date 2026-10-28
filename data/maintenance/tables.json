@@ -667,6 +667,34 @@
                 "lookup_value_field": "TxId",
                 "take_field_lang": true,
                 "as": "category_label"
+              },
+              {
+                "from_field": "Category",
+                "lookup_table_key": "categories",
+                "lookup_value_field": "TxId",
+                "take_field": "CategoryCode",
+                "as": "category_code"
+              },
+              {
+                "from_field": "TxId",
+                "lookup_table_key": "inventory",
+                "lookup_value_field": "TxId",
+                "take_field": "Brand",
+                "as": "brand"
+              },
+              {
+                "from_field": "TxId",
+                "lookup_table_key": "inventory",
+                "lookup_value_field": "TxId",
+                "take_field": "ItemCode",
+                "as": "item_code"
+              },
+              {
+                "from_field": "TxId",
+                "lookup_table_key": "inventory",
+                "lookup_value_field": "TxId",
+                "take_field": "SerialNo",
+                "as": "serial_no"
               }
             ]
           }

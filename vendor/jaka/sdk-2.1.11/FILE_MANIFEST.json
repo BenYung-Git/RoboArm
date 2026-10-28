@@ -1,0 +1,53 @@
+{
+  "deployed_at": "2026-10-28T16:15:13+08:00",
+  "source_dir": "U:\\Ben\\ZiYan\\Documents\\jaka\\jakaAPI_V2.1.11\\SDK2.1.11\\Windows\\python3\\x64",
+  "target_dir": "vendor/jaka/sdk-2.1.11/windows-x64",
+  "sdk_package_version_label": "2.1.11",
+  "sdk_package_version_basis": "folder names jakaAPI_V2.1.11 / SDK2.1.11; readme_EN.txt; changelog section V2.1.11",
+  "dll_file_version": null,
+  "dll_file_version_note": "未提供 (PE VersionInfo empty / 0.0.0.0)",
+  "copy_mode": "copy (source left intact)",
+  "files": [
+    {
+      "name": "jkrc.pyd",
+      "size": 1149440,
+      "sha256": "85585CF349A8E03EABC4B11771E96E95E941A7D64CDA0746BFF1D5B164ABF924",
+      "source_target_match": true
+    },
+    {
+      "name": "jakaAPI.dll",
+      "size": 1106944,
+      "sha256": "69F95354615A739A761DD79B0E455186238EFDDB126B09B2E12DE607DF1D71E3",
+      "source_target_match": true
+    },
+    {
+      "name": "jkrc.exp",
+      "size": 51609,
+      "sha256": "A64F9A5A7A5FAE82EA36D6528D4B697B627B30A00B8A87820E8006B89289B6A5",
+      "source_target_match": true
+    },
+    {
+      "name": "jkrc.lib",
+      "size": 84890,
+      "sha256": "899F23F0FBCC02259F1D95040BB37D6D0370B6D4A212F194BB5F04F196438421",
+      "source_target_match": true
+    },
+    {
+      "name": "jakaAPI.exp",
+      "size": 51500,
+      "sha256": "8A322CB374952F0C09B129149B4C87F3DA92ACBCEBFEBF2D869CC3C9CDD4535D",
+      "source_target_match": true
+    },
+    {
+      "name": "jakaAPI.lib",
+      "size": 85592,
+      "sha256": "5D0B30F4D47C4D0333433366469DC1FA524A7E86CEE09013D5AB9B928C22BAAD",
+      "source_target_match": true
+    }
+  ],
+  "docs_copied_beside_runtime": [
+    "readme_EN.txt",
+    "readme_CN.txt",
+    "changelog"
+  ]
+}

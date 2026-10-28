@@ -83,7 +83,8 @@
   line-height: 1;
   padding: 0 6px;
   font-family: "Segoe UI Symbol", var(--app-font-family);
-  font-size: 1em;
+  /* 與表頭 TxId 排序箭嘴（▲／▼）視覺相近，略放大避免符號顯細 */
+  font-size: 1.35em;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -250,9 +251,9 @@
 }
 
 .tui-expand-col {
-  width: 28px;
-  min-width: 28px;
-  max-width: 28px;
+  width: 36px;
+  min-width: 36px;
+  max-width: 36px;
   padding: 0 2px !important;
   text-align: center;
   vertical-align: middle;
@@ -262,7 +263,7 @@
   border: none;
   background: transparent;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 1.35em;
   line-height: 1;
   padding: 4px 6px;
   color: #4a5d73;
@@ -593,4 +594,117 @@
   background: #2f6f8a;
   border-color: #2f6f8a;
   color: #fff;
+}
+
+.tui-conn-btn,
+.tui-conn-row-btn {
+  margin-left: 6px;
+  white-space: nowrap;
+}
+
+.tui-conn-row-btn {
+  height: 36px;
+  padding: 0 10px;
+  font-size: 13px;
+}
+
+/* Item 展開區操作 icon 與主表一致（對齊排序箭嘴視覺大小） */
+.tui-expand-panel .tui-icon-btn,
+.tui-expand-host .tui-icon-btn {
+  font-size: 1.35em;
+}
+
+.tui-expand-panel .tui-conn-row-btn,
+.tui-expand-host .tui-conn-row-btn {
+  height: 36px;
+  padding: 0 10px;
+  font-size: 1em;
+  color: #2f6f8a;
+}
+
+.tui-expand-panel .tui-row-actions,
+.tui-expand-host .tui-row-actions {
+  gap: 6px;
+  align-items: center;
+}
+
+.tui-conn-modal {
+  width: min(560px, calc(100vw - 32px));
+  max-height: calc(100vh - 48px);
+  overflow: auto;
+}
+
+.tui-conn-modal h3 {
+  margin: 0 0 10px;
+  font-size: 1.1rem;
+}
+
+.tui-conn-warning {
+  margin: 0 0 12px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: #fff7ed;
+  color: #9a3412;
+  font-size: 0.92rem;
+  line-height: 1.4;
+}
+
+.tui-conn-readonly {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.tui-conn-readonly span {
+  display: block;
+  color: #64748b;
+  font-size: 0.85rem;
+}
+
+.tui-conn-wrap {
+  display: block;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.tui-conn-form {
+  display: grid;
+  gap: 10px;
+}
+
+.tui-conn-form label {
+  display: grid;
+  gap: 4px;
+}
+
+.tui-conn-form input,
+.tui-conn-form select,
+.tui-conn-form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 10px;
+  border: 1px solid #9fb3c8;
+  border-radius: 6px;
+}
+
+.tui-conn-hint {
+  margin: -4px 0 0;
+  color: #64748b;
+  font-size: 0.85rem;
+}
+
+.tui-conn-error {
+  color: #b42318;
+  font-size: 0.9rem;
+}
+
+.tui-conn-actions {
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.tui-modal-clear {
+  margin-right: auto;
+  color: #b42318;
+  border-color: #f3b0a8;
 }

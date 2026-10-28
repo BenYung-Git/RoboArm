@@ -8,6 +8,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, Field
 
+from app.services.equipment_connection_service import EquipmentConnectionService
 from app.services.maint_service import MaintService
 from app.services.software_info_service import SoftwareInfoService
 from app.services.table_layout_service import TableLayoutService
@@ -23,6 +24,7 @@ maint_service = MaintService(ui_service)
 table_layout_service = TableLayoutService(ui_service, maint_service)
 virtual_demo_service = VirtualDemoService(ui_service)
 software_info_service = SoftwareInfoService(ui_service)
+equipment_connection_service = EquipmentConnectionService(ui_service)
 app = FastAPI(title=ui_service.config["app_name"])
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 templates = Jinja2Templates(directory=str(TEMPLATES_DIR))
@@ -45,6 +47,13 @@ class MoveJPayload(BaseModel):
 class IoPayload(BaseModel):
     pin: int = Field(...)
     value: bool = Field(...)
+
+
+class EquipmentConnectionPayload(BaseModel):
+    driver_type: str = Field(...)
+    connection_mode: str = Field(...)
+    host_address: str = Field(...)
+    remark: str | None = None
 
 
 class NotImplementedPayload(BaseModel):
@@ -141,6 +150,74 @@ def system_software_info() -> JSONResponse:
     try:
         return JSONResponse(software_info_service.build_payload())
     except (ValueError, FileNotFoundError, KeyError, RuntimeError) as exc:
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+@app.get("/api/equipment/{equipment_txid}/connection")
+def equipment_connection_get(equipment_txid: int) -> JSONResponse:
+    """Read equipment connection settings. Does not load SDK or connect."""
+    try:
+        return JSONResponse(equipment_connection_service.build_view(equipment_txid))
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except (ValueError, FileNotFoundError, RuntimeError) as exc:
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+@app.put("/api/equipment/{equipment_txid}/connection")
+def equipment_connection_put(
+    equipment_txid: int, body: EquipmentConnectionPayload
+) -> JSONResponse:
+    """Save equipment connection settings only. Does not connect or load SDK."""
+    try:
+        return JSONResponse(
+            equipment_connection_service.save_connection(
+                equipment_txid,
+                {
+                    "driver_type": body.driver_type,
+                    "connection_mode": body.connection_mode,
+                    "host_address": body.host_address,
+                    "remark": body.remark,
+                },
+            )
+        )
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except ValueError as exc:
+        code = str(exc)
+        view = None
+        try:
+            view = equipment_connection_service.build_view(equipment_txid)
+        except Exception:
+            view = None
+        detail = code
+        if view and code in view.get("errors", {}):
+            detail = view["errors"][code]
+        raise HTTPException(status_code=400, detail=detail) from exc
+    except (FileNotFoundError, RuntimeError) as exc:
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+@app.delete("/api/equipment/{equipment_txid}/connection")
+def equipment_connection_delete(equipment_txid: int) -> JSONResponse:
+    """Clear equipment connection settings. Does not delete inventory or combo items."""
+    try:
+        return JSONResponse(
+            equipment_connection_service.clear_connection(equipment_txid)
+        )
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except ValueError as exc:
+        code = str(exc)
+        detail = code
+        try:
+            view = equipment_connection_service.build_view(equipment_txid)
+            if code in view.get("errors", {}):
+                detail = view["errors"][code]
+        except Exception:
+            pass
+        raise HTTPException(status_code=400, detail=detail) from exc
+    except (FileNotFoundError, RuntimeError) as exc:
         raise HTTPException(status_code=500, detail=str(exc)) from exc
 
 

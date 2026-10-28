@@ -318,6 +318,27 @@ class MaintService:
                 "msg_layout_saved": self.ui.t("table_ui_msg_layout_saved", lang),
             }
         )
+        if table_key == "product_combination_items":
+            meta["labels"].update(
+                {
+                    "btn_equipment_connection": self.ui.t(
+                        "eq_conn_btn_open", lang
+                    ),
+                    "msg_select_equipment_first": self.ui.t(
+                        "eq_conn_msg_select_equipment_first", lang
+                    ),
+                    "msg_save_item_first": self.ui.t(
+                        "eq_conn_msg_save_item_first", lang
+                    ),
+                    "msg_connection_not_applicable": self.ui.t(
+                        "eq_conn_msg_not_applicable", lang
+                    ),
+                }
+            )
+            meta["equipment_connection"] = {
+                "enabled": True,
+                "equipment_field": "EquipmentTxId",
+            }
         return meta
 
     def peek_next_txid(self, table_key: str) -> int:
@@ -550,9 +571,12 @@ class MaintService:
             column["field"] for column in self.persist_columns(table_def)
         }
         order_parts: list[str] = []
-        if sort_specs is not None:
+        effective_specs = sort_specs
+        if not effective_specs:
+            effective_specs = table_def.get("default_list_sort")
+        if effective_specs:
             seen: set[str] = set()
-            for spec in sort_specs:
+            for spec in effective_specs:
                 field = self._validate_field(table_def, spec["field"])
                 if field not in persist_names:
                     raise ValueError(f"Cannot sort non-persisted field: {field}")
@@ -687,14 +711,21 @@ class MaintService:
                 and isinstance(column.get("auto_gen_rule"), dict)
                 and column["auto_gen_rule"].get("kind") == "scoped_max_step"
             ):
-                scope_field = column["auto_gen_rule"]["scope_field"]
-                scope_value = payload.get(scope_field)
-                if scope_value is None and scope_field in values:
-                    scope_value = values[scope_field]
-                values[field] = self._next_scoped_item_id(
-                    table_def, column, scope_value
+                provided = payload.get(field)
+                use_provided = (
+                    bool(column.get("editable"))
+                    and provided is not None
+                    and str(provided).strip() != ""
                 )
-                continue
+                if not use_provided:
+                    scope_field = column["auto_gen_rule"]["scope_field"]
+                    scope_value = payload.get(scope_field)
+                    if scope_value is None and scope_field in values:
+                        scope_value = values[scope_field]
+                    values[field] = self._next_scoped_item_id(
+                        table_def, column, scope_value
+                    )
+                    continue
             if column["auto_gen"] and for_create and not column["editable"]:
                 continue
             if field == "isDisable":
