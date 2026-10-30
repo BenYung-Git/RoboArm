@@ -1,6 +1,7 @@
 from datetime import datetime, timezone
 from typing import Any
 
+from app.services.attachment_service import AttachmentService
 from app.services.relation_service import RelationService
 from app.services.ui_service import UiService
 from app.storage.config_store import resolve_path
@@ -10,12 +11,21 @@ from app.storage.json_store import load_json
 class MaintService:
     """Shared file-maintenance CRUD for tables declared in tables.json."""
 
-    def __init__(self, ui_service: UiService) -> None:
+    def __init__(
+        self,
+        ui_service: UiService,
+        attachment_service: AttachmentService | None = None,
+    ) -> None:
         self.ui = ui_service
         self.config = ui_service.config
         self.store = ui_service.store
         self._tables_config: dict[str, Any] | None = None
         self.relations = RelationService(self)
+        self.attachments = (
+            attachment_service
+            if attachment_service is not None
+            else AttachmentService(ui_service)
+        )
 
     def get_tables_config(self) -> dict[str, Any]:
         if self._tables_config is None:
@@ -109,6 +119,8 @@ class MaintService:
                 item["display_from_field"] = column.get("display_from_field")
             if column.get("option_match_parent"):
                 item["option_match_parent"] = column["option_match_parent"]
+            if column.get("multiline"):
+                item["multiline"] = True
             columns.append(item)
         display = self.display_columns(table_def)
         result = {
@@ -169,7 +181,7 @@ class MaintService:
                 ):
                     if key not in detail:
                         raise KeyError(f"Missing detail key: {key}")
-                result["detail"] = {
+                detail_meta_tab: dict[str, Any] = {
                     "table_key": detail["table_key"],
                     "parent_field": detail["parent_field"],
                     "presentation": presentation,
@@ -179,6 +191,37 @@ class MaintService:
                         detail["require_parent_message_key"], lang
                     ),
                 }
+                if "embedded_toolbar" in detail:
+                    toolbar = detail["embedded_toolbar"]
+                    if not isinstance(toolbar, dict):
+                        raise ValueError(
+                            "detail.embedded_toolbar must be an object"
+                        )
+                    for key in (
+                        "show_search",
+                        "show_flag_filter",
+                        "show_multi_select_controls",
+                        "layout_save_placement",
+                        "layout_settings_placement",
+                    ):
+                        if key not in toolbar:
+                            raise KeyError(
+                                f"Missing detail.embedded_toolbar key: {key}"
+                            )
+                    detail_meta_tab["embedded_toolbar"] = {
+                        "show_search": bool(toolbar["show_search"]),
+                        "show_flag_filter": bool(toolbar["show_flag_filter"]),
+                        "show_multi_select_controls": bool(
+                            toolbar["show_multi_select_controls"]
+                        ),
+                        "layout_save_placement": toolbar[
+                            "layout_save_placement"
+                        ],
+                        "layout_settings_placement": toolbar[
+                            "layout_settings_placement"
+                        ],
+                    }
+                result["detail"] = detail_meta_tab
             elif presentation == "expand_row":
                 for key in (
                     "title_key",
@@ -350,6 +393,34 @@ class MaintService:
             meta["equipment_connection"] = {
                 "enabled": True,
                 "equipment_field": "EquipmentTxId",
+            }
+        if table_key in ("inventory", "attachment"):
+            meta["labels"].update(
+                {
+                    "att_all": self.ui.t("att_label_all", lang),
+                    "att_none": self.ui.t("att_label_none", lang),
+                    "att_browse": self.ui.t("att_btn_browse", lang),
+                    "att_download": self.ui.t("att_btn_download", lang),
+                    "att_loading": self.ui.t("att_preview_loading", lang),
+                    "att_unsupported": self.ui.t(
+                        "att_preview_unsupported", lang
+                    ),
+                    "att_failed": self.ui.t("att_preview_failed", lang),
+                    "att_missing": self.ui.t("att_err_file_missing", lang),
+                    "att_pick_confirm": self.ui.t(
+                        "att_browse_pick_confirm", lang
+                    ),
+                    "att_static_disclaimer": self.ui.t(
+                        "att_glb_static_disclaimer", lang
+                    ),
+                    "att_preview_title": self.ui.t(
+                        "att_preview_title", lang
+                    ),
+                }
+            )
+            meta["attachments"] = {
+                "enabled": table_key == "inventory",
+                "child_table_key": "attachment",
             }
         return meta
 
@@ -859,12 +930,26 @@ class MaintService:
                 "CombinationItemTxId does not belong to workflow combination"
             )
 
+    def _prepare_attachment_values(self, values: dict[str, Any]) -> dict[str, Any]:
+        inventory_id = values.get("InventoryId")
+        if inventory_id is None or str(inventory_id).strip() == "":
+            raise ValueError(self.ui.t("att_err_inventory_required"))
+        self.attachments.assert_inventory_exists(int(inventory_id))
+        prepared = self.attachments.prepare_writable_fields(values)
+        values = dict(values)
+        values["Path"] = prepared["Path"]
+        values["File"] = prepared["File"]
+        values["Type"] = prepared["Type"]
+        return values
+
     def create_row(self, table_key: str, payload: dict[str, Any]) -> dict[str, Any]:
         table_def = self.get_table_def(table_key)
         db_table = table_def["db_table"]
         values = self._build_writable_values(
             table_key, table_def, payload, for_create=True
         )
+        if table_key == "attachment":
+            values = self._prepare_attachment_values(values)
         if table_key == "workflow_steps":
             self._assert_workflow_step_item_scope(values)
         self._assert_unique_keys(
@@ -914,6 +999,21 @@ class MaintService:
         self._assert_protected_fields(table_key, table_def, existing, updates)
         merged = dict(existing)
         merged.update(updates)
+        if table_key == "attachment":
+            # InventoryId is not editable; keep existing ownership.
+            updates.pop("InventoryId", None)
+            if any(field in updates for field in ("Path", "File", "Type")):
+                check = {
+                    "InventoryId": existing["InventoryId"],
+                    "Path": updates.get("Path", existing.get("Path")),
+                    "File": updates.get("File", existing.get("File")),
+                }
+                prepared = self._prepare_attachment_values(check)
+                updates["Path"] = prepared["Path"]
+                updates["File"] = prepared["File"]
+                updates["Type"] = prepared["Type"]
+            merged = dict(existing)
+            merged.update(updates)
         if table_key == "workflow_steps":
             self._assert_workflow_step_item_scope(merged)
         self._assert_unique_keys(

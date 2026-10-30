@@ -87,6 +87,21 @@
       "db_table": "inventory",
       "label_key": "maint_table_inventory",
       "supports_categories": true,
+      "detail": {
+        "table_key": "attachment",
+        "parent_field": "InventoryId",
+        "presentation": "tab",
+        "tab_key": "attachments",
+        "tab_label_key": "table_ui_tab_attachments",
+        "require_parent_message_key": "table_ui_msg_attachment_require_parent",
+        "embedded_toolbar": {
+          "show_search": true,
+          "show_flag_filter": true,
+          "show_multi_select_controls": true,
+          "layout_save_placement": "toolbar",
+          "layout_settings_placement": "chrome"
+        }
+      },
       "columns": [
         {
           "field": "TxId",
@@ -293,6 +308,140 @@
           "auto_gen": false,
           "required": false,
           "desc_key": "field_desc_remark"
+        }
+      ]
+    },
+    "attachment": {
+      "db_table": "attachment",
+      "label_key": "maint_table_attachment",
+      "supports_categories": false,
+      "unique_keys": [],
+      "default_list_sort": [
+        {
+          "field": "TxId",
+          "dir": "desc"
+        }
+      ],
+      "columns": [
+        {
+          "field": "TxId",
+          "label_key": "field_txid",
+          "field_type": "long",
+          "is_flag": false,
+          "editable": false,
+          "auto_gen": true,
+          "required": true,
+          "desc_key": "field_desc_txid"
+        },
+        {
+          "field": "InventoryId",
+          "label_key": "field_inventory_id",
+          "field_type": "relation",
+          "is_flag": false,
+          "editable": false,
+          "auto_gen": false,
+          "required": true,
+          "desc_key": "field_desc_inventory_id",
+          "relation": {
+            "source_kind": "table",
+            "source_table_key": "inventory",
+            "value_field": "TxId",
+            "label": {
+              "kind": "row_lang_fields",
+              "fields": {
+                "zh_TW": "ItemName",
+                "en": "ItemNameEn",
+                "zh_CN": "ItemName"
+              }
+            },
+            "filters": [
+              {
+                "field": "isDisable",
+                "op": "eq",
+                "value": 0,
+                "selection_only": true
+              }
+            ]
+          }
+        },
+        {
+          "field": "Path",
+          "label_key": "field_attachment_path",
+          "field_type": "text",
+          "is_flag": false,
+          "editable": true,
+          "auto_gen": false,
+          "required": false,
+          "desc_key": "field_desc_attachment_path"
+        },
+        {
+          "field": "File",
+          "label_key": "field_attachment_file",
+          "field_type": "text",
+          "is_flag": false,
+          "editable": true,
+          "auto_gen": false,
+          "required": true,
+          "desc_key": "field_desc_attachment_file"
+        },
+        {
+          "field": "Type",
+          "label_key": "field_attachment_type",
+          "field_type": "text",
+          "is_flag": false,
+          "editable": true,
+          "auto_gen": false,
+          "required": false,
+          "desc_key": "field_desc_attachment_type"
+        },
+        {
+          "field": "Remark",
+          "label_key": "field_remark",
+          "field_type": "text",
+          "is_flag": false,
+          "editable": true,
+          "auto_gen": false,
+          "required": false,
+          "multiline": true,
+          "desc_key": "field_desc_remark"
+        },
+        {
+          "field": "isDisable",
+          "label_key": "field_is_disable",
+          "field_type": "flag",
+          "is_flag": true,
+          "editable": false,
+          "auto_gen": false,
+          "required": true,
+          "default_value": false,
+          "desc_key": "field_desc_is_disable"
+        },
+        {
+          "field": "CreatedAt",
+          "label_key": "field_created_at",
+          "field_type": "datetime",
+          "is_flag": false,
+          "editable": false,
+          "auto_gen": true,
+          "auto_gen_on": [
+            "create"
+          ],
+          "required": true,
+          "desc_key": "field_desc_created_at"
+        },
+        {
+          "field": "UpdatedAt",
+          "label_key": "field_updated_at",
+          "field_type": "datetime",
+          "is_flag": false,
+          "editable": false,
+          "auto_gen": true,
+          "auto_gen_on": [
+            "create",
+            "update"
+          ],
+          "required": true,
+          "desc_key": "field_desc_updated_at"
         }
       ]
     },

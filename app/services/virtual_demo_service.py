@@ -6,6 +6,7 @@ from math import isfinite
 from pathlib import Path
 from typing import Any
 
+from app.services.cad_model_service import CadModelService
 from app.services.ui_service import UiService
 from app.storage.config_store import resolve_path
 from app.storage.json_store import load_json
@@ -39,6 +40,7 @@ class VirtualDemoService:
 
     def __init__(self, ui_service: UiService) -> None:
         self.ui = ui_service
+        self.cad_models = CadModelService(ui_service)
         self.config_path = resolve_path(ui_service.config["virtual_demo_config_path"])
         self.config = self._load_root_config()
         self.models = self._load_models()
@@ -365,6 +367,37 @@ class VirtualDemoService:
             )
         return items
 
+    def _build_viewer_model(self, language: str) -> dict[str, Any]:
+        payload: dict[str, Any] = {
+            "model_key": self.model["model_key"],
+            "geometry_style": self.model["geometry_style"],
+            "base_color": self.model["base_color"],
+            "link_color": self.model["link_color"],
+            "joint_color": self.model["joint_color"],
+            "accent_color": self.model["accent_color"],
+            "platform_radius": float(self.model["platform_radius"]),
+            "segments": self.model["segments"],
+            "home_joints_deg": self.model["home_joints_deg"],
+            "joint_limits_deg": self.model["joint_limits_deg"],
+            "schematic": True,
+            "unverified_demo": True,
+            "cad_static": None,
+        }
+        cad = self.cad_models.build_viewer_cad_static(
+            self.model["model_key"], language=language
+        )
+        if cad is not None:
+            payload["cad_static"] = cad
+            # Prefer real CAD display when the allowlisted GLB is available.
+            if cad.get("available"):
+                payload["schematic"] = False
+                payload["display_mode"] = "cad_static"
+            else:
+                payload["display_mode"] = "schematic_fallback"
+        else:
+            payload["display_mode"] = "schematic"
+        return payload
+
     def get_snapshot(self, language: str | None = None) -> dict[str, Any]:
         lang = language if language is not None else self.ui.get_prefs()["language"]
         labels = {
@@ -403,9 +436,11 @@ class VirtualDemoService:
             "section_io": self.ui.t("vd_section_io", lang),
             "section_unimplemented": self.ui.t("vd_section_unimplemented", lang),
             "section_3d": self.ui.t("vd_section_3d", lang),
+            "section_3d_cad": self.ui.t("vd_section_3d_cad", lang),
             "joint_hint": self.ui.t("vd_joint_input_hint", lang),
             "not_implemented": self.ui.t(RESULT_NOT_IMPLEMENTED, lang),
             "schematic_disclaimer": self.ui.t("vd_schematic_disclaimer", lang),
+            "cad_static_disclaimer": self.ui.t("cad_static_disclaimer", lang),
             "demo_limits_note": self.ui.t("vd_demo_limits_note", lang),
             "is_moving": self.ui.t("vd_label_is_moving", lang),
             "demo_select": self.ui.t("vd_label_demo_select", lang),
@@ -452,20 +487,7 @@ class VirtualDemoService:
             "dio_pin_count": int(self.config["dio_pin_count"]),
             "animation_deg_per_sec": float(self.model["animation_deg_per_sec"]),
             "joint_limits_deg": self.model["joint_limits_deg"],
-            "viewer_model": {
-                "model_key": self.model["model_key"],
-                "geometry_style": self.model["geometry_style"],
-                "base_color": self.model["base_color"],
-                "link_color": self.model["link_color"],
-                "joint_color": self.model["joint_color"],
-                "accent_color": self.model["accent_color"],
-                "platform_radius": float(self.model["platform_radius"]),
-                "segments": self.model["segments"],
-                "home_joints_deg": self.model["home_joints_deg"],
-                "joint_limits_deg": self.model["joint_limits_deg"],
-                "schematic": True,
-                "unverified_demo": True,
-            },
+            "viewer_model": self._build_viewer_model(lang),
             "carry_demo": (
                 self.demos[self.state["selected_demo_key"]]
                 if self.state["selected_demo_key"] in self.demos

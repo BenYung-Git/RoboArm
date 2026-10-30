@@ -27,6 +27,10 @@
     layoutBaseline: null,
     layoutDirty: false,
     columnSort: {},
+    attSelectedTxId: null,
+    attItems: [],
+    attPreview: null,
+    attInventoryId: null,
   };
   if (!state.tableKey) {
     throw new Error("Missing table_ui tableKey");
@@ -45,6 +49,7 @@
   state.expandErrors = {};
   state.detailControllers = {};
   state.onFilteredCountChange = options.onFilteredCountChange || null;
+  state.onRowsChanged = options.onRowsChanged || null;
   if (state.embedded) {
     if (!state.embeddedToolbar) {
       throw new Error("Missing embeddedToolbar for embedded table_ui");
@@ -246,10 +251,14 @@
           label: state.meta.detail.tab_label,
         });
       }
-      tabs.push(
-        { key: "attachments", label: L.tab_attachments },
-        { key: "messages", label: L.tab_messages }
-      );
+      const detailOwnsAttachments =
+        hasTabDetail() &&
+        state.meta.detail &&
+        state.meta.detail.tab_key === "attachments";
+      if (!detailOwnsAttachments) {
+        tabs.push({ key: "attachments", label: L.tab_attachments });
+      }
+      tabs.push({ key: "messages", label: L.tab_messages });
     }
     tabs.push({ key: "layout", label: L.tab_layout });
     let tabsHtml = "";
@@ -1285,6 +1294,20 @@
       }
       control =
         '<input type="text" disabled value="' + escapeHtml(shown) + '">';
+    } else if (column.multiline && !readonly) {
+      control =
+        '<textarea data-field="' +
+        escapeHtml(column.field) +
+        '" id="' +
+        eid("Field_" + column.field) +
+        '" rows="3">' +
+        escapeHtml(value == null ? "" : value) +
+        "</textarea>";
+    } else if (column.multiline && readonly) {
+      control =
+        '<textarea disabled rows="3">' +
+        escapeHtml(value == null ? "" : value) +
+        "</textarea>";
     } else {
       let inputType =
         column.field_type === "number" || column.field_type === "long"
@@ -1303,6 +1326,11 @@
           inputType = "text";
         }
       }
+      const lockBrowseFields =
+        state.tableKey === "attachment" &&
+        (column.field === "Path" ||
+          column.field === "File" ||
+          column.field === "Type");
       control =
         '<input type="' +
         inputType +
@@ -1313,6 +1341,7 @@
         '" value="' +
         escapeHtml(shownValue) +
         '"' +
+        (readonly || lockBrowseFields ? " readonly" : "") +
         (readonly ? " disabled" : "") +
         ">";
     }
@@ -1405,6 +1434,20 @@
     );
   }
 
+  function renderAttachmentBrowseButton() {
+    if (state.tableKey !== "attachment" || isEditReadonly() || !state.editMode) {
+      return "";
+    }
+    const L = labels();
+    return (
+      '<button type="button" class="tui-btn" id="' +
+      eid("AttBrowseBtn") +
+      '">' +
+      escapeHtml(L.att_browse || "") +
+      "</button>"
+    );
+  }
+
   function renderEdit() {
     const L = labels();
     if (!state.editMode) {
@@ -1420,6 +1463,7 @@
       fieldsHtml += renderEditField(column);
     });
     const connBtn = renderEquipmentConnectionButton();
+    const browseBtn = renderAttachmentBrowseButton();
     return (
       '<div class="tui-panel"><div class="tui-edit-wrap' +
       (readonly ? " is-readonly" : "") +
@@ -1428,6 +1472,7 @@
       iconBtn(eid("SaveBtn"), L.icon_save, L.tip_save, !readonly && !state.saving) +
       iconBtn(eid("CancelBtn"), L.icon_cancel, L.tip_cancel, !readonly) +
       connBtn +
+      browseBtn +
       "</div>" +
       (readonly
         ? '<div class="tui-disabled-banner">' +
@@ -2052,6 +2097,9 @@
       }
       await render();
       setMessage(labels().msg_save_ok, false);
+      if (typeof state.onRowsChanged === "function") {
+        await state.onRowsChanged();
+      }
       return true;
     } catch (error) {
       state.saving = false;
@@ -2313,6 +2361,7 @@
       state.detailController.destroy();
     }
     state.detailController = null;
+    destroyAttachmentPreview();
   }
 
   function destroyAllExpandControllers() {
@@ -2359,6 +2408,78 @@
     return true;
   }
 
+  function isAttachmentDetailTab() {
+    return !!(
+      state.meta &&
+      state.meta.detail &&
+      state.meta.detail.presentation === "tab" &&
+      state.meta.detail.table_key === "attachment" &&
+      state.meta.attachments &&
+      state.meta.attachments.enabled
+    );
+  }
+
+  function renderAttachmentPreviewChrome() {
+    const L = labels();
+    let options =
+      '<option value="">' + escapeHtml(L.att_none || "") + "</option>";
+    state.attItems.forEach(function (item) {
+      options +=
+        '<option value="' +
+        escapeHtml(item.TxId) +
+        '"' +
+        (String(state.attSelectedTxId) === String(item.TxId)
+          ? " selected"
+          : "") +
+        ">" +
+        escapeHtml(item.label || item.File) +
+        "</option>";
+    });
+    const hasSelection = state.attSelectedTxId != null && state.attSelectedTxId !== "";
+    return (
+      '<div class="tui-att-chrome">' +
+      '<div class="tui-att-toolbar">' +
+      '<label class="tui-att-all-label" for="' +
+      eid("AttSelect") +
+      '">' +
+      escapeHtml(L.att_all || "") +
+      "</label>" +
+      '<select id="' +
+      eid("AttSelect") +
+      '" class="tui-att-select" aria-label="' +
+      escapeHtml(L.att_all || "") +
+      '">' +
+      options +
+      "</select>" +
+      '<a class="tui-btn tui-att-download-btn' +
+      (hasSelection ? "" : " is-disabled") +
+      '" id="' +
+      eid("AttDownload") +
+      '"' +
+      (hasSelection
+        ? ' href="/api/inventory/' +
+          encodeURIComponent(state.attInventoryId) +
+          "/attachments/" +
+          encodeURIComponent(state.attSelectedTxId) +
+          '/content?disposition=attachment"'
+        : ' href="#" aria-disabled="true"') +
+      ">" +
+      escapeHtml(L.att_download || "") +
+      "</a>" +
+      "</div>" +
+      '<div class="tui-att-preview-title">' +
+      escapeHtml(L.att_preview_title || "") +
+      "</div>" +
+      '<div class="tui-att-preview" id="' +
+      eid("AttPreview") +
+      '"></div>' +
+      '<p class="tui-att-disclaimer-note">' +
+      escapeHtml(L.att_static_disclaimer || "") +
+      "</p>" +
+      "</div>"
+    );
+  }
+
   function renderDetailTab() {
     const detail = state.meta.detail;
     const parent = currentRow();
@@ -2369,8 +2490,15 @@
         "</div></div>"
       );
     }
+    const chrome = isAttachmentDetailTab()
+      ? renderAttachmentPreviewChrome()
+      : "";
     return (
-      '<div class="tui-panel"><div id="' + eid("DetailRoot") + '" class="tui-detail-root" data-table-key="' +
+      '<div class="tui-panel tui-att-panel">' +
+      chrome +
+      '<div id="' +
+      eid("DetailRoot") +
+      '" class="tui-detail-root" data-table-key="' +
       escapeHtml(detail.table_key) +
       '"></div></div>'
     );
@@ -2390,6 +2518,318 @@
     return ctx;
   }
 
+  function destroyAttachmentPreview() {
+    if (state.attPreview && typeof state.attPreview.destroy === "function") {
+      state.attPreview.destroy();
+    }
+    state.attPreview = null;
+  }
+
+  async function ensureAttachmentPreviewController() {
+    const host = byEid("AttPreview");
+    if (!host) {
+      return null;
+    }
+    if (state.attPreview) {
+      return state.attPreview;
+    }
+    if (
+      !window.RoboArmAttachmentPreview ||
+      typeof window.RoboArmAttachmentPreview.create !== "function"
+    ) {
+      try {
+        await import(
+          "/static/js/inventory_attachment_preview.js?v=att_preview1"
+        );
+      } catch (_error) {
+        host.textContent = labels().att_failed || "";
+        return null;
+      }
+    }
+    if (
+      !window.RoboArmAttachmentPreview ||
+      typeof window.RoboArmAttachmentPreview.create !== "function"
+    ) {
+      host.textContent = labels().att_failed || "";
+      return null;
+    }
+    state.attPreview = window.RoboArmAttachmentPreview.create(host);
+    return state.attPreview;
+  }
+
+  async function loadAttachmentDropdown() {
+    const parent = currentRow();
+    const L = labels();
+    if (!parent || !isAttachmentDetailTab()) {
+      state.attItems = [];
+      state.attSelectedTxId = null;
+      state.attInventoryId = null;
+      return;
+    }
+    const inventoryId = parent.TxId;
+    if (String(state.attInventoryId) !== String(inventoryId)) {
+      state.attSelectedTxId = null;
+      destroyAttachmentPreview();
+    }
+    state.attInventoryId = inventoryId;
+    try {
+      const data = await api(
+        "/api/inventory/" +
+          encodeURIComponent(inventoryId) +
+          "/attachments/active"
+      );
+      state.attItems = data.items || [];
+      if (
+        state.attSelectedTxId != null &&
+        !state.attItems.some(function (item) {
+          return String(item.TxId) === String(state.attSelectedTxId);
+        })
+      ) {
+        state.attSelectedTxId = null;
+        destroyAttachmentPreview();
+      }
+    } catch (error) {
+      state.attItems = [];
+      setMessage(String(error.message || error), true);
+    }
+    const select = byEid("AttSelect");
+    if (select) {
+      let options =
+        '<option value="">' + escapeHtml(L.att_none || "") + "</option>";
+      state.attItems.forEach(function (item) {
+        options +=
+          '<option value="' +
+          escapeHtml(item.TxId) +
+          '"' +
+          (String(state.attSelectedTxId) === String(item.TxId)
+            ? " selected"
+            : "") +
+          ">" +
+          escapeHtml(item.label || item.File) +
+          "</option>";
+      });
+      select.innerHTML = options;
+    }
+    const download = byEid("AttDownload");
+    if (download) {
+      if (state.attSelectedTxId != null && state.attSelectedTxId !== "") {
+        download.classList.remove("is-disabled");
+        download.setAttribute(
+          "href",
+          "/api/inventory/" +
+            encodeURIComponent(state.attInventoryId) +
+            "/attachments/" +
+            encodeURIComponent(state.attSelectedTxId) +
+            "/content?disposition=attachment"
+        );
+        download.removeAttribute("aria-disabled");
+      } else {
+        download.classList.add("is-disabled");
+        download.setAttribute("href", "#");
+        download.setAttribute("aria-disabled", "true");
+      }
+    }
+  }
+
+  async function showSelectedAttachmentPreview() {
+    const ctrl = await ensureAttachmentPreviewController();
+    if (!ctrl) {
+      return;
+    }
+    if (state.attSelectedTxId == null || state.attSelectedTxId === "") {
+      ctrl.clear();
+      return;
+    }
+    ctrl.setStatus(labels().att_loading || "", false);
+    try {
+      const meta = await api(
+        "/api/inventory/" +
+          encodeURIComponent(state.attInventoryId) +
+          "/attachments/" +
+          encodeURIComponent(state.attSelectedTxId) +
+          "/preview"
+      );
+      if (String(state.attSelectedTxId) !== String(meta.TxId)) {
+        return;
+      }
+      await ctrl.show(meta);
+    } catch (error) {
+      ctrl.setStatus(String(error.message || error), true);
+    }
+  }
+
+  async function openAttachmentFileBrowse() {
+    const L = labels();
+    let currentRel = "";
+    const previous = {
+      Path: byFieldEid("Path") ? byFieldEid("Path").value : "",
+      File: byFieldEid("File") ? byFieldEid("File").value : "",
+      Type: byFieldEid("Type") ? byFieldEid("Type").value : "",
+    };
+
+    async function loadDir(rel) {
+      return api("/api/inventory/attachments/browse-files", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ relative_dir: rel || "" }),
+      });
+    }
+
+    let data;
+    try {
+      data = await loadDir(currentRel);
+    } catch (error) {
+      setMessage(String(error.message || error), true);
+      return;
+    }
+
+    const backdrop = document.createElement("div");
+    backdrop.className = "tui-modal-backdrop";
+    backdrop.innerHTML =
+      '<div class="tui-modal tui-att-browse-modal" role="dialog" aria-modal="true">' +
+      "<h3></h3>" +
+      '<div class="tui-att-browse-current"></div>' +
+      '<div class="tui-att-browse-actions"></div>' +
+      '<div class="tui-att-browse-cols">' +
+      '<div class="tui-att-browse-dirs"><h4></h4><ul></ul></div>' +
+      '<div class="tui-att-browse-files"><h4></h4><ul></ul></div>' +
+      "</div>" +
+      '<div class="tui-att-browse-footer">' +
+      '<button type="button" class="tui-btn" data-att-cancel></button>' +
+      "</div></div>";
+    document.body.appendChild(backdrop);
+    const modal = backdrop.querySelector(".tui-modal");
+    const titleEl = modal.querySelector("h3");
+    const currentEl = modal.querySelector(".tui-att-browse-current");
+    const actionsEl = modal.querySelector(".tui-att-browse-actions");
+    const dirsUl = modal.querySelector(".tui-att-browse-dirs ul");
+    const filesUl = modal.querySelector(".tui-att-browse-files ul");
+    const dirsH = modal.querySelector(".tui-att-browse-dirs h4");
+    const filesH = modal.querySelector(".tui-att-browse-files h4");
+    const cancelBtn = modal.querySelector("[data-att-cancel]");
+
+    function applyLabels(payload) {
+      const bl = payload.labels || {};
+      titleEl.textContent = bl.title || L.att_browse || "";
+      dirsH.textContent = bl.folders || "";
+      filesH.textContent = bl.files || "";
+      cancelBtn.textContent = bl.cancel || "";
+    }
+
+    function renderBrowse(payload) {
+      applyLabels(payload);
+      currentRel = payload.current_rel || "";
+      currentEl.textContent =
+        (payload.labels && payload.labels.current
+          ? payload.labels.current + ": "
+          : "") +
+        (currentRel === "" ? "/" : currentRel);
+      actionsEl.innerHTML = "";
+      if (payload.can_go_up) {
+        const up = document.createElement("button");
+        up.type = "button";
+        up.className = "tui-btn";
+        up.textContent =
+          (payload.labels && payload.labels.up) || "";
+        up.addEventListener("click", async function () {
+          try {
+            const next = await loadDir(
+              payload.parent_rel == null ? "" : payload.parent_rel
+            );
+            renderBrowse(next);
+          } catch (error) {
+            setMessage(String(error.message || error), true);
+          }
+        });
+        actionsEl.appendChild(up);
+      }
+      dirsUl.innerHTML = "";
+      if (!payload.directories || !payload.directories.length) {
+        const li = document.createElement("li");
+        li.className = "is-empty";
+        li.textContent =
+          (payload.labels && payload.labels.empty_dirs) || "";
+        dirsUl.appendChild(li);
+      } else {
+        payload.directories.forEach(function (dir) {
+          const li = document.createElement("li");
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "tui-att-browse-item";
+          btn.textContent = dir.name;
+          btn.addEventListener("click", async function () {
+            try {
+              const next = await loadDir(dir.rel);
+              renderBrowse(next);
+            } catch (error) {
+              setMessage(String(error.message || error), true);
+            }
+          });
+          li.appendChild(btn);
+          dirsUl.appendChild(li);
+        });
+      }
+      filesUl.innerHTML = "";
+      if (!payload.files || !payload.files.length) {
+        const li = document.createElement("li");
+        li.className = "is-empty";
+        li.textContent =
+          (payload.labels && payload.labels.empty_files) || "";
+        filesUl.appendChild(li);
+      } else {
+        payload.files.forEach(function (file) {
+          const li = document.createElement("li");
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "tui-att-browse-item";
+          btn.textContent = file.name;
+          btn.addEventListener("click", function () {
+            const pathInput = byFieldEid("Path");
+            const fileInput = byFieldEid("File");
+            const typeInput = byFieldEid("Type");
+            if (pathInput) {
+              pathInput.value = file.Path || "";
+            }
+            if (fileInput) {
+              fileInput.value = file.File || "";
+            }
+            if (typeInput) {
+              typeInput.value = file.Type || "";
+            }
+            markDirtyIfNeeded();
+            setMessage(L.att_pick_confirm || "", false);
+            document.body.removeChild(backdrop);
+          });
+          li.appendChild(btn);
+          filesUl.appendChild(li);
+        });
+      }
+    }
+
+    cancelBtn.addEventListener("click", function () {
+      // Cancel must not change previously selected file fields.
+      const pathInput = byFieldEid("Path");
+      const fileInput = byFieldEid("File");
+      const typeInput = byFieldEid("Type");
+      if (pathInput) {
+        pathInput.value = previous.Path;
+      }
+      if (fileInput) {
+        fileInput.value = previous.File;
+      }
+      if (typeInput) {
+        typeInput.value = previous.Type;
+      }
+      document.body.removeChild(backdrop);
+    });
+    backdrop.addEventListener("click", function (event) {
+      if (event.target === backdrop) {
+        cancelBtn.click();
+      }
+    });
+    renderBrowse(data);
+  }
+
   async function mountDetailController() {
     destroyDetailController();
     const host = byEid("DetailRoot");
@@ -2400,15 +2840,39 @@
     if (!parent) {
       return;
     }
-    state.detailController = createTableUi(host, {
-      tableKey: state.meta.detail.table_key,
+    const detail = state.meta.detail;
+    const opts = {
+      tableKey: detail.table_key,
       parentFilter: {
-        field: state.meta.detail.parent_field,
+        field: detail.parent_field,
         value: parent.TxId,
       },
       parentContext: buildParentContext(parent),
-    });
+      onRowsChanged: async function () {
+        if (isAttachmentDetailTab()) {
+          await loadAttachmentDropdown();
+          await showSelectedAttachmentPreview();
+        }
+      },
+    };
+    if (detail.presentation === "tab") {
+      opts.embedded = true;
+      opts.embeddedTitle = detail.tab_label || "";
+      opts.embeddedAddLabel = labels().tip_add || "";
+      opts.embeddedToolbar = detail.embedded_toolbar || {
+        show_search: true,
+        show_flag_filter: true,
+        show_multi_select_controls: true,
+        layout_save_placement: "toolbar",
+        layout_settings_placement: "chrome",
+      };
+    }
+    state.detailController = createTableUi(host, opts);
     await state.detailController.ready;
+    if (isAttachmentDetailTab()) {
+      await loadAttachmentDropdown();
+      await showSelectedAttachmentPreview();
+    }
   }
 
   async function remountExpandedDetails() {
@@ -2940,8 +3404,46 @@
         );
         await loadRows();
         await render();
+        if (typeof state.onRowsChanged === "function") {
+          await state.onRowsChanged();
+        }
       });
     });
+
+    const attSelect = byEid("AttSelect");
+    if (attSelect) {
+      attSelect.addEventListener("change", async function () {
+        state.attSelectedTxId =
+          attSelect.value === "" ? null : attSelect.value;
+        const download = byEid("AttDownload");
+        if (download) {
+          if (state.attSelectedTxId != null) {
+            download.classList.remove("is-disabled");
+            download.setAttribute(
+              "href",
+              "/api/inventory/" +
+                encodeURIComponent(state.attInventoryId) +
+                "/attachments/" +
+                encodeURIComponent(state.attSelectedTxId) +
+                "/content?disposition=attachment"
+            );
+            download.removeAttribute("aria-disabled");
+          } else {
+            download.classList.add("is-disabled");
+            download.setAttribute("href", "#");
+            download.setAttribute("aria-disabled", "true");
+          }
+        }
+        await showSelectedAttachmentPreview();
+      });
+    }
+
+    const attBrowseBtn = byEid("AttBrowseBtn");
+    if (attBrowseBtn) {
+      attBrowseBtn.addEventListener("click", async function () {
+        await openAttachmentFileBrowse();
+      });
+    }
 
     root.querySelectorAll(".tui-copy-btn").forEach(function (btn) {
       btn.addEventListener("click", async function (event) {

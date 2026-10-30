@@ -77,6 +77,7 @@ class UiService:
         self.ensure_workflow_runs_schema()
         self.ensure_workflow_run_steps_schema()
         self.ensure_equipment_connection_schema()
+        self.ensure_attachment_schema()
         self.retire_equipment_settings_feature()
 
     def ensure_categories_schema(self) -> None:
@@ -204,6 +205,24 @@ class UiService:
                 Remark TEXT NOT NULL DEFAULT '',
                 CreatedAt TEXT NOT NULL,
                 UpdatedAt TEXT NOT NULL
+            )
+            """
+        )
+
+    def ensure_attachment_schema(self) -> None:
+        """Idempotent attachment table: register existing files under model root."""
+        self.store.execute(
+            """
+            CREATE TABLE IF NOT EXISTS attachment (
+                TxId INTEGER PRIMARY KEY,
+                InventoryId INTEGER NOT NULL,
+                Path TEXT NOT NULL DEFAULT '',
+                File TEXT NOT NULL,
+                Type TEXT NOT NULL DEFAULT '',
+                Remark TEXT NOT NULL DEFAULT '',
+                isDisable INTEGER NOT NULL DEFAULT 0,
+                CreatedAt TEXT,
+                UpdatedAt TEXT
             )
             """
         )

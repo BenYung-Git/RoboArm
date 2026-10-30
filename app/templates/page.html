@@ -70,12 +70,16 @@
         <div class="settings-tabs" id="systemSettingTabs">
           <button type="button" class="settings-tab active" data-panel="ui_text">{{ t('tab_interface_text') }}</button>
           <button type="button" class="settings-tab" data-panel="software">{{ t('tab_software_version') }}</button>
+          <button type="button" class="settings-tab" data-panel="attachment_paths">{{ t('tab_attachment_paths') }}</button>
         </div>
         <div class="sys-panel" id="systemPanelUiText" data-panel="ui_text">
           <div id="maintRoot" class="maint-root" data-table-key="ui_text"></div>
         </div>
         <div class="sys-panel is-hidden" id="systemPanelSoftware" data-panel="software">
           <div id="softwareVersionRoot" class="sw-root" aria-live="polite"></div>
+        </div>
+        <div class="sys-panel is-hidden" id="systemPanelAttachmentPaths" data-panel="attachment_paths">
+          <div id="attachmentPathsRoot" class="ap-root" aria-live="polite"></div>
         </div>
         {% elif table_ui %}
         {% if is_workflows %}
@@ -114,14 +118,14 @@
       </div>
     </main>
   </div>
-  <script src="/static/js/app.js"></script>
+  <script src="/static/js/app.js?v=ap_paths1"></script>
   {% if table_ui %}
-  <script src="/static/js/table_ui.js?v=eq_conn_icon_size1"></script>
+  <script src="/static/js/table_ui.js?v=att_tab1"></script>
   {% endif %}
   {% if settings_tabs or is_system_setting %}
   <script src="/static/js/maint.js"></script>
   {% endif %}
-  {% if is_workflows or is_virtual_demo %}
+  {% if table_ui or is_workflows or is_virtual_demo %}
   <script type="importmap">
   {
     "imports": {
@@ -131,12 +135,15 @@
   }
   </script>
   {% endif %}
+  {% if table_ui %}
+  <script type="module" src="/static/js/inventory_attachment_preview.js?v=att_preview1"></script>
+  {% endif %}
   {% if is_workflows %}
   <link rel="stylesheet" href="/static/css/workflow_run.css?v=wf_anim1">
   <script type="module" src="/static/js/workflow_run.js?v=wf_anim1"></script>
   {% endif %}
   {% if is_virtual_demo %}
-  <script type="module" src="/static/js/virtual_demo.js?v=demo2fix4"></script>
+  <script type="module" src="/static/js/virtual_demo.js?v=cad_zu7_2"></script>
   {% endif %}
 </body>
 </html>

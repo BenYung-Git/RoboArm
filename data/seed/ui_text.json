@@ -1957,9 +1957,117 @@
   },
   {
     "text_key": "vd_model_jaka_zu7",
-    "zh_TW": "JAKA Zu7（示意）",
-    "en": "JAKA Zu7 (schematic)",
-    "zh_CN": "JAKA Zu7（示意）"
+    "zh_TW": "JAKA Zu7（靜態 CAD）",
+    "en": "JAKA Zu7 (static CAD)",
+    "zh_CN": "JAKA Zu7（静态 CAD）"
+  },
+  {
+    "text_key": "vd_section_3d_cad",
+    "zh_TW": "3D 靜態 CAD",
+    "en": "3D Static CAD",
+    "zh_CN": "3D 静态 CAD"
+  },
+  {
+    "text_key": "cad_static_disclaimer",
+    "zh_TW": "靜態 CAD 模型；關節軸、零位、Home 與真機同步尚未驗證",
+    "en": "Static CAD model; joint axes, zero pose, Home, and real-robot sync are not verified",
+    "zh_CN": "静态 CAD 模型；关节轴、零位、Home 与真机同步尚未验证"
+  },
+  {
+    "text_key": "cad_btn_fit",
+    "zh_TW": "符合視窗",
+    "en": "Fit view",
+    "zh_CN": "适合窗口"
+  },
+  {
+    "text_key": "cad_btn_reset",
+    "zh_TW": "重設視角",
+    "en": "Reset view",
+    "zh_CN": "重置视角"
+  },
+  {
+    "text_key": "cad_label_grid",
+    "zh_TW": "公尺網格",
+    "en": "Meter grid",
+    "zh_CN": "米制网格"
+  },
+  {
+    "text_key": "cad_label_axes",
+    "zh_TW": "座標軸",
+    "en": "Axes",
+    "zh_CN": "坐标轴"
+  },
+  {
+    "text_key": "cad_label_parts",
+    "zh_TW": "子件顯示",
+    "en": "Parts",
+    "zh_CN": "子件显示"
+  },
+  {
+    "text_key": "cad_label_size",
+    "zh_TW": "實際尺寸",
+    "en": "Measured size",
+    "zh_CN": "实际尺寸"
+  },
+  {
+    "text_key": "cad_msg_loading",
+    "zh_TW": "載入 CAD 模型中…",
+    "en": "Loading CAD model…",
+    "zh_CN": "正在加载 CAD 模型…"
+  },
+  {
+    "text_key": "cad_msg_load_failed",
+    "zh_TW": "CAD 模型載入失敗",
+    "en": "Failed to load CAD model",
+    "zh_CN": "CAD 模型加载失败"
+  },
+  {
+    "text_key": "cad_msg_unavailable",
+    "zh_TW": "CAD 模型不可用（請檢查附件路徑與 GLB）",
+    "en": "CAD model unavailable (check attachment paths and GLB)",
+    "zh_CN": "CAD 模型不可用（请检查附件路径与 GLB）"
+  },
+  {
+    "text_key": "cad_part_zu7_00",
+    "zh_TW": "Zu 7 00",
+    "en": "Zu 7 00",
+    "zh_CN": "Zu 7 00"
+  },
+  {
+    "text_key": "cad_part_zu7_01",
+    "zh_TW": "Zu 7 01",
+    "en": "Zu 7 01",
+    "zh_CN": "Zu 7 01"
+  },
+  {
+    "text_key": "cad_part_zu7_02",
+    "zh_TW": "ZU 7 02",
+    "en": "ZU 7 02",
+    "zh_CN": "ZU 7 02"
+  },
+  {
+    "text_key": "cad_part_zu7_03",
+    "zh_TW": "ZU 7 03",
+    "en": "ZU 7 03",
+    "zh_CN": "ZU 7 03"
+  },
+  {
+    "text_key": "cad_part_zu7_04",
+    "zh_TW": "Zu 7 04",
+    "en": "Zu 7 04",
+    "zh_CN": "Zu 7 04"
+  },
+  {
+    "text_key": "cad_part_zu7_05",
+    "zh_TW": "Zu 7 05",
+    "en": "Zu 7 05",
+    "zh_CN": "Zu 7 05"
+  },
+  {
+    "text_key": "cad_part_zu7_06",
+    "zh_TW": "Zu 7 06",
+    "en": "Zu 7 06",
+    "zh_CN": "Zu 7 06"
   },
   {
     "text_key": "vd_label_model_select",
@@ -2494,5 +2602,527 @@
     "zh_TW": "連線",
     "en": "Conn.",
     "zh_CN": "连接"
+  },
+  {
+    "text_key": "tab_attachment_paths",
+    "zh_TW": "附件路徑",
+    "en": "Attachment Paths",
+    "zh_CN": "附件路径"
+  },
+  {
+    "text_key": "ap_section_model_library",
+    "zh_TW": "3D 模型庫",
+    "en": "3D Model Library",
+    "zh_CN": "3D 模型库"
+  },
+  {
+    "text_key": "ap_label_server_env",
+    "zh_TW": "目前服務環境",
+    "en": "Current server environment",
+    "zh_CN": "当前服务环境"
+  },
+  {
+    "text_key": "ap_label_selection_mode",
+    "zh_TW": "選用方式",
+    "en": "Selection mode",
+    "zh_CN": "选用方式"
+  },
+  {
+    "text_key": "ap_selection_auto",
+    "zh_TW": "依服務環境自動選用",
+    "en": "Auto-select by server environment",
+    "zh_CN": "依服务环境自动选用"
+  },
+  {
+    "text_key": "ap_label_windows_path",
+    "zh_TW": "Windows 模型庫路徑",
+    "en": "Windows model library path",
+    "zh_CN": "Windows 模型库路径"
+  },
+  {
+    "text_key": "ap_label_linux_path",
+    "zh_TW": "Ubuntu 模型庫路徑",
+    "en": "Ubuntu model library path",
+    "zh_CN": "Ubuntu 模型库路径"
+  },
+  {
+    "text_key": "ap_label_effective_path",
+    "zh_TW": "目前生效路徑",
+    "en": "Effective path",
+    "zh_CN": "当前生效路径"
+  },
+  {
+    "text_key": "ap_label_path_status",
+    "zh_TW": "路徑狀態",
+    "en": "Path status",
+    "zh_CN": "路径状态"
+  },
+  {
+    "text_key": "ap_label_in_use",
+    "zh_TW": "使用中",
+    "en": "In use",
+    "zh_CN": "使用中"
+  },
+  {
+    "text_key": "ap_btn_browse",
+    "zh_TW": "瀏覽",
+    "en": "Browse",
+    "zh_CN": "浏览"
+  },
+  {
+    "text_key": "ap_btn_copy",
+    "zh_TW": "複製",
+    "en": "Copy",
+    "zh_CN": "复制"
+  },
+  {
+    "text_key": "ap_btn_check",
+    "zh_TW": "檢查路徑",
+    "en": "Check path",
+    "zh_CN": "检查路径"
+  },
+  {
+    "text_key": "ap_btn_save",
+    "zh_TW": "儲存",
+    "en": "Save",
+    "zh_CN": "保存"
+  },
+  {
+    "text_key": "ap_btn_cancel",
+    "zh_TW": "取消",
+    "en": "Cancel",
+    "zh_CN": "取消"
+  },
+  {
+    "text_key": "ap_btn_select_folder",
+    "zh_TW": "選取目前資料夾",
+    "en": "Select this folder",
+    "zh_CN": "选取目前文件夹"
+  },
+  {
+    "text_key": "ap_btn_go_up",
+    "zh_TW": "上一層",
+    "en": "Up",
+    "zh_CN": "上一层"
+  },
+  {
+    "text_key": "ap_hint_server_path",
+    "zh_TW": "此路徑屬於 RoboArm 服務所在的電腦，並非目前開啟瀏覽器的電腦。",
+    "en": "This path is on the RoboArm server host, not the computer running the browser.",
+    "zh_CN": "此路径属于 RoboArm 服务所在的电脑，并非目前打开浏览器的电脑。"
+  },
+  {
+    "text_key": "ap_msg_browse_disabled",
+    "zh_TW": "只能瀏覽目前服務環境的資料夾",
+    "en": "Browsing is only available for the current server environment",
+    "zh_CN": "只能浏览当前服务环境的文件夹"
+  },
+  {
+    "text_key": "ap_msg_copy_ok",
+    "zh_TW": "已複製到剪貼簿",
+    "en": "Copied to clipboard",
+    "zh_CN": "已复制到剪贴簿"
+  },
+  {
+    "text_key": "ap_msg_copy_fail",
+    "zh_TW": "無法自動複製，請手動選取欄位文字後複製。",
+    "en": "Clipboard unavailable. Please select the field text and copy manually.",
+    "zh_CN": "无法自动复制，请手动选取字段文字后复制。"
+  },
+  {
+    "text_key": "ap_msg_save_ok",
+    "zh_TW": "已儲存",
+    "en": "Saved",
+    "zh_CN": "已保存"
+  },
+  {
+    "text_key": "ap_status_ok",
+    "zh_TW": "目錄存在，可讀取",
+    "en": "Directory exists and is readable",
+    "zh_CN": "目录存在，可读取"
+  },
+  {
+    "text_key": "ap_status_empty",
+    "zh_TW": "尚未設定",
+    "en": "Not set",
+    "zh_CN": "尚未设置"
+  },
+  {
+    "text_key": "ap_status_invalid",
+    "zh_TW": "路徑格式無效（需為絕對路徑）",
+    "en": "Invalid path format (absolute path required)",
+    "zh_CN": "路径格式无效（需为绝对路径）"
+  },
+  {
+    "text_key": "ap_status_not_found",
+    "zh_TW": "目錄不存在",
+    "en": "Directory does not exist",
+    "zh_CN": "目录不存在"
+  },
+  {
+    "text_key": "ap_status_not_dir",
+    "zh_TW": "所選路徑不是資料夾",
+    "en": "Selected path is not a folder",
+    "zh_CN": "所选路径不是文件夹"
+  },
+  {
+    "text_key": "ap_status_not_readable",
+    "zh_TW": "沒有讀取權限",
+    "en": "No read permission",
+    "zh_CN": "没有读取权限"
+  },
+  {
+    "text_key": "ap_status_format_only",
+    "zh_TW": "未在此環境驗證",
+    "en": "Not verified in this environment",
+    "zh_CN": "未在此环境验证"
+  },
+  {
+    "text_key": "ap_status_unsupported_os",
+    "zh_TW": "目前服務作業系統尚未支援",
+    "en": "Current server OS is not supported",
+    "zh_CN": "当前服务操作系统尚未支持"
+  },
+  {
+    "text_key": "ap_status_not_checked",
+    "zh_TW": "尚未檢查",
+    "en": "Not checked yet",
+    "zh_CN": "尚未检查"
+  },
+  {
+    "text_key": "ap_status_outside_root",
+    "zh_TW": "路徑不在允許範圍內",
+    "en": "Path is outside the allowed browse roots",
+    "zh_CN": "路径不在允许范围内"
+  },
+  {
+    "text_key": "ap_status_no_browse_roots",
+    "zh_TW": "尚未設定可瀏覽根目錄，無法開啟服務端瀏覽。",
+    "en": "No browse roots configured; server browsing is unavailable.",
+    "zh_CN": "尚未设置可浏览根目录，无法开启服务端浏览。"
+  },
+  {
+    "text_key": "ap_os_windows",
+    "zh_TW": "Windows",
+    "en": "Windows",
+    "zh_CN": "Windows"
+  },
+  {
+    "text_key": "ap_os_linux",
+    "zh_TW": "Linux／Ubuntu",
+    "en": "Linux / Ubuntu",
+    "zh_CN": "Linux／Ubuntu"
+  },
+  {
+    "text_key": "ap_os_unsupported",
+    "zh_TW": "未支援",
+    "en": "Unsupported",
+    "zh_CN": "未支持"
+  },
+  {
+    "text_key": "ap_browse_title",
+    "zh_TW": "選擇服務端資料夾",
+    "en": "Select server folder",
+    "zh_CN": "选择服务端文件夹"
+  },
+  {
+    "text_key": "ap_browse_current",
+    "zh_TW": "目前目錄",
+    "en": "Current folder",
+    "zh_CN": "当前目录"
+  },
+  {
+    "text_key": "ap_browse_empty",
+    "zh_TW": "（此層沒有子資料夾）",
+    "en": "(No subfolders)",
+    "zh_CN": "（此层没有子文件夹）"
+  },
+  {
+    "text_key": "maint_table_attachment",
+    "zh_TW": "附件",
+    "en": "Attachment",
+    "zh_CN": "附件"
+  },
+  {
+    "text_key": "tab_attachment",
+    "zh_TW": "附件",
+    "en": "Attachment",
+    "zh_CN": "附件"
+  },
+  {
+    "text_key": "field_inventory_id",
+    "zh_TW": "存貨",
+    "en": "Inventory",
+    "zh_CN": "存货"
+  },
+  {
+    "text_key": "field_desc_inventory_id",
+    "zh_TW": "所屬存貨（自動帶入，不可跨存貨掛載）",
+    "en": "Owning inventory (auto-filled; cannot attach across items)",
+    "zh_CN": "所属存货（自动带入，不可跨存货挂载）"
+  },
+  {
+    "text_key": "field_attachment_path",
+    "zh_TW": "路徑",
+    "en": "Path",
+    "zh_CN": "路径"
+  },
+  {
+    "text_key": "field_desc_attachment_path",
+    "zh_TW": "相對於附件根目錄的所在目錄",
+    "en": "Directory relative to the attachment root",
+    "zh_CN": "相对于附件根目录的所在目录"
+  },
+  {
+    "text_key": "field_attachment_file",
+    "zh_TW": "檔名",
+    "en": "File",
+    "zh_CN": "文件名"
+  },
+  {
+    "text_key": "field_desc_attachment_file",
+    "zh_TW": "實際檔名（含副檔名）",
+    "en": "Actual file name including extension",
+    "zh_CN": "实际文件名（含扩展名）"
+  },
+  {
+    "text_key": "field_attachment_type",
+    "zh_TW": "類型",
+    "en": "Type",
+    "zh_CN": "类型"
+  },
+  {
+    "text_key": "field_desc_attachment_type",
+    "zh_TW": "依副檔名自動帶出的正規化類型",
+    "en": "Normalized type derived from the file extension",
+    "zh_CN": "依扩展名自动带出的正规化类型"
+  },
+  {
+    "text_key": "table_ui_msg_attachment_require_parent",
+    "zh_TW": "請先選擇一筆存貨，再管理各類附件。",
+    "en": "Select an inventory item before managing attachments.",
+    "zh_CN": "请先选择一笔存货，再管理各类附件。"
+  },
+  {
+    "text_key": "att_label_all",
+    "zh_TW": "所有附件",
+    "en": "All attachments",
+    "zh_CN": "所有附件"
+  },
+  {
+    "text_key": "att_label_none",
+    "zh_TW": "尚未加入附件",
+    "en": "No attachments yet",
+    "zh_CN": "尚未加入附件"
+  },
+  {
+    "text_key": "att_preview_title",
+    "zh_TW": "附件預覽",
+    "en": "Attachment preview",
+    "zh_CN": "附件预览"
+  },
+  {
+    "text_key": "att_btn_browse",
+    "zh_TW": "瀏覽檔案…",
+    "en": "Browse files…",
+    "zh_CN": "浏览文件…"
+  },
+  {
+    "text_key": "att_btn_download",
+    "zh_TW": "下載",
+    "en": "Download",
+    "zh_CN": "下载"
+  },
+  {
+    "text_key": "att_btn_cancel",
+    "zh_TW": "取消",
+    "en": "Cancel",
+    "zh_CN": "取消"
+  },
+  {
+    "text_key": "att_browse_title",
+    "zh_TW": "選擇附件檔案",
+    "en": "Select attachment file",
+    "zh_CN": "选择附件文件"
+  },
+  {
+    "text_key": "att_browse_current",
+    "zh_TW": "目前目錄",
+    "en": "Current folder",
+    "zh_CN": "当前目录"
+  },
+  {
+    "text_key": "att_browse_up",
+    "zh_TW": "上一層",
+    "en": "Up",
+    "zh_CN": "上一层"
+  },
+  {
+    "text_key": "att_browse_folders",
+    "zh_TW": "資料夾",
+    "en": "Folders",
+    "zh_CN": "文件夹"
+  },
+  {
+    "text_key": "att_browse_files",
+    "zh_TW": "檔案",
+    "en": "Files",
+    "zh_CN": "文件"
+  },
+  {
+    "text_key": "att_browse_empty_dirs",
+    "zh_TW": "（此層沒有子資料夾）",
+    "en": "(No subfolders)",
+    "zh_CN": "（此层没有子文件夹）"
+  },
+  {
+    "text_key": "att_browse_empty_files",
+    "zh_TW": "（此層沒有檔案）",
+    "en": "(No files)",
+    "zh_CN": "（此层没有文件）"
+  },
+  {
+    "text_key": "att_browse_select",
+    "zh_TW": "選擇",
+    "en": "Select",
+    "zh_CN": "选择"
+  },
+  {
+    "text_key": "att_browse_pick_confirm",
+    "zh_TW": "已選取檔案，請確認後儲存。",
+    "en": "File selected. Confirm and save.",
+    "zh_CN": "已选取文件，请确认后保存。"
+  },
+  {
+    "text_key": "att_preview_loading",
+    "zh_TW": "載入中…",
+    "en": "Loading…",
+    "zh_CN": "加载中…"
+  },
+  {
+    "text_key": "att_preview_unsupported",
+    "zh_TW": "暫不支援此附件類型的預覽",
+    "en": "Preview is not supported for this attachment type",
+    "zh_CN": "暂不支持此附件类型的预览"
+  },
+  {
+    "text_key": "att_preview_failed",
+    "zh_TW": "預覽載入失敗",
+    "en": "Failed to load preview",
+    "zh_CN": "预览加载失败"
+  },
+  {
+    "text_key": "att_preview_text_truncated",
+    "zh_TW": "文字過大，僅顯示前段內容",
+    "en": "Text is large; showing a truncated preview",
+    "zh_CN": "文字过大，仅显示前段内容"
+  },
+  {
+    "text_key": "att_preview_json_invalid",
+    "zh_TW": "JSON 格式無效，改顯示原始文字",
+    "en": "Invalid JSON; showing raw text",
+    "zh_CN": "JSON 格式无效，改显示原始文字"
+  },
+  {
+    "text_key": "att_glb_static_disclaimer",
+    "zh_TW": "此為靜態模型預覽，不代表真機同步或動作驗證。",
+    "en": "Static model preview only; not live robot sync or motion verification.",
+    "zh_CN": "此为静态模型预览，不代表真机同步或动作验证。"
+  },
+  {
+    "text_key": "att_err_root_not_set",
+    "zh_TW": "尚未設定附件根目錄",
+    "en": "Attachment root is not configured",
+    "zh_CN": "尚未设置附件根目录"
+  },
+  {
+    "text_key": "att_err_root_not_absolute",
+    "zh_TW": "附件根目錄必須為絕對路徑",
+    "en": "Attachment root must be an absolute path",
+    "zh_CN": "附件根目录必须为绝对路径"
+  },
+  {
+    "text_key": "att_err_root_missing",
+    "zh_TW": "附件根目錄不存在或無法存取",
+    "en": "Attachment root is missing or inaccessible",
+    "zh_CN": "附件根目录不存在或无法访问"
+  },
+  {
+    "text_key": "att_err_root_unreadable",
+    "zh_TW": "附件根目錄無法讀取",
+    "en": "Attachment root is not readable",
+    "zh_CN": "附件根目录无法读取"
+  },
+  {
+    "text_key": "att_err_root_os_unsupported",
+    "zh_TW": "目前伺服器作業系統不支援附件根目錄",
+    "en": "Server OS does not support attachment roots",
+    "zh_CN": "当前服务器操作系统不支持附件根目录"
+  },
+  {
+    "text_key": "att_err_path_invalid",
+    "zh_TW": "附件路徑無效",
+    "en": "Invalid attachment path",
+    "zh_CN": "附件路径无效"
+  },
+  {
+    "text_key": "att_err_path_outside_root",
+    "zh_TW": "路徑超出允許的附件根目錄",
+    "en": "Path is outside the allowed attachment root",
+    "zh_CN": "路径超出允许的附件根目录"
+  },
+  {
+    "text_key": "att_err_file_invalid",
+    "zh_TW": "檔名無效",
+    "en": "Invalid file name",
+    "zh_CN": "文件名无效"
+  },
+  {
+    "text_key": "att_err_file_missing",
+    "zh_TW": "檔案不存在",
+    "en": "File not found",
+    "zh_CN": "文件不存在"
+  },
+  {
+    "text_key": "att_err_file_unreadable",
+    "zh_TW": "無讀取權限",
+    "en": "No read permission",
+    "zh_CN": "无读取权限"
+  },
+  {
+    "text_key": "att_err_dir_missing",
+    "zh_TW": "目錄不存在",
+    "en": "Directory not found",
+    "zh_CN": "目录不存在"
+  },
+  {
+    "text_key": "att_err_dir_unreadable",
+    "zh_TW": "目錄無法讀取",
+    "en": "Directory is not readable",
+    "zh_CN": "目录无法读取"
+  },
+  {
+    "text_key": "att_err_not_found",
+    "zh_TW": "找不到附件紀錄",
+    "en": "Attachment record not found",
+    "zh_CN": "找不到附件记录"
+  },
+  {
+    "text_key": "att_err_disabled",
+    "zh_TW": "此附件已失效，無法預覽或下載",
+    "en": "This attachment is disabled and cannot be previewed or downloaded",
+    "zh_CN": "此附件已失效，无法预览或下载"
+  },
+  {
+    "text_key": "att_err_inventory_not_found",
+    "zh_TW": "找不到存貨",
+    "en": "Inventory item not found",
+    "zh_CN": "找不到存货"
+  },
+  {
+    "text_key": "att_err_inventory_required",
+    "zh_TW": "必須指定所屬存貨",
+    "en": "Owning inventory is required",
+    "zh_CN": "必须指定所属存货"
   }
 ]

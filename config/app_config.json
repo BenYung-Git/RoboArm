@@ -14,6 +14,8 @@
   "zebra_colors_path": "data/maintenance/zebra_colors.json",
   "virtual_demo_config_path": "data/virtual_demo/config.json",
   "virtual_demo_menu_key": "virtual_demo",
+  "attachment_paths_path": "data/local/attachment_paths.json",
+  "browse_roots_path": "data/local/browse_roots.json",
   "host": "127.0.0.1",
   "port": 8000,
   "jaka": {

@@ -12,6 +12,9 @@ _tmp_*.mjs
 .DS_Store
 Thumbs.db
 
+# Host-local attachment path settings (do not overwrite across machines)
+data/local/attachment_paths.json
+
 # JAKA SDK native runtimes (redeploy via vendor/jaka/sdk-*/SOURCE.md; license/policy pending)
 vendor/jaka/**/windows-x64/*.dll
 vendor/jaka/**/windows-x64/*.pyd

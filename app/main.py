@@ -3,11 +3,14 @@ from pathlib import Path
 from typing import Any
 
 from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, Field
 
+from app.services.attachment_paths_service import AttachmentPathsService
+from app.services.attachment_service import AttachmentService
+from app.services.cad_model_service import CadModelService
 from app.services.equipment_connection_service import EquipmentConnectionService
 from app.services.maint_service import MaintService
 from app.services.software_info_service import SoftwareInfoService
@@ -21,11 +24,14 @@ TEMPLATES_DIR = BASE_DIR / "templates"
 STATIC_DIR = BASE_DIR / "static"
 
 ui_service = UiService()
-maint_service = MaintService(ui_service)
+attachment_paths_service = AttachmentPathsService(ui_service)
+attachment_service = AttachmentService(ui_service, attachment_paths_service)
+maint_service = MaintService(ui_service, attachment_service)
 table_layout_service = TableLayoutService(ui_service, maint_service)
 virtual_demo_service = VirtualDemoService(ui_service)
 workflow_runner_service = WorkflowRunnerService(ui_service, virtual_demo_service)
 software_info_service = SoftwareInfoService(ui_service)
+cad_model_service = CadModelService(ui_service, attachment_paths_service)
 equipment_connection_service = EquipmentConnectionService(ui_service)
 app = FastAPI(title=ui_service.config["app_name"])
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
@@ -36,6 +42,19 @@ class PrefsUpdate(BaseModel):
     language: str = Field(...)
     font: str = Field(...)
     font_size: int = Field(...)
+
+
+class AttachmentPathsPayload(BaseModel):
+    model_root_windows: str | None = None
+    model_root_linux: str | None = None
+
+
+class AttachmentBrowsePayload(BaseModel):
+    path: str | None = None
+
+
+class AttachmentFileBrowsePayload(BaseModel):
+    relative_dir: str | None = None
 
 
 class MaintRowPayload(BaseModel):
@@ -152,6 +171,66 @@ def system_software_info() -> JSONResponse:
     try:
         return JSONResponse(software_info_service.build_payload())
     except (ValueError, FileNotFoundError, KeyError, RuntimeError) as exc:
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+@app.get("/api/system/attachment-paths")
+def system_attachment_paths_get() -> JSONResponse:
+    """Read attachment path settings and current server OS selection."""
+    try:
+        return JSONResponse(attachment_paths_service.build_payload())
+    except (ValueError, FileNotFoundError, KeyError, RuntimeError) as exc:
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+@app.put("/api/system/attachment-paths")
+def system_attachment_paths_put(body: AttachmentPathsPayload) -> JSONResponse:
+    """Save Windows/Linux model library roots after validation."""
+    try:
+        result = attachment_paths_service.save_settings(
+            body.model_root_windows,
+            body.model_root_linux,
+        )
+        payload = attachment_paths_service.build_payload()
+        payload["validation_status"] = result["validation_status"]
+        payload["validation_message"] = result["validation_message"]
+        payload["windows_path"] = result["windows_path"]
+        payload["linux_path"] = result["linux_path"]
+        payload["effective_path"] = result["effective_path"]
+        payload["windows_validation"] = result["windows_validation"]
+        payload["linux_validation"] = result["linux_validation"]
+        payload["saved"] = True
+        return JSONResponse(payload)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except (FileNotFoundError, KeyError, RuntimeError) as exc:
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+@app.post("/api/system/attachment-paths/validate")
+def system_attachment_paths_validate(body: AttachmentPathsPayload) -> JSONResponse:
+    """Validate paths without modifying saved settings."""
+    try:
+        return JSONResponse(
+            attachment_paths_service.validate_settings_input(
+                body.model_root_windows,
+                body.model_root_linux,
+            )
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except (FileNotFoundError, KeyError, RuntimeError) as exc:
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+@app.post("/api/system/attachment-paths/browse")
+def system_attachment_paths_browse(body: AttachmentBrowsePayload) -> JSONResponse:
+    """List subfolders within deploy-configured browse roots (server-side only)."""
+    try:
+        return JSONResponse(attachment_paths_service.browse(body.path))
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except (FileNotFoundError, KeyError, RuntimeError) as exc:
         raise HTTPException(status_code=500, detail=str(exc)) from exc
 
 
@@ -522,6 +601,125 @@ def workflow_run_animation_ack(body: WorkflowAnimationAckPayload) -> JSONRespons
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
     except (FileNotFoundError, RuntimeError) as exc:
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+@app.get("/api/inventory/{inventory_id}/attachments/active")
+def inventory_attachments_active(inventory_id: int) -> JSONResponse:
+    """List enabled attachments for one inventory row (preview dropdown)."""
+    try:
+        return JSONResponse(
+            {"items": attachment_service.list_active_for_inventory(inventory_id)}
+        )
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@app.post("/api/inventory/attachments/browse-files")
+def inventory_attachments_browse_files(
+    body: AttachmentFileBrowsePayload,
+) -> JSONResponse:
+    """List directories and files under the configured attachment root only."""
+    try:
+        return JSONResponse(attachment_service.browse_files(body.relative_dir))
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except (FileNotFoundError, PermissionError) as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@app.get("/api/inventory/{inventory_id}/attachments/{txid}/preview")
+def inventory_attachment_preview(inventory_id: int, txid: int) -> JSONResponse:
+    try:
+        return JSONResponse(
+            attachment_service.build_preview_meta(inventory_id, txid)
+        )
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except PermissionError as exc:
+        raise HTTPException(status_code=403, detail=str(exc)) from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@app.get("/api/inventory/{inventory_id}/attachments/{txid}/text")
+def inventory_attachment_text(inventory_id: int, txid: int) -> JSONResponse:
+    try:
+        return JSONResponse(
+            attachment_service.read_text_preview(inventory_id, txid)
+        )
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except PermissionError as exc:
+        raise HTTPException(status_code=403, detail=str(exc)) from exc
+    except FileNotFoundError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@app.get("/api/inventory/{inventory_id}/attachments/{txid}/content")
+def inventory_attachment_content(
+    inventory_id: int, txid: int, disposition: str = "inline"
+) -> FileResponse:
+    """Serve registered attachment content (no arbitrary path input)."""
+    try:
+        path, row = attachment_service.resolve_content_path(inventory_id, txid)
+        type_name = str(row.get("Type") or "").lower()
+        media = attachment_service.content_type_for(str(row.get("File") or ""), type_name)
+        filename = attachment_service.safe_download_name(str(row.get("File") or ""))
+        disp = "attachment" if disposition == "attachment" else "inline"
+        return FileResponse(
+            path,
+            media_type=media,
+            filename=filename,
+            headers={
+                "Cache-Control": "no-store",
+                "Content-Disposition": f'{disp}; filename="{filename}"',
+                "X-Content-Type-Options": "nosniff",
+            },
+        )
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except PermissionError as exc:
+        raise HTTPException(status_code=403, detail=str(exc)) from exc
+    except FileNotFoundError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@app.get("/api/cad-models/{model_key}/assembly.glb")
+def cad_model_assembly_glb(model_key: str) -> FileResponse:
+    """Serve one allowlisted CAD GLB under the attachment-paths model root."""
+    try:
+        path = cad_model_service.resolve_glb(model_key)
+        return FileResponse(
+            path,
+            media_type="model/gltf-binary",
+            filename=path.name,
+            headers={"Cache-Control": "no-store"},
+        )
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except FileNotFoundError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@app.get("/api/cad-models/{model_key}/meta")
+def cad_model_meta(model_key: str) -> JSONResponse:
+    try:
+        meta = cad_model_service.build_viewer_cad_static(model_key)
+        if meta is None:
+            raise HTTPException(status_code=404, detail="Unknown CAD model_key")
+        return JSONResponse(meta)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except (FileNotFoundError, KeyError, RuntimeError) as exc:
         raise HTTPException(status_code=500, detail=str(exc)) from exc
 
 

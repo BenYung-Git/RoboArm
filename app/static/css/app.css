@@ -266,6 +266,235 @@ textarea {
   }
 }
 
+.ap-root {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 880px;
+}
+
+.ap-section {
+  background: #fff;
+  border: 1px solid #d9e2ec;
+  border-radius: 8px;
+  padding: 16px 18px;
+}
+
+.ap-section h3 {
+  margin: 0 0 12px;
+  font-size: 1.05em;
+  color: #243b53;
+}
+
+.ap-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 20px;
+  margin-bottom: 16px;
+}
+
+.ap-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.ap-label {
+  color: #486581;
+  font-size: 0.92em;
+}
+
+.ap-value {
+  color: #102a43;
+  word-break: break-word;
+}
+
+.ap-value-path {
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 0.92em;
+}
+
+.ap-field {
+  margin-bottom: 14px;
+}
+
+.ap-field-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.ap-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: #d9e2ec;
+  color: #243b53;
+  font-size: 0.8em;
+}
+
+.ap-badge-active {
+  background: #2f6f8a;
+  color: #fff;
+}
+
+.ap-input-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.ap-input-row input[type="text"] {
+  flex: 1 1 240px;
+  min-width: 0;
+  padding: 8px 10px;
+  border: 1px solid #9fb3c8;
+  border-radius: 6px;
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 0.92em;
+}
+
+.ap-input-row button,
+.ap-actions button,
+.ap-modal-actions button,
+.ap-dir-item {
+  border: 1px solid #9fb3c8;
+  background: #fff;
+  color: #1f2933;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.ap-input-row button:hover,
+.ap-actions button:hover,
+.ap-modal-actions button:hover,
+.ap-dir-item:hover {
+  background: #f0f4f8;
+}
+
+.ap-input-row button:disabled,
+.ap-actions button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.ap-actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.ap-actions .ap-btn-primary {
+  background: #2f6f8a;
+  border-color: #2f6f8a;
+  color: #fff;
+}
+
+.ap-actions .ap-btn-primary:hover {
+  background: #275a70;
+}
+
+.ap-hint {
+  margin: 12px 0 0;
+  color: #627d98;
+  font-size: 0.92em;
+  line-height: 1.45;
+}
+
+.ap-msg {
+  margin-top: 10px;
+  min-height: 1.2em;
+  color: #243b53;
+  font-size: 0.92em;
+}
+
+.ap-msg.is-error {
+  color: #b42318;
+}
+
+.ap-msg.is-ok {
+  color: #027a48;
+}
+
+.ap-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 16px;
+}
+
+.ap-modal {
+  background: #fff;
+  border-radius: 8px;
+  padding: 18px 20px;
+  width: min(560px, calc(100vw - 32px));
+  max-height: calc(100vh - 48px);
+  overflow: auto;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+
+.ap-modal h3 {
+  margin: 0 0 10px;
+  color: #243b53;
+}
+
+.ap-modal-current {
+  margin: 0 0 12px;
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 0.9em;
+  word-break: break-word;
+  color: #102a43;
+}
+
+.ap-dir-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+  max-height: 280px;
+  overflow: auto;
+}
+
+.ap-dir-item {
+  text-align: left;
+  width: 100%;
+}
+
+.ap-dir-empty {
+  color: #627d98;
+  font-size: 0.92em;
+  margin: 0 0 12px;
+}
+
+.ap-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ap-modal-actions .ap-btn-primary {
+  background: #2f6f8a;
+  border-color: #2f6f8a;
+  color: #fff;
+}
+
+@media (max-width: 720px) {
+  .ap-meta {
+    grid-template-columns: 1fr;
+  }
+}
+
 .maint-root {
   display: flex;
   flex-direction: column;
@@ -463,6 +692,125 @@ textarea {
   padding: 10px 12px;
   border-radius: 6px;
   font-weight: 600;
+}
+
+.vd-disclaimer.is-cad {
+  border-color: #f0c7a0;
+}
+
+.cad-toolbar {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  pointer-events: none;
+}
+
+.cad-toolbar .cad-btn,
+.cad-toolbar .cad-check,
+.cad-toolbar .cad-size {
+  pointer-events: auto;
+}
+
+.cad-btn {
+  border: 1px solid #9fb3c8;
+  background: #fff;
+  color: #1f2933;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85em;
+}
+
+.cad-btn:hover {
+  background: #f0f4f8;
+}
+
+.cad-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid #d9e2ec;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 0.82em;
+  color: #243b53;
+}
+
+.cad-size {
+  margin-left: auto;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid #d9e2ec;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 0.82em;
+  font-family: Consolas, "Courier New", monospace;
+  color: #102a43;
+}
+
+.cad-parts {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  z-index: 2;
+  max-width: min(280px, 46%);
+  max-height: 42%;
+  overflow: auto;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid #d9e2ec;
+  border-radius: 6px;
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cad-parts-title {
+  font-size: 0.85em;
+  color: #486581;
+  margin-bottom: 2px;
+}
+
+.cad-status {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 10px 14px;
+  border-radius: 6px;
+  color: #243b53;
+  font-size: 0.92em;
+}
+
+.cad-status:empty {
+  display: none;
+}
+
+.cad-status.is-error {
+  color: #b42318;
+}
+
+.cad-banner {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  z-index: 2;
+  max-width: min(360px, 48%);
+  background: rgba(255, 247, 237, 0.95);
+  border: 1px solid #f0c7a0;
+  color: #7a2e0e;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 0.8em;
+  line-height: 1.35;
 }
 
 .vd-layout {

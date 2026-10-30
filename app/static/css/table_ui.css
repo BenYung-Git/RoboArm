@@ -708,3 +708,31 @@
   color: #b42318;
   border-color: #f3b0a8;
 }
+
+/* Inventory attachment tab */
+.tui-att-panel { display: flex; flex-direction: column; gap: 12px; }
+.tui-att-chrome { border: 1px solid #c5d0db; background: #f7f9fb; padding: 10px 12px; }
+.tui-att-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 8px; }
+.tui-att-all-label { font-weight: 600; }
+.tui-att-select { min-width: 220px; max-width: 100%; }
+.tui-att-download-btn.is-disabled { pointer-events: none; opacity: 0.45; }
+.tui-att-preview-title { font-size: 0.95rem; margin: 4px 0 6px; }
+.tui-att-preview { min-height: 220px; background: #fff; border: 1px solid #d5dee8; }
+.tui-att-status { padding: 12px; color: #334; }
+.tui-att-status.is-error { color: #a12828; }
+.tui-att-status.is-warn { color: #8a5a00; background: #fff8e8; }
+.tui-att-pdf-wrap, .tui-att-image-wrap, .tui-att-glb { width: 100%; height: 420px; }
+.tui-att-pdf { width: 100%; height: 100%; border: 0; }
+.tui-att-image-wrap { display: flex; align-items: center; justify-content: center; overflow: auto; }
+.tui-att-image { max-width: 100%; max-height: 100%; object-fit: contain; }
+.tui-att-text { margin: 0; padding: 12px; max-height: 420px; overflow: auto; white-space: pre-wrap; font-family: Consolas, monospace; font-size: 12px; }
+.tui-att-disclaimer, .tui-att-disclaimer-note { margin: 6px 0 0; font-size: 12px; color: #5a6a7a; }
+.tui-att-browse-modal { width: min(720px, 94vw); max-height: 80vh; overflow: auto; }
+.tui-att-browse-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; }
+.tui-att-browse-dirs ul, .tui-att-browse-files ul { list-style: none; margin: 0; padding: 0; max-height: 280px; overflow: auto; border: 1px solid #d5dee8; background: #fff; }
+.tui-att-browse-item { display: block; width: 100%; text-align: left; border: 0; background: transparent; padding: 6px 8px; cursor: pointer; }
+.tui-att-browse-item:hover { background: #eef3f8; }
+.tui-att-browse-dirs li.is-empty, .tui-att-browse-files li.is-empty { padding: 8px; color: #778; }
+.tui-att-browse-footer { margin-top: 12px; text-align: right; }
+.tui-att-browse-actions { margin-top: 6px; }
+.tui-form-field textarea { width: 100%; min-height: 4.5em; resize: vertical; }

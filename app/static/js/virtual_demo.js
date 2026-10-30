@@ -1,4 +1,5 @@
 import { createArmViewer } from "/static/js/virtual_demo_3d.js";
+import { createCadStaticViewer } from "/static/js/virtual_demo_cad_3d.js?v=cad2";
 import { createCarryDemoRunner } from "/static/js/carry_demo_runner.js?v=demo2fix4";
 import {
   computeFlangeMatrix,
@@ -230,31 +231,48 @@ function syncCarryScene(snapshot) {
   }
 }
 
+function useCadStatic(snapshot) {
+  const cad = snapshot.viewer_model && snapshot.viewer_model.cad_static;
+  return !!(cad && cad.available && snapshot.viewer_model.display_mode === "cad_static");
+}
+
 function ensureViewer(snapshot) {
   const host = document.getElementById("vdViewer");
   if (!host) {
     return;
   }
   const modelKey = snapshot.viewer_model.model_key;
-  if (ui.viewer && ui.viewer.modelKey === modelKey) {
-    ui.viewer.setJointsDeg(snapshot.current_joints);
-    syncCarryScene(snapshot);
+  const wantCad = useCadStatic(snapshot);
+  const same =
+    ui.viewer &&
+    ui.viewer.modelKey === modelKey &&
+    !!ui.viewer.isCadStatic === wantCad;
+  if (same) {
+    if (!wantCad) {
+      ui.viewer.setJointsDeg(snapshot.current_joints);
+      syncCarryScene(snapshot);
+    }
     return;
   }
   if (ui.viewer) {
     ui.viewer.dispose();
     ui.viewer = null;
   }
-  const viewer = createArmViewer(
-    host,
-    snapshot.viewer_model,
-    snapshot.current_joints
-  );
+  let viewer;
+  if (wantCad) {
+    viewer = createCadStaticViewer(host, snapshot.viewer_model.cad_static);
+  } else {
+    viewer = createArmViewer(
+      host,
+      snapshot.viewer_model,
+      snapshot.current_joints
+    );
+    viewer.setJointLabelsVisible(ui.showJointLabels !== false);
+    syncCarryScene(snapshot);
+  }
   viewer.modelKey = modelKey;
-  viewer.setJointLabelsVisible(ui.showJointLabels !== false);
   ui.viewer = viewer;
   window.__vdViewer = viewer;
-  syncCarryScene(snapshot);
 }
 
 function abortDemoLocal() {
@@ -527,20 +545,32 @@ function render(snapshot) {
     window.__vdViewer = null;
   }
 
+  const cadMode = useCadStatic(snapshot);
+  const disclaimerText = cadMode
+    ? labels.cad_static_disclaimer || labels.schematic_disclaimer
+    : labels.schematic_disclaimer;
+  const section3dTitle = cadMode
+    ? labels.section_3d_cad || labels.section_3d
+    : labels.section_3d;
   root.innerHTML =
-    "<div class='vd-disclaimer'>" +
-    escapeHtml(labels.schematic_disclaimer) +
+    "<div class='vd-disclaimer" +
+    (cadMode ? " is-cad" : "") +
+    "'>" +
+    escapeHtml(disclaimerText) +
     "</div>" +
     message +
     "<div class='vd-layout'>" +
     "<section class='vd-card vd-viewer-card'><h3>" +
-    escapeHtml(labels.section_3d) +
+    escapeHtml(section3dTitle) +
     "</h3><div id='vdViewer' class='vd-viewer'></div>" +
-    "<label class='vd-joint-label-toggle'><input type='checkbox' id='vdShowJointLabels'" +
-    (ui.showJointLabels !== false ? " checked" : "") +
-    "> " +
-    escapeHtml(labels.show_joint_labels || "顯示關節標籤") +
-    "</label></section>" +
+    (cadMode
+      ? ""
+      : "<label class='vd-joint-label-toggle'><input type='checkbox' id='vdShowJointLabels'" +
+        (ui.showJointLabels !== false ? " checked" : "") +
+        "> " +
+        escapeHtml(labels.show_joint_labels || "顯示關節標籤") +
+        "</label>") +
+    "</section>" +
     "<div class='vd-side'>" +
     "<section class='vd-card'><h3>" +
     escapeHtml(labels.section_robot) +

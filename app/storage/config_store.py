@@ -26,6 +26,8 @@ def load_app_config() -> dict[str, Any]:
         "zebra_colors_path",
         "virtual_demo_config_path",
         "virtual_demo_menu_key",
+        "attachment_paths_path",
+        "browse_roots_path",
         "host",
         "port",
     )
