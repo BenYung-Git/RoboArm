@@ -1,3 +1,4 @@
+from datetime import datetime, timezone
 from typing import Any
 
 from app.storage.config_store import load_app_config, resolve_path
@@ -71,6 +72,10 @@ class UiService:
         self.ensure_categories_schema()
         self.ensure_product_combinations_schema()
         self.ensure_product_combination_items_schema()
+        self.ensure_workflows_schema()
+        self.ensure_workflow_steps_schema()
+        self.ensure_workflow_runs_schema()
+        self.ensure_workflow_run_steps_schema()
         self.ensure_equipment_connection_schema()
         self.retire_equipment_settings_feature()
 
@@ -242,6 +247,96 @@ class UiService:
             """
         )
 
+    def ensure_workflows_schema(self) -> None:
+        """Idempotent workflows table create."""
+        self.store.execute(
+            """
+            CREATE TABLE IF NOT EXISTS workflows (
+                TxId INTEGER PRIMARY KEY,
+                WorkflowCode TEXT NOT NULL UNIQUE,
+                WorkflowName TEXT NOT NULL,
+                CombinationTxId INTEGER NOT NULL,
+                Version INTEGER NOT NULL DEFAULT 1,
+                Status TEXT NOT NULL DEFAULT 'draft',
+                Remark TEXT,
+                isDisable INTEGER NOT NULL DEFAULT 0,
+                CreatedAt TEXT,
+                UpdatedAt TEXT
+            )
+            """
+        )
+
+    def ensure_workflow_steps_schema(self) -> None:
+        """Idempotent workflow_steps table create."""
+        self.store.execute(
+            """
+            CREATE TABLE IF NOT EXISTS workflow_steps (
+                TxId INTEGER PRIMARY KEY,
+                WorkflowTxId INTEGER NOT NULL,
+                StepNo REAL NOT NULL,
+                StepName TEXT NOT NULL,
+                CombinationItemTxId INTEGER,
+                ActionType TEXT NOT NULL,
+                TargetKey TEXT,
+                Parameters TEXT,
+                CompletionCondition TEXT,
+                TimeoutSec REAL,
+                Remark TEXT,
+                isDisable INTEGER NOT NULL DEFAULT 0,
+                CreatedAt TEXT,
+                UpdatedAt TEXT,
+                UNIQUE (WorkflowTxId, StepNo)
+            )
+            """
+        )
+
+    def ensure_workflow_runs_schema(self) -> None:
+        """Idempotent workflow_runs table create (virtual execution records)."""
+        self.store.execute(
+            """
+            CREATE TABLE IF NOT EXISTS workflow_runs (
+                TxId INTEGER PRIMARY KEY,
+                WorkflowTxId INTEGER NOT NULL,
+                WorkflowCode TEXT NOT NULL,
+                Mode TEXT NOT NULL DEFAULT 'virtual',
+                Status TEXT NOT NULL DEFAULT 'idle',
+                CurrentStepNo REAL,
+                CurrentStepName TEXT,
+                ProgressDone INTEGER NOT NULL DEFAULT 0,
+                ProgressTotal INTEGER NOT NULL DEFAULT 0,
+                ErrorMessage TEXT,
+                StartedAt TEXT,
+                FinishedAt TEXT,
+                Remark TEXT,
+                CreatedAt TEXT,
+                UpdatedAt TEXT
+            )
+            """
+        )
+
+    def ensure_workflow_run_steps_schema(self) -> None:
+        """Idempotent workflow_run_steps table create."""
+        self.store.execute(
+            """
+            CREATE TABLE IF NOT EXISTS workflow_run_steps (
+                TxId INTEGER PRIMARY KEY,
+                RunTxId INTEGER NOT NULL,
+                WorkflowStepTxId INTEGER,
+                StepNo REAL NOT NULL,
+                StepName TEXT NOT NULL,
+                ActionType TEXT NOT NULL,
+                TargetKey TEXT,
+                Status TEXT NOT NULL DEFAULT 'pending',
+                ResultMessage TEXT,
+                StartedAt TEXT,
+                FinishedAt TEXT,
+                Remark TEXT,
+                CreatedAt TEXT,
+                UpdatedAt TEXT
+            )
+            """
+        )
+
     def ensure_ui_text_schema(self) -> None:
         exists = self.store.fetchone(
             """
@@ -336,6 +431,173 @@ class UiService:
                         item["text_key"],
                     ),
                 )
+        self.ensure_seed_workflow_demo()
+        self.cleanup_workflow_test_rows()
+
+    def ensure_seed_workflow_demo(self) -> None:
+        """Idempotent demo workflow + steps (data maintenance only)."""
+        existing = self.store.fetchone(
+            "SELECT TxId FROM workflows WHERE WorkflowCode = ?",
+            ("WF-DEMO-001",),
+        )
+        combo = self.store.fetchone(
+            """
+            SELECT TxId FROM product_combinations
+            WHERE isDisable = 0
+            ORDER BY TxId ASC
+            LIMIT 1
+            """
+        )
+        if combo is None:
+            return
+        item = self.store.fetchone(
+            """
+            SELECT TxId FROM product_combination_items
+            WHERE CombinationTxId = ? AND isDisable = 0
+            ORDER BY ItemId ASC
+            LIMIT 1
+            """,
+            (combo["TxId"],),
+        )
+        now = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
+        remark = self.t("wf_seed_remark", "zh_TW")
+        step_remark = self.t("wf_step_seed_remark", "zh_TW")
+        # TargetKey maps to virtual demo carry_vertical_1_inplace phases (not live TCP).
+        steps = (
+            (10, "下降取料", "move", "demo1_descend", 0.8),
+            (20, "夾取工件", "gripper", "demo1_grasp_close", 0.5),
+            (30, "垂直提升", "move", "demo1_lift", 0.8),
+            (40, "放回原位", "move", "demo1_place", 0.8),
+            (50, "向上退出", "move", "demo1_retract", 0.6),
+            (60, "返回待機", "end", "demo1_standby", None),
+        )
+        item_txid = None if item is None else item["TxId"]
+        if existing is None:
+            wf_txid = self.next_txid("workflows")
+            self.store.execute(
+                """
+                INSERT INTO workflows (
+                    TxId, WorkflowCode, WorkflowName, CombinationTxId,
+                    Version, Status, Remark, isDisable, CreatedAt, UpdatedAt
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, 0, ?, ?)
+                """,
+                (
+                    wf_txid,
+                    "WF-DEMO-001",
+                    "Demo 1 原位垂直取放",
+                    combo["TxId"],
+                    1,
+                    "draft",
+                    remark,
+                    now,
+                    now,
+                ),
+            )
+            for step_no, step_name, action_type, target_key, timeout in steps:
+                self.store.execute(
+                    """
+                    INSERT INTO workflow_steps (
+                        TxId, WorkflowTxId, StepNo, StepName, CombinationItemTxId,
+                        ActionType, TargetKey, Parameters, CompletionCondition,
+                        TimeoutSec, Remark, isDisable, CreatedAt, UpdatedAt
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?, ?)
+                    """,
+                    (
+                        self.next_txid("workflow_steps"),
+                        wf_txid,
+                        float(step_no),
+                        step_name,
+                        item_txid,
+                        action_type,
+                        target_key,
+                        None,
+                        None,
+                        timeout,
+                        step_remark,
+                        now,
+                        now,
+                    ),
+                )
+            return
+
+        wf_txid = int(existing["TxId"])
+        self.store.execute(
+            """
+            UPDATE workflows
+            SET Remark = ?, UpdatedAt = ?
+            WHERE TxId = ?
+            """,
+            (remark, now, wf_txid),
+        )
+        for step_no, step_name, action_type, target_key, timeout in steps:
+            row = self.store.fetchone(
+                """
+                SELECT TxId, TargetKey FROM workflow_steps
+                WHERE WorkflowTxId = ? AND StepNo = ?
+                """,
+                (wf_txid, float(step_no)),
+            )
+            if row is None:
+                self.store.execute(
+                    """
+                    INSERT INTO workflow_steps (
+                        TxId, WorkflowTxId, StepNo, StepName, CombinationItemTxId,
+                        ActionType, TargetKey, Parameters, CompletionCondition,
+                        TimeoutSec, Remark, isDisable, CreatedAt, UpdatedAt
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?, ?)
+                    """,
+                    (
+                        self.next_txid("workflow_steps"),
+                        wf_txid,
+                        float(step_no),
+                        step_name,
+                        item_txid,
+                        action_type,
+                        target_key,
+                        None,
+                        None,
+                        timeout,
+                        step_remark,
+                        now,
+                        now,
+                    ),
+                )
+                continue
+            self.store.execute(
+                """
+                UPDATE workflow_steps
+                SET StepName = ?, ActionType = ?, TargetKey = ?,
+                    TimeoutSec = ?, Remark = ?, UpdatedAt = ?
+                WHERE TxId = ?
+                """,
+                (
+                    step_name,
+                    action_type,
+                    target_key,
+                    timeout,
+                    step_remark,
+                    now,
+                    row["TxId"],
+                ),
+            )
+
+    def cleanup_workflow_test_rows(self) -> None:
+        """Remove disposable smoke-test workflows (not WF-DEMO-001)."""
+        rows = self.store.fetchall(
+            """
+            SELECT TxId FROM workflows
+            WHERE WorkflowCode = 'WF-TEST-TMP'
+            """
+        )
+        for row in rows:
+            self.store.execute(
+                "DELETE FROM workflow_steps WHERE WorkflowTxId = ?",
+                (row["TxId"],),
+            )
+            self.store.execute(
+                "DELETE FROM workflows WHERE TxId = ?",
+                (row["TxId"],),
+            )
 
     def ensure_seed_menus(self) -> None:
         """Upsert menus from seed so new menus appear on existing databases."""
@@ -647,6 +909,9 @@ class UiService:
             "table_ui": table_ui,
             "is_virtual_demo": menu_key == self.config["virtual_demo_menu_key"],
             "is_system_setting": is_system_setting,
+            "is_workflows": bool(
+                table_ui and table_ui.get("table_key") == "workflows"
+            ),
             "t": translate,
         }
 

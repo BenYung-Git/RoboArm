@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import threading
 from datetime import datetime, timezone
 from math import isfinite
 from pathlib import Path
@@ -22,6 +23,10 @@ RESULT_DEMO_UNSUPPORTED = "vd_demo_model_unsupported"
 RESULT_UNREACHABLE = "vd_result_unreachable"
 RESULT_PREFLIGHT_OK = "vd_result_preflight_ok"
 RESULT_COMPLETE_REJECTED = "vd_result_complete_rejected"
+RESULT_SESSION_BUSY = "vd_session_busy"
+
+SESSION_VIRTUAL_DEMO = "virtual_demo"
+SESSION_WORKFLOW = "workflow"
 
 DEMO_IDLE = "idle"
 DEMO_RUNNING = "running"
@@ -39,7 +44,51 @@ class VirtualDemoService:
         self.models = self._load_models()
         self.demos = self._load_carry_demos()
         self.demo_order = list(self.demos.keys())
+        self._session_lock = threading.RLock()
+        self._session_owner: str | None = None
         self._apply_model(self.config["default_model_key"], reset_logs=True)
+
+    def get_session_info(self) -> dict[str, Any]:
+        with self._session_lock:
+            owner = self._session_owner
+            demo_running = self.state.get("demo_run_state") == DEMO_RUNNING
+            return {
+                "owner": owner,
+                "busy": owner is not None or demo_running,
+                "demo_run_state": self.state.get("demo_run_state"),
+            }
+
+    def acquire_session(self, owner: str) -> None:
+        """Exclusive virtual session lease. Raises ValueError if busy by another owner."""
+        if owner not in (SESSION_VIRTUAL_DEMO, SESSION_WORKFLOW):
+            raise ValueError(f"Unknown session owner: {owner}")
+        with self._session_lock:
+            current = self._session_owner
+            if current is not None and current != owner:
+                raise ValueError(RESULT_SESSION_BUSY)
+            if (
+                self.state.get("demo_run_state") == DEMO_RUNNING
+                and current is not None
+                and current != owner
+            ):
+                raise ValueError(RESULT_SESSION_BUSY)
+            if self.state.get("demo_run_state") == DEMO_RUNNING and current is None:
+                # Demo running without recorded owner → treat as virtual_demo busy.
+                if owner != SESSION_VIRTUAL_DEMO:
+                    raise ValueError(RESULT_SESSION_BUSY)
+            self._session_owner = owner
+
+    def release_session(self, owner: str) -> None:
+        with self._session_lock:
+            if self._session_owner == owner:
+                self._session_owner = None
+
+    def _reject_if_foreign_session(self, owner: str) -> str | None:
+        with self._session_lock:
+            current = self._session_owner
+            if current is not None and current != owner:
+                return RESULT_SESSION_BUSY
+        return None
 
     def _load_root_config(self) -> dict[str, Any]:
         data = load_json(self.config_path)
@@ -278,6 +327,9 @@ class VirtualDemoService:
         blocked = self._require_motion_allowed()
         if blocked is not None:
             return blocked
+        foreign = self._reject_if_foreign_session(SESSION_VIRTUAL_DEMO)
+        if foreign is not None:
+            return foreign
         if self.state["demo_run_state"] == DEMO_RUNNING:
             return RESULT_DEMO_BLOCKED
         if self.state["demo_run_state"] == DEMO_NEEDS_RESET:
@@ -437,9 +489,23 @@ class VirtualDemoService:
                 if self.state["demo_object_pose"] is not None
                 else None
             ),
+            "session": self.get_session_info(),
         }
 
-    def select_model(self, model_key: str) -> dict[str, Any]:
+    def select_model(
+        self,
+        model_key: str,
+        *,
+        session_owner: str = SESSION_VIRTUAL_DEMO,
+    ) -> dict[str, Any]:
+        foreign = self._reject_if_foreign_session(session_owner)
+        if foreign is not None:
+            snapshot = self.get_snapshot()
+            snapshot["last_result_key"] = foreign
+            snapshot["last_message"] = (
+                "虛擬 session 已被其他功能佔用，無法切換型號。"
+            )
+            return snapshot
         self._abort_motion_if_needed(RESULT_ABORTED)
         self._abort_demo_if_running(RESULT_ABORTED)
         prev_demo = self.state.get("selected_demo_key")
@@ -454,7 +520,20 @@ class VirtualDemoService:
         self._append_log("vd_action_select_model", RESULT_OK)
         return self.get_snapshot()
 
-    def select_demo(self, demo_key: str | None) -> dict[str, Any]:
+    def select_demo(
+        self,
+        demo_key: str | None,
+        *,
+        session_owner: str = SESSION_VIRTUAL_DEMO,
+    ) -> dict[str, Any]:
+        foreign = self._reject_if_foreign_session(session_owner)
+        if foreign is not None:
+            snapshot = self.get_snapshot()
+            snapshot["last_result_key"] = foreign
+            snapshot["last_message"] = (
+                "虛擬 session 已被其他功能佔用，無法切換示範。"
+            )
+            return snapshot
         self._abort_motion_if_needed(RESULT_ABORTED)
         self._abort_demo_if_running(RESULT_ABORTED)
         if demo_key in (None, "", "none"):
@@ -494,10 +573,18 @@ class VirtualDemoService:
         snapshot["last_message"] = f"{base} {hint}".strip() if hint else base
         return snapshot
 
-    def start_demo(self) -> dict[str, Any]:
+    def start_demo(
+        self, *, session_owner: str = SESSION_VIRTUAL_DEMO
+    ) -> dict[str, Any]:
         selected = self.state["selected_demo_key"]
         if not selected or selected not in self.demos:
             raise ValueError("No carry demo selected")
+        foreign = self._reject_if_foreign_session(session_owner)
+        if foreign is not None:
+            return self._demo_reject_snapshot(
+                foreign,
+                "虛擬 session 已被其他功能佔用，請先停止或重設。",
+            )
         if self.state["model_key"] not in self.demos[selected]["supported_models"]:
             return self._demo_reject_snapshot(
                 RESULT_DEMO_UNSUPPORTED,
@@ -521,6 +608,15 @@ class VirtualDemoService:
             elif blocked == RESULT_ESTOP:
                 hint = "請先按「解除緊急停止」。"
             return self._demo_reject_snapshot(blocked, hint)
+        try:
+            self.acquire_session(session_owner)
+        except ValueError as exc:
+            if str(exc) == RESULT_SESSION_BUSY:
+                return self._demo_reject_snapshot(
+                    RESULT_SESSION_BUSY,
+                    "虛擬 session 已被其他功能佔用。",
+                )
+            raise
         self.state["demo_run_state"] = DEMO_RUNNING
         self.state["demo_phase"] = "Preflight"
         self._append_log("vd_action_run_demo", RESULT_OK)
@@ -546,6 +642,15 @@ class VirtualDemoService:
         return self.get_snapshot()
 
     def update_demo_runtime(self, payload: dict[str, Any]) -> dict[str, Any]:
+        # Allow both virtual_demo and workflow owners to update runtime while
+        # their own session is active; reject only true foreign owners.
+        with self._session_lock:
+            owner = self._session_owner
+        if owner not in (None, SESSION_VIRTUAL_DEMO, SESSION_WORKFLOW):
+            snapshot = self.get_snapshot()
+            snapshot["runtime_ignored"] = True
+            snapshot["last_result_key"] = RESULT_SESSION_BUSY
+            return snapshot
         run_state = self.state["demo_run_state"]
 
         def _apply_pose_fields() -> None:
@@ -646,12 +751,36 @@ class VirtualDemoService:
         return None
 
     def reset_demo(self) -> dict[str, Any]:
+        foreign = self._reject_if_foreign_session(SESSION_VIRTUAL_DEMO)
+        # Workflow may call reset_demo while holding SESSION_WORKFLOW via release path;
+        # allow reset when owner is workflow only from workflow runner (uses force).
+        if foreign is not None:
+            snapshot = self.get_snapshot()
+            snapshot["last_result_key"] = foreign
+            snapshot["last_message"] = (
+                "作業流程虛擬執行正在使用中，請先於作業流程頁停止或重設。"
+            )
+            return snapshot
         self._abort_motion_if_needed(RESULT_ABORTED)
         self.state["demo_run_state"] = DEMO_IDLE
         self._reset_demo_object_pose()
         home = [float(v) for v in self.model["initial_joints_deg"]]
         self.state["current_joints"] = list(home)
         self.state["target_joints"] = list(home)
+        self.release_session(SESSION_VIRTUAL_DEMO)
+        self._append_log("vd_action_reset_demo", RESULT_OK)
+        return self.get_snapshot()
+
+    def reset_demo_forced(self) -> dict[str, Any]:
+        """Reset demo state and clear any session owner (workflow cleanup)."""
+        self._abort_motion_if_needed(RESULT_ABORTED)
+        self.state["demo_run_state"] = DEMO_IDLE
+        self._reset_demo_object_pose()
+        home = [float(v) for v in self.model["initial_joints_deg"]]
+        self.state["current_joints"] = list(home)
+        self.state["target_joints"] = list(home)
+        with self._session_lock:
+            self._session_owner = None
         self._append_log("vd_action_reset_demo", RESULT_OK)
         return self.get_snapshot()
 
@@ -679,9 +808,18 @@ class VirtualDemoService:
         return self.get_snapshot()
 
     def disconnect(self) -> dict[str, Any]:
+        foreign = self._reject_if_foreign_session(SESSION_VIRTUAL_DEMO)
+        if foreign is not None:
+            snapshot = self.get_snapshot()
+            snapshot["last_result_key"] = foreign
+            snapshot["last_message"] = (
+                "作業流程虛擬執行正在使用中，無法斷線。"
+            )
+            return snapshot
         self._abort_motion_if_needed(RESULT_ABORTED)
         self._abort_demo_if_running(RESULT_ABORTED)
         self.state["connected"] = False
+        self.release_session(SESSION_VIRTUAL_DEMO)
         self._append_log("vd_action_disconnect", RESULT_OK)
         return self.get_snapshot()
 

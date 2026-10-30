@@ -4,6 +4,7 @@
   const state = {
     tableKey: options.tableKey || root.getAttribute("data-table-key"),
     parentFilter: options.parentFilter || null,
+    parentContext: options.parentContext || null,
     detailController: null,
     meta: null,
     tab: "list",
@@ -1225,6 +1226,14 @@
       !readonly
     ) {
       let options = (column.options || []).slice();
+      if (column.option_match_parent && state.parentContext) {
+        const annotateAs = column.option_match_parent.annotate_as;
+        const parentField = column.option_match_parent.parent_field;
+        const expected = state.parentContext[parentField];
+        options = options.filter(function (option) {
+          return String(option[annotateAs]) === String(expected);
+        });
+      }
       if (value != null && String(value) !== "") {
         const found = options.some(function (option) {
           return String(option.value) === String(value);
@@ -2367,6 +2376,20 @@
     );
   }
 
+  function buildParentContext(parent) {
+    const fields =
+      (state.meta.detail && state.meta.detail.parent_context_fields) || [];
+    if (!parent || !fields.length) {
+      return null;
+    }
+    const ctx = {};
+    for (let i = 0; i < fields.length; i += 1) {
+      const field = fields[i];
+      ctx[field] = parent[field];
+    }
+    return ctx;
+  }
+
   async function mountDetailController() {
     destroyDetailController();
     const host = byEid("DetailRoot");
@@ -2383,6 +2406,7 @@
         field: state.meta.detail.parent_field,
         value: parent.TxId,
       },
+      parentContext: buildParentContext(parent),
     });
     await state.detailController.ready;
   }
@@ -2409,12 +2433,17 @@
       }
       host.innerHTML = "";
       try {
+        const parentRow =
+          state.rows.find(function (row) {
+            return String(row.TxId) === String(txid);
+          }) || null;
         const ctrl = createTableUi(host, {
           tableKey: detail.table_key,
           parentFilter: {
             field: detail.parent_field,
             value: txid,
           },
+          parentContext: buildParentContext(parentRow),
           embedded: true,
           embeddedTitle: detail.title,
           embeddedAddLabel: detail.add_label,

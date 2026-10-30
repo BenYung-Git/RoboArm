@@ -4,5 +4,6 @@
   {"menu_key": "system_setting", "route_path": "/page/system_setting", "sort_order": 3, "label_key": "menu_system_setting"},
   {"menu_key": "virtual_demo", "route_path": "/page/virtual_demo", "sort_order": 4, "label_key": "menu_virtual_demo"},
   {"menu_key": "inventory", "route_path": "/page/inventory", "sort_order": 5, "label_key": "menu_inventory"},
-  {"menu_key": "product_combinations", "route_path": "/page/product_combinations", "sort_order": 6, "label_key": "menu_product_combinations"}
+  {"menu_key": "product_combinations", "route_path": "/page/product_combinations", "sort_order": 6, "label_key": "menu_product_combinations"},
+  {"menu_key": "workflows", "route_path": "/page/workflows", "sort_order": 7, "label_key": "menu_workflows"}
 ]

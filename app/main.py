@@ -14,6 +14,7 @@ from app.services.software_info_service import SoftwareInfoService
 from app.services.table_layout_service import TableLayoutService
 from app.services.ui_service import UiService
 from app.services.virtual_demo_service import VirtualDemoService
+from app.services.workflow_runner_service import WorkflowRunnerService
 
 BASE_DIR = Path(__file__).resolve().parent
 TEMPLATES_DIR = BASE_DIR / "templates"
@@ -23,6 +24,7 @@ ui_service = UiService()
 maint_service = MaintService(ui_service)
 table_layout_service = TableLayoutService(ui_service, maint_service)
 virtual_demo_service = VirtualDemoService(ui_service)
+workflow_runner_service = WorkflowRunnerService(ui_service, virtual_demo_service)
 software_info_service = SoftwareInfoService(ui_service)
 equipment_connection_service = EquipmentConnectionService(ui_service)
 app = FastAPI(title=ui_service.config["app_name"])
@@ -447,6 +449,76 @@ def maint_toggle_disable(table_key: str, txid: int) -> JSONResponse:
         return JSONResponse(row)
     except KeyError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except (FileNotFoundError, RuntimeError) as exc:
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+class WorkflowRunStartPayload(BaseModel):
+    workflow_txid: int = Field(...)
+
+
+class WorkflowAnimationAckPayload(BaseModel):
+    run_txid: int = Field(...)
+    step_txid: int = Field(...)
+    seq: int = Field(...)
+    ok: bool = Field(...)
+    error: str | None = None
+
+
+@app.get("/api/workflow-runs/status")
+def workflow_run_status(run_txid: int | None = None) -> JSONResponse:
+    try:
+        return JSONResponse(workflow_runner_service.get_status(run_txid=run_txid))
+    except (ValueError, FileNotFoundError, KeyError, RuntimeError) as exc:
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+@app.post("/api/workflow-runs/start")
+def workflow_run_start(body: WorkflowRunStartPayload) -> JSONResponse:
+    try:
+        return JSONResponse(workflow_runner_service.start(body.workflow_txid))
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except (FileNotFoundError, RuntimeError) as exc:
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+@app.post("/api/workflow-runs/stop")
+def workflow_run_stop() -> JSONResponse:
+    try:
+        return JSONResponse(workflow_runner_service.stop())
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except (FileNotFoundError, RuntimeError) as exc:
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+@app.post("/api/workflow-runs/reset")
+def workflow_run_reset() -> JSONResponse:
+    try:
+        return JSONResponse(workflow_runner_service.reset())
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except (FileNotFoundError, RuntimeError) as exc:
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
+
+
+@app.post("/api/workflow-runs/animation-ack")
+def workflow_run_animation_ack(body: WorkflowAnimationAckPayload) -> JSONResponse:
+    try:
+        return JSONResponse(
+            workflow_runner_service.animation_ack(
+                run_txid=body.run_txid,
+                step_txid=body.step_txid,
+                seq=body.seq,
+                ok=body.ok,
+                error=body.error,
+            )
+        )
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
     except (FileNotFoundError, RuntimeError) as exc:

@@ -783,6 +783,459 @@
           "desc_key": "field_desc_updated_at"
         }
       ]
+    },
+    "workflows": {
+      "db_table": "workflows",
+      "label_key": "maint_table_workflows",
+      "supports_categories": false,
+      "unique_keys": [
+        [
+          "WorkflowCode"
+        ]
+      ],
+      "detail": {
+        "table_key": "workflow_steps",
+        "parent_field": "WorkflowTxId",
+        "presentation": "expand_row",
+        "title_key": "maint_table_workflow_steps",
+        "add_label_key": "table_ui_btn_add_workflow_step",
+        "collapsed_icon_key": "table_ui_icon_expand_collapsed",
+        "expanded_icon_key": "table_ui_icon_expand_expanded",
+        "loading_key": "table_ui_msg_detail_loading",
+        "load_error_key": "table_ui_msg_detail_load_failed",
+        "parent_context_fields": [
+          "CombinationTxId"
+        ],
+        "embedded_toolbar": {
+          "show_search": false,
+          "show_flag_filter": false,
+          "show_multi_select_controls": false,
+          "layout_save_placement": "chrome",
+          "layout_settings_placement": "chrome"
+        }
+      },
+      "columns": [
+        {
+          "field": "TxId",
+          "label_key": "field_txid",
+          "field_type": "long",
+          "is_flag": false,
+          "editable": false,
+          "auto_gen": true,
+          "required": true,
+          "desc_key": "field_desc_txid"
+        },
+        {
+          "field": "WorkflowCode",
+          "label_key": "field_workflow_code",
+          "field_type": "text",
+          "is_flag": false,
+          "editable": true,
+          "auto_gen": false,
+          "required": true,
+          "desc_key": "field_desc_workflow_code"
+        },
+        {
+          "field": "WorkflowName",
+          "label_key": "field_workflow_name",
+          "field_type": "text",
+          "is_flag": false,
+          "editable": true,
+          "auto_gen": false,
+          "required": true,
+          "desc_key": "field_desc_workflow_name"
+        },
+        {
+          "field": "CombinationTxId",
+          "label_key": "field_combination_txid",
+          "field_type": "relation",
+          "is_flag": false,
+          "editable": true,
+          "auto_gen": false,
+          "required": true,
+          "desc_key": "field_desc_combination_txid_workflow",
+          "relation": {
+            "source_kind": "table",
+            "source_table_key": "product_combinations",
+            "value_field": "TxId",
+            "label": {
+              "kind": "row_lang_fields",
+              "fields": {
+                "zh_TW": "CombinationName",
+                "en": "CombinationName",
+                "zh_CN": "CombinationName"
+              }
+            },
+            "filters": [
+              {
+                "field": "isDisable",
+                "op": "eq",
+                "value": 0,
+                "selection_only": true
+              }
+            ]
+          }
+        },
+        {
+          "field": "Version",
+          "label_key": "field_workflow_version",
+          "field_type": "long",
+          "is_flag": false,
+          "editable": true,
+          "auto_gen": false,
+          "required": true,
+          "default_value": 1,
+          "desc_key": "field_desc_workflow_version"
+        },
+        {
+          "field": "Status",
+          "label_key": "field_workflow_status",
+          "field_type": "select",
+          "is_flag": false,
+          "editable": true,
+          "auto_gen": false,
+          "required": true,
+          "default_value": "draft",
+          "options": [
+            {
+              "value": "draft",
+              "label_key": "workflow_status_draft"
+            },
+            {
+              "value": "active",
+              "label_key": "workflow_status_active"
+            },
+            {
+              "value": "archived",
+              "label_key": "workflow_status_archived"
+            }
+          ],
+          "desc_key": "field_desc_workflow_status"
+        },
+        {
+          "field": "Remark",
+          "label_key": "field_remark",
+          "field_type": "text",
+          "is_flag": false,
+          "editable": true,
+          "auto_gen": false,
+          "required": false,
+          "nullable": true,
+          "desc_key": "field_desc_remark"
+        },
+        {
+          "field": "isDisable",
+          "label_key": "field_is_disable",
+          "field_type": "flag",
+          "is_flag": true,
+          "editable": false,
+          "auto_gen": false,
+          "required": true,
+          "default_value": false,
+          "desc_key": "field_desc_is_disable"
+        },
+        {
+          "field": "CreatedAt",
+          "label_key": "field_created_at",
+          "field_type": "datetime",
+          "is_flag": false,
+          "editable": false,
+          "auto_gen": true,
+          "auto_gen_on": [
+            "create"
+          ],
+          "required": true,
+          "desc_key": "field_desc_created_at"
+        },
+        {
+          "field": "UpdatedAt",
+          "label_key": "field_updated_at",
+          "field_type": "datetime",
+          "is_flag": false,
+          "editable": false,
+          "auto_gen": true,
+          "auto_gen_on": [
+            "create",
+            "update"
+          ],
+          "required": true,
+          "desc_key": "field_desc_updated_at"
+        }
+      ]
+    },
+    "workflow_steps": {
+      "db_table": "workflow_steps",
+      "label_key": "maint_table_workflow_steps",
+      "supports_categories": false,
+      "unique_keys": [
+        [
+          "WorkflowTxId",
+          "StepNo"
+        ]
+      ],
+      "default_list_sort": [
+        {
+          "field": "StepNo",
+          "dir": "asc"
+        }
+      ],
+      "columns": [
+        {
+          "field": "TxId",
+          "label_key": "field_txid",
+          "field_type": "long",
+          "is_flag": false,
+          "editable": false,
+          "auto_gen": true,
+          "required": true,
+          "desc_key": "field_desc_txid"
+        },
+        {
+          "field": "WorkflowTxId",
+          "label_key": "field_workflow_txid",
+          "field_type": "relation",
+          "is_flag": false,
+          "editable": false,
+          "auto_gen": false,
+          "required": true,
+          "desc_key": "field_desc_workflow_txid",
+          "relation": {
+            "source_kind": "table",
+            "source_table_key": "workflows",
+            "value_field": "TxId",
+            "label": {
+              "kind": "row_lang_fields",
+              "fields": {
+                "zh_TW": "WorkflowName",
+                "en": "WorkflowName",
+                "zh_CN": "WorkflowName"
+              }
+            },
+            "filters": [
+              {
+                "field": "isDisable",
+                "op": "eq",
+                "value": 0,
+                "selection_only": true
+              }
+            ]
+          }
+        },
+        {
+          "field": "StepNo",
+          "label_key": "field_step_no",
+          "field_type": "number",
+          "is_flag": false,
+          "editable": true,
+          "auto_gen": true,
+          "auto_gen_rule": {
+            "kind": "scoped_max_step",
+            "scope_field": "WorkflowTxId",
+            "first_value": 10.0,
+            "integer_step": 10.0,
+            "fraction_step": 10.0,
+            "decimals": 0
+          },
+          "display_decimals": 0,
+          "required": true,
+          "desc_key": "field_desc_step_no"
+        },
+        {
+          "field": "StepName",
+          "label_key": "field_step_name",
+          "field_type": "text",
+          "is_flag": false,
+          "editable": true,
+          "auto_gen": false,
+          "required": true,
+          "desc_key": "field_desc_step_name"
+        },
+        {
+          "field": "CombinationItemTxId",
+          "label_key": "field_combination_item_txid",
+          "field_type": "relation",
+          "is_flag": false,
+          "editable": true,
+          "auto_gen": false,
+          "required": false,
+          "nullable": true,
+          "desc_key": "field_desc_combination_item_txid",
+          "option_match_parent": {
+            "annotate_as": "combination_txid",
+            "parent_field": "CombinationTxId"
+          },
+          "relation": {
+            "source_kind": "table",
+            "source_table_key": "product_combination_items",
+            "value_field": "TxId",
+            "label": {
+              "kind": "row_lang_fields",
+              "fields": {
+                "zh_TW": "TxId",
+                "en": "TxId",
+                "zh_CN": "TxId"
+              }
+            },
+            "label_compose": [
+              "item_id",
+              "equipment_label"
+            ],
+            "filters": [
+              {
+                "field": "isDisable",
+                "op": "eq",
+                "value": 0,
+                "selection_only": true
+              }
+            ],
+            "option_annotate": [
+              {
+                "from_field": "TxId",
+                "lookup_table_key": "product_combination_items",
+                "lookup_value_field": "TxId",
+                "take_field": "CombinationTxId",
+                "as": "combination_txid"
+              },
+              {
+                "from_field": "EquipmentTxId",
+                "lookup_table_key": "inventory",
+                "lookup_value_field": "TxId",
+                "take_field": "ItemName",
+                "as": "equipment_label"
+              },
+              {
+                "from_field": "TxId",
+                "lookup_table_key": "product_combination_items",
+                "lookup_value_field": "TxId",
+                "take_field": "ItemId",
+                "as": "item_id"
+              }
+            ]
+          }
+        },
+        {
+          "field": "ActionType",
+          "label_key": "field_action_type",
+          "field_type": "select",
+          "is_flag": false,
+          "editable": true,
+          "auto_gen": false,
+          "required": true,
+          "default_value": "move",
+          "options": [
+            {
+              "value": "move",
+              "label_key": "workflow_action_move"
+            },
+            {
+              "value": "gripper",
+              "label_key": "workflow_action_gripper"
+            },
+            {
+              "value": "wait",
+              "label_key": "workflow_action_wait"
+            },
+            {
+              "value": "end",
+              "label_key": "workflow_action_end"
+            }
+          ],
+          "desc_key": "field_desc_action_type"
+        },
+        {
+          "field": "TargetKey",
+          "label_key": "field_target_key",
+          "field_type": "text",
+          "is_flag": false,
+          "editable": true,
+          "auto_gen": false,
+          "required": false,
+          "nullable": true,
+          "desc_key": "field_desc_target_key"
+        },
+        {
+          "field": "Parameters",
+          "label_key": "field_step_parameters",
+          "field_type": "text",
+          "is_flag": false,
+          "editable": true,
+          "auto_gen": false,
+          "required": false,
+          "nullable": true,
+          "desc_key": "field_desc_step_parameters"
+        },
+        {
+          "field": "CompletionCondition",
+          "label_key": "field_completion_condition",
+          "field_type": "text",
+          "is_flag": false,
+          "editable": true,
+          "auto_gen": false,
+          "required": false,
+          "nullable": true,
+          "desc_key": "field_desc_completion_condition"
+        },
+        {
+          "field": "TimeoutSec",
+          "label_key": "field_timeout_sec",
+          "field_type": "number",
+          "is_flag": false,
+          "editable": true,
+          "auto_gen": false,
+          "required": false,
+          "nullable": true,
+          "desc_key": "field_desc_timeout_sec"
+        },
+        {
+          "field": "Remark",
+          "label_key": "field_remark",
+          "field_type": "text",
+          "is_flag": false,
+          "editable": true,
+          "auto_gen": false,
+          "required": false,
+          "nullable": true,
+          "desc_key": "field_desc_remark"
+        },
+        {
+          "field": "isDisable",
+          "label_key": "field_is_disable",
+          "field_type": "flag",
+          "is_flag": true,
+          "editable": false,
+          "auto_gen": false,
+          "required": true,
+          "default_value": false,
+          "desc_key": "field_desc_is_disable"
+        },
+        {
+          "field": "CreatedAt",
+          "label_key": "field_created_at",
+          "field_type": "datetime",
+          "is_flag": false,
+          "editable": false,
+          "auto_gen": true,
+          "auto_gen_on": [
+            "create"
+          ],
+          "required": true,
+          "desc_key": "field_desc_created_at"
+        },
+        {
+          "field": "UpdatedAt",
+          "label_key": "field_updated_at",
+          "field_type": "datetime",
+          "is_flag": false,
+          "editable": false,
+          "auto_gen": true,
+          "auto_gen_on": [
+            "create",
+            "update"
+          ],
+          "required": true,
+          "desc_key": "field_desc_updated_at"
+        }
+      ]
     }
   }
 }

@@ -9,6 +9,10 @@
       "table_key": "product_combinations"
     },
     {
+      "menu_key": "workflows",
+      "table_key": "workflows"
+    },
+    {
       "menu_key": "source_table",
       "tabs": [
         {

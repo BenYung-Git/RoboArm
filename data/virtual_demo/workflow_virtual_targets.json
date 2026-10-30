@@ -1,0 +1,49 @@
+{
+  "notes": "Schematic TargetKey map for WF-DEMO-001. phases[] names match carry_vertical_1_inplace plan from buildDemoWaypoints — not live TCP.",
+  "demo_key": "carry_vertical_1_inplace",
+  "default_hold_sec": 0.6,
+  "targets": {
+    "demo1_descend": {
+      "phase": "Descend",
+      "phases": ["Approach", "Descend"],
+      "kind": "move",
+      "hold_sec": 0.8
+    },
+    "demo1_grasp_close": {
+      "phase": "Grasp",
+      "phases": ["Grasp"],
+      "kind": "grip_close",
+      "hold_sec": 0.5
+    },
+    "demo1_grasp_open": {
+      "phase": "Release",
+      "phases": ["Release"],
+      "kind": "grip_open",
+      "hold_sec": 0.5
+    },
+    "demo1_lift": {
+      "phase": "VerticalLift",
+      "phases": ["VerticalLift"],
+      "kind": "move",
+      "hold_sec": 0.8
+    },
+    "demo1_place": {
+      "phase": "VerticalLower",
+      "phases": ["VerticalLower", "Release"],
+      "kind": "move",
+      "hold_sec": 0.8
+    },
+    "demo1_retract": {
+      "phase": "Retract",
+      "phases": ["Retract"],
+      "kind": "move",
+      "hold_sec": 0.6
+    },
+    "demo1_standby": {
+      "phase": "ReturnHome",
+      "phases": ["ReturnHome"],
+      "kind": "end",
+      "hold_sec": 0.2
+    }
+  }
+}

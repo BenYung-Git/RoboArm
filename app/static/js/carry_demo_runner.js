@@ -40,6 +40,12 @@ export function createCarryDemoRunner(ctx) {
     abortToken: 0,
     running: false,
     runtimeTrack: null,
+    // Persist across runNamedPhases calls within one workflow run.
+    gap: null,
+    grasped: false,
+    graspOffset: null,
+    lastPlace: null,
+    planCache: null,
   };
 
   function newRuntimeTrack(demo) {
@@ -640,8 +646,168 @@ export function createCarryDemoRunner(ctx) {
     state.running = false;
   }
 
+  function resetSegmentState(demo) {
+    state.gap = demo.gripper.gap_fully_open_m;
+    state.grasped = false;
+    state.graspOffset = null;
+    state.lastPlace = null;
+    state.planCache = null;
+    ctx.setGap(state.gap);
+    ctx.setGrasped(false);
+  }
+
+  /**
+   * Play a subset of planned carry-demo phases (by name), in plan order.
+   * Used by workflow virtual execution so each TargetKey maps to existing
+   * animation segments without changing Demo 1 paths.
+   */
+  async function runNamedPhases(phaseNames, options) {
+    options = options || {};
+    const names = (phaseNames || []).slice();
+    if (!names.length) {
+      return { ok: true, skipped: true };
+    }
+    if (state.running && !options.allowNested) {
+      throw new Error("demo_runner_busy");
+    }
+    const wasRunning = state.running;
+    state.running = true;
+    const token = state.abortToken;
+    try {
+      let snap = options.snapshot;
+      if (!snap) {
+        snap = await api("/api/virtual-demo/state");
+      }
+      const demo = snap.carry_demo;
+      const model = snap.viewer_model;
+      if (!demo || !model) {
+        throw new Error("missing_demo_or_model");
+      }
+      if (!state.planCache || state.planCache.demoKey !== demo.demo_key) {
+        const plan = buildDemoWaypoints(demo, model);
+        if (!plan.ok) {
+          throw new Error(
+            "plan_failed:" + plan.reason + (plan.phase ? "@" + plan.phase : "")
+          );
+        }
+        state.planCache = { demoKey: demo.demo_key, plan: plan };
+        if (state.gap == null) {
+          resetSegmentState(demo);
+        }
+        if (!state.runtimeTrack) {
+          state.runtimeTrack = newRuntimeTrack(demo);
+        }
+      }
+      const plan = state.planCache.plan;
+      const nameSet = {};
+      names.forEach(function (n) {
+        nameSet[n] = true;
+      });
+      const selected = plan.planned.filter(function (step) {
+        return !!nameSet[step.name];
+      });
+      if (!selected.length) {
+        throw new Error("phases_not_found:" + names.join(","));
+      }
+
+      async function syncRuntime(extra) {
+        const payload = Object.assign(
+          {
+            phase: extra.phase,
+            grasped: state.grasped,
+            gap_m: state.gap,
+            object_pose: ctx.getObjectPose(),
+          },
+          extra
+        );
+        const next = await api("/api/virtual-demo/demo/runtime", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        ctx.onSnapshot(next);
+        return next;
+      }
+
+      for (let i = 0; i < selected.length; i += 1) {
+        if (token !== state.abortToken) {
+          throw new Error("aborted");
+        }
+        const step = selected[i];
+        await syncRuntime({ phase: step.name });
+        if (step.type === "joint") {
+          await moveJoints(step.joints, {
+            demo: demo,
+            model: model,
+            phaseName: step.name,
+            fixedXy: false,
+            grasped: state.grasped,
+            graspOffset: state.graspOffset,
+          });
+        } else if (step.type === "path") {
+          await moveJointsSeq(step.jointsSeq, {
+            demo: demo,
+            model: model,
+            phaseName: step.name,
+            fixedXy: !!step.fixedXy,
+            refXy: step.refXy || null,
+            grasped: state.grasped,
+            graspOffset: state.graspOffset,
+          });
+        } else if (step.action === "close") {
+          const contact = gapContactForObject(demo);
+          state.gap = contact;
+          ctx.setGap(state.gap);
+          const joints = ctx.getJoints();
+          const tcp = computeTcpPose(model.segments, joints, demo.gripper);
+          const g = checkGrasp(demo, tcp, state.gap);
+          if (!g.ok) {
+            throw new Error("grasp_failed:" + g.reason);
+          }
+          const obj = ctx.getObjectPose();
+          state.graspOffset = {
+            center: [
+              obj.center_xyz_m[0] - tcp.position[0],
+              obj.center_xyz_m[1] - tcp.position[1],
+              obj.center_xyz_m[2] - tcp.position[2],
+            ],
+            axis: obj.axis_world.slice(),
+          };
+          state.grasped = true;
+          ctx.setGrasped(true);
+          await syncRuntime({ phase: "Grasp" });
+        } else if (step.action === "open") {
+          const pose = ctx.getObjectPose();
+          state.lastPlace = checkPlace(demo, pose);
+          if (!state.lastPlace.ok) {
+            throw new Error("place_failed:" + state.lastPlace.reason);
+          }
+          state.grasped = false;
+          state.graspOffset = null;
+          state.gap = demo.gripper.gap_fully_open_m;
+          ctx.setGap(state.gap);
+          ctx.setGrasped(false);
+          if (typeof ctx.setObjectPose === "function") {
+            ctx.setObjectPose(state.lastPlace.pose);
+          }
+          await syncRuntime({
+            phase: "Release",
+            object_pose: state.lastPlace.pose,
+          });
+        }
+      }
+      return { ok: true, lastPlace: state.lastPlace };
+    } finally {
+      if (!wasRunning) {
+        state.running = false;
+      }
+    }
+  }
+
   return {
     run: run,
+    runNamedPhases: runNamedPhases,
+    resetSegmentState: resetSegmentState,
     abortLocal: abortLocal,
     isRunning: function () {
       return state.running;

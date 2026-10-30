@@ -107,6 +107,8 @@ class MaintService:
                 item["db_persist"] = False
             if column["field_type"] == "display":
                 item["display_from_field"] = column.get("display_from_field")
+            if column.get("option_match_parent"):
+                item["option_match_parent"] = column["option_match_parent"]
             columns.append(item)
         display = self.display_columns(table_def)
         result = {
@@ -217,7 +219,7 @@ class MaintService:
                         "Unsupported embedded_toolbar."
                         f"layout_settings_placement: {settings_placement}"
                     )
-                result["detail"] = {
+                detail_meta: dict[str, Any] = {
                     "table_key": detail["table_key"],
                     "parent_field": detail["parent_field"],
                     "presentation": presentation,
@@ -247,6 +249,16 @@ class MaintService:
                         "layout_settings_placement": settings_placement,
                     },
                 }
+                parent_context_fields = detail.get("parent_context_fields") or []
+                if parent_context_fields:
+                    if not isinstance(parent_context_fields, list):
+                        raise ValueError(
+                            "detail.parent_context_fields must be a list"
+                        )
+                    detail_meta["parent_context_fields"] = list(
+                        parent_context_fields
+                    )
+                result["detail"] = detail_meta
             else:
                 raise ValueError(
                     f"Unsupported detail.presentation: {presentation}"
@@ -820,12 +832,41 @@ class MaintService:
                     f"Field locked when referenced: {field}"
                 )
 
+    def _assert_workflow_step_item_scope(
+        self, values: dict[str, Any]
+    ) -> None:
+        """CombinationItemTxId must belong to the workflow's combination."""
+        workflow_txid = values.get("WorkflowTxId")
+        item_txid = values.get("CombinationItemTxId")
+        if item_txid is None or str(item_txid).strip() == "":
+            return
+        if workflow_txid is None or str(workflow_txid).strip() == "":
+            raise ValueError("Missing WorkflowTxId for CombinationItemTxId")
+        workflow = self.store.fetchone(
+            "SELECT CombinationTxId FROM workflows WHERE TxId = ?",
+            (workflow_txid,),
+        )
+        if workflow is None:
+            raise ValueError(f"Invalid WorkflowTxId: {workflow_txid}")
+        item = self.store.fetchone(
+            "SELECT CombinationTxId FROM product_combination_items WHERE TxId = ?",
+            (item_txid,),
+        )
+        if item is None:
+            raise ValueError(f"Invalid CombinationItemTxId: {item_txid}")
+        if str(item["CombinationTxId"]) != str(workflow["CombinationTxId"]):
+            raise ValueError(
+                "CombinationItemTxId does not belong to workflow combination"
+            )
+
     def create_row(self, table_key: str, payload: dict[str, Any]) -> dict[str, Any]:
         table_def = self.get_table_def(table_key)
         db_table = table_def["db_table"]
         values = self._build_writable_values(
             table_key, table_def, payload, for_create=True
         )
+        if table_key == "workflow_steps":
+            self._assert_workflow_step_item_scope(values)
         self._assert_unique_keys(
             table_key, table_def, values, exclude_txid=None
         )
@@ -873,6 +914,8 @@ class MaintService:
         self._assert_protected_fields(table_key, table_def, existing, updates)
         merged = dict(existing)
         merged.update(updates)
+        if table_key == "workflow_steps":
+            self._assert_workflow_step_item_scope(merged)
         self._assert_unique_keys(
             table_key, table_def, merged, exclude_txid=txid
         )
@@ -880,10 +923,51 @@ class MaintService:
         assignments = ", ".join([f"{field} = ?" for field in updates])
         sql = f"UPDATE {db_table} SET {assignments} WHERE TxId = ?"
         self.store.execute(sql, tuple(list(updates.values()) + [txid]))
+        if (
+            table_key == "workflows"
+            and "CombinationTxId" in updates
+            and str(updates["CombinationTxId"])
+            != str(existing.get("CombinationTxId"))
+        ):
+            self._clear_out_of_scope_workflow_step_items(
+                txid, updates["CombinationTxId"]
+            )
         updated = self.get_row(table_key, txid)
         if updated is None:
             raise RuntimeError("Update succeeded but row not found")
         return updated
+
+    def _clear_out_of_scope_workflow_step_items(
+        self, workflow_txid: int, combination_txid: Any
+    ) -> None:
+        """When a workflow changes combination, clear items not in the new combo."""
+        rows = self.store.fetchall(
+            """
+            SELECT TxId, CombinationItemTxId FROM workflow_steps
+            WHERE WorkflowTxId = ?
+              AND CombinationItemTxId IS NOT NULL
+            """,
+            (workflow_txid,),
+        )
+        for row in rows:
+            item = self.store.fetchone(
+                """
+                SELECT CombinationTxId FROM product_combination_items
+                WHERE TxId = ?
+                """,
+                (row["CombinationItemTxId"],),
+            )
+            if item is None or str(item["CombinationTxId"]) != str(
+                combination_txid
+            ):
+                self.store.execute(
+                    """
+                    UPDATE workflow_steps
+                    SET CombinationItemTxId = NULL
+                    WHERE TxId = ?
+                    """,
+                    (row["TxId"],),
+                )
 
     def toggle_disable(self, table_key: str, txid: int) -> dict[str, Any]:
         table_def = self.get_table_def(table_key)
@@ -896,6 +980,11 @@ class MaintService:
             f"UPDATE {db_table} SET isDisable = ? WHERE TxId = ?",
             (new_value, txid),
         )
+        if table_key == "workflows":
+            self.store.execute(
+                "UPDATE workflow_steps SET isDisable = ? WHERE WorkflowTxId = ?",
+                (new_value, txid),
+            )
         updated = self.get_row(table_key, txid)
         if updated is None:
             raise RuntimeError("Toggle succeeded but row not found")

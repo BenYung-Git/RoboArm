@@ -174,7 +174,10 @@ class RelationService:
     def _table_rows(self, source_table_key: str) -> list[dict[str, Any]]:
         table_def = self.maint.get_table_def(source_table_key)
         db_table = table_def["db_table"]
-        fields = [column["field"] for column in table_def["columns"]]
+        fields = [
+            column["field"]
+            for column in self.maint.persist_columns(table_def)
+        ]
         sql = f"SELECT {', '.join(fields)} FROM {db_table}"
         rows = self.store.fetchall(sql)
         result = []
@@ -379,6 +382,16 @@ class RelationService:
                         f"Missing option_annotate take_field: {take_field}"
                     )
                 option[annotate["as"]] = hits[0][take_field]
+            compose = relation.get("label_compose")
+            if isinstance(compose, list) and compose:
+                parts: list[str] = []
+                for key in compose:
+                    part = option.get(key)
+                    if part is None or str(part).strip() == "":
+                        continue
+                    parts.append(str(part).strip())
+                if parts:
+                    option["label"] = " / ".join(parts)
             options.append(option)
         return options
 
@@ -415,6 +428,8 @@ class RelationService:
         previous_value: Any | None,
     ) -> Any:
         if value is None or str(value).strip() == "":
+            if column.get("nullable"):
+                return None
             raise ValueError(f"Empty relation value for field: {column['field']}")
         if previous_value is not None and str(previous_value) == str(value):
             self.resolve_label(owner_table_key, column, value, language)

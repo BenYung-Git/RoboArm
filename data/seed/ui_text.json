@@ -36,6 +36,12 @@
     "zh_CN": "产品／组合设置"
   },
   {
+    "text_key": "menu_workflows",
+    "zh_TW": "作業流程",
+    "en": "Workflow",
+    "zh_CN": "作业流程"
+  },
+  {
     "text_key": "maint_table_product_combinations",
     "zh_TW": "產品／組合設定",
     "en": "Product / Combination Settings",
@@ -46,6 +52,426 @@
     "zh_TW": "組合設備",
     "en": "Combination Items",
     "zh_CN": "组合设备"
+  },
+  {
+    "text_key": "maint_table_workflows",
+    "zh_TW": "作業流程",
+    "en": "Workflow",
+    "zh_CN": "作业流程"
+  },
+  {
+    "text_key": "maint_table_workflow_steps",
+    "zh_TW": "流程步驟",
+    "en": "Workflow Steps",
+    "zh_CN": "流程步骤"
+  },
+  {
+    "text_key": "table_ui_btn_add_workflow_step",
+    "zh_TW": "＋新增步驟",
+    "en": "+ Add Step",
+    "zh_CN": "＋新增步骤"
+  },
+  {
+    "text_key": "field_workflow_code",
+    "zh_TW": "作業流程編號",
+    "en": "Workflow Code",
+    "zh_CN": "作业流程编号"
+  },
+  {
+    "text_key": "field_desc_workflow_code",
+    "zh_TW": "作業流程唯一編號",
+    "en": "Unique workflow code",
+    "zh_CN": "作业流程唯一编号"
+  },
+  {
+    "text_key": "field_workflow_name",
+    "zh_TW": "作業流程名稱",
+    "en": "Workflow Name",
+    "zh_CN": "作业流程名称"
+  },
+  {
+    "text_key": "field_desc_workflow_name",
+    "zh_TW": "作業流程顯示名稱",
+    "en": "Workflow display name",
+    "zh_CN": "作业流程显示名称"
+  },
+  {
+    "text_key": "field_workflow_version",
+    "zh_TW": "版本",
+    "en": "Version",
+    "zh_CN": "版本"
+  },
+  {
+    "text_key": "field_desc_workflow_version",
+    "zh_TW": "作業流程版本號",
+    "en": "Workflow version number",
+    "zh_CN": "作业流程版本号"
+  },
+  {
+    "text_key": "field_workflow_status",
+    "zh_TW": "狀態",
+    "en": "Status",
+    "zh_CN": "状态"
+  },
+  {
+    "text_key": "field_desc_workflow_status",
+    "zh_TW": "作業流程狀態",
+    "en": "Workflow status",
+    "zh_CN": "作业流程状态"
+  },
+  {
+    "text_key": "workflow_status_draft",
+    "zh_TW": "草稿",
+    "en": "Draft",
+    "zh_CN": "草稿"
+  },
+  {
+    "text_key": "workflow_status_active",
+    "zh_TW": "啟用",
+    "en": "Active",
+    "zh_CN": "启用"
+  },
+  {
+    "text_key": "workflow_status_archived",
+    "zh_TW": "封存",
+    "en": "Archived",
+    "zh_CN": "封存"
+  },
+  {
+    "text_key": "field_workflow_txid",
+    "zh_TW": "作業流程",
+    "en": "Workflow",
+    "zh_CN": "作业流程"
+  },
+  {
+    "text_key": "field_desc_workflow_txid",
+    "zh_TW": "所屬作業流程",
+    "en": "Parent workflow",
+    "zh_CN": "所属作业流程"
+  },
+  {
+    "text_key": "field_step_no",
+    "zh_TW": "步驟次序",
+    "en": "Step No.",
+    "zh_CN": "步骤次序"
+  },
+  {
+    "text_key": "field_desc_step_no",
+    "zh_TW": "同一作業流程內的步驟次序（不可重複）",
+    "en": "Step order within the workflow (unique)",
+    "zh_CN": "同一作业流程内的步骤次序（不可重复）"
+  },
+  {
+    "text_key": "field_step_name",
+    "zh_TW": "步驟名稱",
+    "en": "Step Name",
+    "zh_CN": "步骤名称"
+  },
+  {
+    "text_key": "field_desc_step_name",
+    "zh_TW": "流程步驟名稱",
+    "en": "Workflow step name",
+    "zh_CN": "流程步骤名称"
+  },
+  {
+    "text_key": "field_combination_item_txid",
+    "zh_TW": "執行設備",
+    "en": "Execution Equipment",
+    "zh_CN": "执行设备"
+  },
+  {
+    "text_key": "field_desc_combination_item_txid",
+    "zh_TW": "所屬產品／組合內的設備項目",
+    "en": "Equipment item within the linked combination",
+    "zh_CN": "所属产品／组合内的设备项目"
+  },
+  {
+    "text_key": "field_action_type",
+    "zh_TW": "動作類型",
+    "en": "Action Type",
+    "zh_CN": "动作类型"
+  },
+  {
+    "text_key": "field_desc_action_type",
+    "zh_TW": "步驟動作類型",
+    "en": "Step action type",
+    "zh_CN": "步骤动作类型"
+  },
+  {
+    "text_key": "workflow_action_move",
+    "zh_TW": "移動",
+    "en": "Move",
+    "zh_CN": "移动"
+  },
+  {
+    "text_key": "workflow_action_gripper",
+    "zh_TW": "夾具",
+    "en": "Gripper",
+    "zh_CN": "夹具"
+  },
+  {
+    "text_key": "workflow_action_wait",
+    "zh_TW": "等待",
+    "en": "Wait",
+    "zh_CN": "等待"
+  },
+  {
+    "text_key": "workflow_action_end",
+    "zh_TW": "結束",
+    "en": "End",
+    "zh_CN": "结束"
+  },
+  {
+    "text_key": "field_target_key",
+    "zh_TW": "目標／參數",
+    "en": "Target / Parameters",
+    "zh_CN": "目标／参数"
+  },
+  {
+    "text_key": "field_desc_target_key",
+    "zh_TW": "目標點位或目標代碼（示範可留空）",
+    "en": "Target pose or code (may be empty for demo)",
+    "zh_CN": "目标点位或目标代码（示范可留空）"
+  },
+  {
+    "text_key": "field_step_parameters",
+    "zh_TW": "動作參數",
+    "en": "Action Parameters",
+    "zh_CN": "动作参数"
+  },
+  {
+    "text_key": "field_desc_step_parameters",
+    "zh_TW": "動作專屬參數（文字／JSON，示範可留空）",
+    "en": "Action-specific parameters (text/JSON; may be empty for demo)",
+    "zh_CN": "动作专属参数（文字／JSON，示范可留空）"
+  },
+  {
+    "text_key": "field_completion_condition",
+    "zh_TW": "完成條件",
+    "en": "Completion Condition",
+    "zh_CN": "完成条件"
+  },
+  {
+    "text_key": "field_desc_completion_condition",
+    "zh_TW": "步驟完成條件（文字／JSON，示範可留空）",
+    "en": "Step completion condition (text/JSON; may be empty for demo)",
+    "zh_CN": "步骤完成条件（文字／JSON，示范可留空）"
+  },
+  {
+    "text_key": "field_timeout_sec",
+    "zh_TW": "逾時秒數",
+    "en": "Timeout (sec)",
+    "zh_CN": "超时秒数"
+  },
+  {
+    "text_key": "field_desc_timeout_sec",
+    "zh_TW": "步驟逾時秒數（可空）",
+    "en": "Step timeout in seconds (optional)",
+    "zh_CN": "步骤超时秒数（可空）"
+  },
+  {
+    "text_key": "field_desc_combination_txid_workflow",
+    "zh_TW": "此作業流程所關聯的產品／組合",
+    "en": "Product / combination linked to this workflow",
+    "zh_CN": "此作业流程所关联的产品／组合"
+  },
+  {
+    "text_key": "wf_seed_remark",
+    "zh_TW": "示範資料（虛擬執行用）。產品／組合採用現有第一筆生效組合作為 Demo 1 對應；尚未接駁實機。",
+    "en": "Demo data (for virtual execution). Uses the first enabled product/combination as the Demo 1 stand-in; not connected to a live robot.",
+    "zh_CN": "示范资料（虚拟执行用）。产品／组合采用现有第一笔生效组合作为 Demo 1 对应；尚未接驳实机。"
+  },
+  {
+    "text_key": "wf_step_seed_remark",
+    "zh_TW": "示範步驟；TargetKey 對應虛擬示範路徑 carry_vertical_1_inplace，待實機整合時再補充真機參數。",
+    "en": "Demo step; TargetKey maps to virtual path carry_vertical_1_inplace. Live robot parameters TBD.",
+    "zh_CN": "示范步骤；TargetKey 对应虚拟示范路径 carry_vertical_1_inplace，待实机整合时再补充真机参数。"
+  },
+  {
+    "text_key": "wf_run_panel_title",
+    "zh_TW": "虛擬執行",
+    "en": "Virtual Run",
+    "zh_CN": "虚拟执行"
+  },
+  {
+    "text_key": "wf_run_btn_start",
+    "zh_TW": "開始",
+    "en": "Start",
+    "zh_CN": "开始"
+  },
+  {
+    "text_key": "wf_run_btn_stop",
+    "zh_TW": "停止",
+    "en": "Stop",
+    "zh_CN": "停止"
+  },
+  {
+    "text_key": "wf_run_btn_reset",
+    "zh_TW": "重設",
+    "en": "Reset",
+    "zh_CN": "重设"
+  },
+  {
+    "text_key": "wf_run_label_status",
+    "zh_TW": "狀態",
+    "en": "Status",
+    "zh_CN": "状态"
+  },
+  {
+    "text_key": "wf_run_label_progress",
+    "zh_TW": "進度",
+    "en": "Progress",
+    "zh_CN": "进度"
+  },
+  {
+    "text_key": "wf_run_label_current_step",
+    "zh_TW": "目前步驟",
+    "en": "Current Step",
+    "zh_CN": "目前步骤"
+  },
+  {
+    "text_key": "wf_run_label_result",
+    "zh_TW": "結果",
+    "en": "Result",
+    "zh_CN": "结果"
+  },
+  {
+    "text_key": "wf_run_msg_select_workflow",
+    "zh_TW": "請先在列表選取一個作業流程。",
+    "en": "Please select a workflow in the list first.",
+    "zh_CN": "请先在列表选取一个作业流程。"
+  },
+  {
+    "text_key": "wf_run_msg_started",
+    "zh_TW": "已開始虛擬執行。",
+    "en": "Virtual run started.",
+    "zh_CN": "已开始虚拟执行。"
+  },
+  {
+    "text_key": "wf_run_msg_stopped",
+    "zh_TW": "已停止。",
+    "en": "Stopped.",
+    "zh_CN": "已停止。"
+  },
+  {
+    "text_key": "wf_run_msg_reset",
+    "zh_TW": "已重設執行狀態。",
+    "en": "Run state reset.",
+    "zh_CN": "已重设执行状态。"
+  },
+  {
+    "text_key": "wf_run_msg_completed",
+    "zh_TW": "虛擬執行完成。",
+    "en": "Virtual run completed.",
+    "zh_CN": "虚拟执行完成。"
+  },
+  {
+    "text_key": "wf_run_msg_error",
+    "zh_TW": "虛擬執行發生錯誤。",
+    "en": "Virtual run error.",
+    "zh_CN": "虚拟执行发生错误。"
+  },
+  {
+    "text_key": "wf_run_msg_need_reset",
+    "zh_TW": "請先按「重設」後再開始。",
+    "en": "Please reset before starting again.",
+    "zh_CN": "请先按「重设」后再开始。"
+  },
+  {
+    "text_key": "wf_run_msg_session_busy",
+    "zh_TW": "虛擬測試正在使用中，請先停止或重設後再開始作業流程。",
+    "en": "Virtual demo is in use. Stop or reset it before starting the workflow.",
+    "zh_CN": "虚拟测试正在使用中，请先停止或重设后再开始作业流程。"
+  },
+  {
+    "text_key": "wf_run_msg_duplicate_start",
+    "zh_TW": "作業流程執行中，無法重複開始。",
+    "en": "A workflow run is already in progress.",
+    "zh_CN": "作业流程执行中，无法重复开始。"
+  },
+  {
+    "text_key": "wf_run_status_ready",
+    "zh_TW": "就緒",
+    "en": "Ready",
+    "zh_CN": "就绪"
+  },
+  {
+    "text_key": "wf_run_status_idle",
+    "zh_TW": "就緒",
+    "en": "Ready",
+    "zh_CN": "就绪"
+  },
+  {
+    "text_key": "wf_run_status_running",
+    "zh_TW": "執行中",
+    "en": "Running",
+    "zh_CN": "执行中"
+  },
+  {
+    "text_key": "wf_run_status_stopped",
+    "zh_TW": "已停止",
+    "en": "Stopped",
+    "zh_CN": "已停止"
+  },
+  {
+    "text_key": "wf_run_status_completed",
+    "zh_TW": "已完成",
+    "en": "Completed",
+    "zh_CN": "已完成"
+  },
+  {
+    "text_key": "wf_run_status_failed",
+    "zh_TW": "失敗",
+    "en": "Failed",
+    "zh_CN": "失败"
+  },
+  {
+    "text_key": "wf_run_status_error",
+    "zh_TW": "失敗",
+    "en": "Failed",
+    "zh_CN": "失败"
+  },
+  {
+    "text_key": "vd_session_busy",
+    "zh_TW": "虛擬 session 使用中",
+    "en": "Virtual session busy",
+    "zh_CN": "虚拟 session 使用中"
+  },
+  {
+    "text_key": "wf_run_step_pending",
+    "zh_TW": "待執行",
+    "en": "Pending",
+    "zh_CN": "待执行"
+  },
+  {
+    "text_key": "wf_run_step_running",
+    "zh_TW": "執行中",
+    "en": "Running",
+    "zh_CN": "执行中"
+  },
+  {
+    "text_key": "wf_run_step_completed",
+    "zh_TW": "完成",
+    "en": "Completed",
+    "zh_CN": "完成"
+  },
+  {
+    "text_key": "wf_run_step_stopped",
+    "zh_TW": "已停止",
+    "en": "Stopped",
+    "zh_CN": "已停止"
+  },
+  {
+    "text_key": "wf_run_step_error",
+    "zh_TW": "錯誤",
+    "en": "Error",
+    "zh_CN": "错误"
+  },
+  {
+    "text_key": "wf_run_step_skipped",
+    "zh_TW": "略過",
+    "en": "Skipped",
+    "zh_CN": "略过"
   },
   {
     "text_key": "table_ui_tab_combination_items",

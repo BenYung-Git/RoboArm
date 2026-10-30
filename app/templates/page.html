@@ -78,6 +78,9 @@
           <div id="softwareVersionRoot" class="sw-root" aria-live="polite"></div>
         </div>
         {% elif table_ui %}
+        {% if is_workflows %}
+        <div id="workflowRunRoot" class="wf-run-root" aria-live="polite"></div>
+        {% endif %}
         {% if table_ui.tabs and table_ui.tabs|length > 0 %}
         <div class="settings-tabs" id="tableUiHostTabs">
           {% for tab in table_ui.tabs %}
@@ -118,7 +121,7 @@
   {% if settings_tabs or is_system_setting %}
   <script src="/static/js/maint.js"></script>
   {% endif %}
-  {% if is_virtual_demo %}
+  {% if is_workflows or is_virtual_demo %}
   <script type="importmap">
   {
     "imports": {
@@ -127,6 +130,12 @@
     }
   }
   </script>
+  {% endif %}
+  {% if is_workflows %}
+  <link rel="stylesheet" href="/static/css/workflow_run.css?v=wf_anim1">
+  <script type="module" src="/static/js/workflow_run.js?v=wf_anim1"></script>
+  {% endif %}
+  {% if is_virtual_demo %}
   <script type="module" src="/static/js/virtual_demo.js?v=demo2fix4"></script>
   {% endif %}
 </body>
